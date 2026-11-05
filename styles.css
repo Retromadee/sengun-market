@@ -343,12 +343,19 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .search-box { grid-column: 1 / -1; grid-row: 2; max-width: none; height: 42px; margin-bottom: 9px; }
   .header-top { padding-bottom: 0; }
   .header-actions { grid-column: 3; grid-row: 1; gap: 6px; }
-  .language-switch--header { min-height: 33px; padding: 0 7px; }
-  .account-button, .header-cart { min-height: 35px; gap: 6px; padding: 0 8px; font-size: 11px; }
+  .search-box input { font-size: 16px; }
+  .language-switch--header { min-width: 40px; min-height: 40px; padding: 0 7px; }
+  .account-button, .header-cart { min-height: 40px; gap: 6px; padding: 0 8px; font-size: 11px; }
   .header-cart > [data-i18n="cart"] { display: none; }
-  .quick-nav { width: calc(100% - 28px); height: 39px; gap: 18px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; font-size: 12px; }
+  .quick-nav { width: calc(100% - 28px); height: 44px; gap: 18px; overflow-x: auto; white-space: nowrap; scrollbar-width: none; font-size: 12px; }
+  .quick-nav a { display: inline-flex; min-height: 44px; align-items: center; }
   .quick-nav::-webkit-scrollbar { display: none; }
   .quick-nav__note { display: none; }
+  .icon-button, .quantity-button, .remove-address { width: 40px; min-width: 40px; height: 40px; min-height: 40px; }
+  .text-button { min-height: 40px; padding: 8px 0; }
+  .profile-form .form-field input, .address-form .form-field input, .checkout-panel > .form-field select { min-height: 44px; font-size: 16px; }
+  .address-form .form-field textarea { min-height: 80px; font-size: 16px; }
+  .form-actions .button { min-height: 44px; }
   .page-shell { width: calc(100% - 26px); }
   .hero { min-height: 500px; margin-top: 12px; }
   .hero__copy { width: 100%; padding: 27px 19px 0; }
@@ -393,7 +400,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .product-card__unit { font-size: 11px; }
   .product-card__price { font-size: 15px; }
   .product-card__price small { font-size: 10px; }
-  .add-button { width: 34px; height: 34px; }
+  .add-button { width: 40px; height: 40px; }
   .promise-strip { grid-template-columns: 1fr; gap: 13px; padding: 16px; }
   .promise-icon { width: 35px; height: 35px; }
   .promise-strip strong { font-size: 13px; }
