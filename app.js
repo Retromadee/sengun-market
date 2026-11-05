@@ -1,4 +1,3 @@
-const WHATSAPP_NUMBER = "";
 const PROFILE_STORAGE_KEY = "sengun-demo-profile-v1";
 const CART_STORAGE_KEY = "sengun-demo-cart-v2";
 const DELIVERY_FEE = 29.9;
@@ -32,7 +31,7 @@ const translations = {
     neighborhoodPlaceholder: "Mahalle",
     streetPlaceholder: "Cadde/sokak, bina no, daire no",
     addressNotePlaceholder: "Daireyi bulmaya yardımcı olacak bilgi",
-    localStorageNote: "Bilgilerin yalnızca bu tarayıcıda saklanır. WhatsApp'a ancak sipariş mesajını açmayı seçtiğinde aktarılır.",
+    localStorageNote: "Bilgilerin bu cihazda saklanır. Sipariş verdiğinde sipariş ve teslimat bilgilerin mağazaya iletilir.",
     saveAndShop: "Bilgilerimi kaydet ve alışverişe başla",
     deliverTo: "Teslimat adresi",
     searchProducts: "Ürün ara",
@@ -84,17 +83,18 @@ const translations = {
     deliveryFee: "Teslimat ücreti",
     total: "Toplam",
     continueOrder: "Siparişe devam et",
-    whatsappSendNote: "WhatsApp mesajı açılır; göndermeden önce kontrol edebilirsin.",
+    whatsappSendNote: "Siparişini verdiğinde mağazaya otomatik olarak iletilir.",
     checkout: "SİPARİŞİ TAMAMLA",
     deliveryDetails: "Teslimat bilgileri",
-    checkoutIntro: "Sipariş adresini seç. Ürün ve fiyat bilgisi WhatsApp'ta mağazaya iletilir.",
+    checkoutIntro: "Siparişini onayladığında sipariş ve teslimat bilgilerin mağazaya WhatsApp üzerinden otomatik iletilir.",
     deliverToAddress: "Teslimat adresi",
     manageAddresses: "Adresleri yönet",
     deliveryTime: "Teslimat zamanı tercihi",
     asap: "Mağazayla teyitleş",
     contactForTime: "Teslimat saatini konuşalım",
-    sendToWhatsapp: "WhatsApp ile sipariş isteği gönder",
-    whatsappConsentNote: "WhatsApp'ta hazır mesaj açılır. Bilgileri kontrol edip Gönder'e dokunmalısın; sipariş ve teslimat mağaza tarafından teyit edilir.",
+    sendOrder: "Siparişi ver",
+    sendingOrder: "Sipariş gönderiliyor...",
+    whatsappConsentNote: "Siparişini verdiğinde iletişim ve teslimat bilgilerin mağazaya WhatsApp üzerinden gönderilir. Fiyat, stok ve teslimat mağaza tarafından teyit edilir.",
     categoryCount: "{count} ürün",
     searchResults: "{count} ürün bulundu",
     addToCart: "Sepete ekle",
@@ -112,8 +112,8 @@ const translations = {
     unitNotListed: "Birim belirtilmemiş",
     displayPrice: "görsel fiyatı",
     perUnit: "/ {unit}",
-    orderRequestTitle: "Şengün Süpermarket sipariş isteği",
-    orderNumber: "İstek numarası",
+    orderRequestTitle: "Şengün Süpermarket siparişi",
+    orderNumber: "Sipariş numarası",
     customer: "Müşteri",
     phone: "Telefon",
     deliveryAddress: "Teslimat adresi",
@@ -124,12 +124,11 @@ const translations = {
     subtotalLabel: "Ara toplam",
     feeLabel: "Tahmini teslimat ücreti",
     totalLabel: "Tahmini toplam",
-    orderDrafted: "WhatsApp mesajın hazır",
-    orderDraftIntro: "Sipariş isteğin hazır. Aşağıdaki düğmeden WhatsApp'ı aç, bilgileri kontrol edip Gönder'e dokun; mağaza fiyat, stok ve teslimatı teyit etsin.",
-    requestPrepared: "İstek hazırlandı",
+    orderSent: "Siparişin mağazaya iletildi",
+    orderSentIntro: "Sipariş bilgilerin mağazanın WhatsApp hattına gönderildi. Mağaza fiyat, stok ve teslimat bilgilerini seninle teyit edecek.",
+    requestPrepared: "Mağazaya iletildi",
     waitingStore: "Mağaza teyidi bekleniyor",
     deliveryToConfirm: "Teslimat teyit edilecek",
-    openWhatsappAgain: "WhatsApp'ı yeniden aç",
     returnToShop: "Alışverişe dön",
     addressSelected: "Seçili adres",
     selected: "Seçili",
@@ -140,7 +139,10 @@ const translations = {
     googleDemoMessage: "Google girişi, Firebase Authentication bağlandığında etkinleştirilecek. Bu demo sürümünde giriş yapılmaz; lütfen formu doldur.",
     noAddresses: "Henüz kayıtlı adres yok.",
     addressSummary: "{label} · {district}, {city}",
-    noWhatsappNumber: "Mağazanın WhatsApp numarası henüz uygulamaya bağlanmadı. Hazır mesaj WhatsApp'ta alıcı seçmen için açılacak.",
+    orderErrorConfig: "Sipariş gönderimi henüz yapılandırılmadı. Lütfen daha sonra tekrar dene.",
+    orderErrorFailed: "Sipariş WhatsApp'a gönderilemedi. Lütfen tekrar dene.",
+    orderErrorInvalid: "Sipariş bilgileri geçersiz. Sepetini ve teslimat adresini kontrol et.",
+    orderTooLarge: "Sipariş bilgileri gönderilemeyecek kadar uzun. Adres tarifini kısaltıp tekrar dene.",
     updatedAddressCount: "{count}/5 adres",
     close: "Kapat",
   },
@@ -171,7 +173,7 @@ const translations = {
     neighborhoodPlaceholder: "Neighborhood",
     streetPlaceholder: "Street, building number, apartment",
     addressNotePlaceholder: "Details to help find your door",
-    localStorageNote: "Your details are stored only in this browser. They are shared with WhatsApp only if you choose to open an order message.",
+    localStorageNote: "Your details are stored on this device. Order and delivery details are sent to the store when you place an order.",
     saveAndShop: "Save details and start shopping",
     deliverTo: "Deliver to",
     searchProducts: "Search products",
@@ -223,17 +225,18 @@ const translations = {
     deliveryFee: "Delivery fee",
     total: "Total",
     continueOrder: "Continue to checkout",
-    whatsappSendNote: "A WhatsApp message will open for you to review before sending.",
+    whatsappSendNote: "Your order is sent to the store automatically when you place it.",
     checkout: "CHECKOUT",
     deliveryDetails: "Delivery details",
-    checkoutIntro: "Choose a saved address. Your items and price estimate will be sent to the store in WhatsApp.",
+    checkoutIntro: "When you place your order, its details are sent automatically to the store through WhatsApp.",
     deliverToAddress: "Delivery address",
     manageAddresses: "Manage addresses",
     deliveryTime: "Delivery preference",
     asap: "Confirm timing with store",
     contactForTime: "Ask store to arrange a time",
-    sendToWhatsapp: "Send order request with WhatsApp",
-    whatsappConsentNote: "A prepared WhatsApp message will open. Review it and tap Send; the store must confirm prices, stock, and delivery.",
+    sendOrder: "Place order",
+    sendingOrder: "Sending order...",
+    whatsappConsentNote: "Your contact and delivery details will be sent to the store through WhatsApp. The store will confirm prices, availability, and delivery.",
     categoryCount: "{count} products",
     searchResults: "{count} results",
     addToCart: "Add to cart",
@@ -251,8 +254,8 @@ const translations = {
     unitNotListed: "Unit not specified",
     displayPrice: "displayed price",
     perUnit: "/ {unit}",
-    orderRequestTitle: "Şengün Supermarket order request",
-    orderNumber: "Request number",
+    orderRequestTitle: "Şengün Supermarket order",
+    orderNumber: "Order number",
     customer: "Customer",
     phone: "Phone",
     deliveryAddress: "Delivery address",
@@ -263,12 +266,11 @@ const translations = {
     subtotalLabel: "Subtotal",
     feeLabel: "Estimated delivery fee",
     totalLabel: "Estimated total",
-    orderDrafted: "Your WhatsApp message is ready",
-    orderDraftIntro: "Your order request is ready. Open WhatsApp using the button below, review the details, and tap Send so the store can confirm prices, availability, and delivery.",
-    requestPrepared: "Request prepared",
+    orderSent: "Your order was sent to the store",
+    orderSentIntro: "Your order details were sent to the store's WhatsApp. The store will confirm prices, availability, and delivery with you.",
+    requestPrepared: "Sent to store",
     waitingStore: "Awaiting store confirmation",
     deliveryToConfirm: "Delivery to be confirmed",
-    openWhatsappAgain: "Open WhatsApp again",
     returnToShop: "Return to shopping",
     addressSelected: "Selected address",
     selected: "Selected",
@@ -279,7 +281,10 @@ const translations = {
     googleDemoMessage: "Google sign-in will be enabled when Firebase Authentication is connected. This demo does not sign you in; please fill in the form.",
     noAddresses: "No saved addresses yet.",
     addressSummary: "{label} · {district}, {city}",
-    noWhatsappNumber: "The store's WhatsApp number has not been configured yet. WhatsApp will open so you can select the recipient.",
+    orderErrorConfig: "Order sending is not configured yet. Please try again later.",
+    orderErrorFailed: "The order could not be sent to WhatsApp. Please try again.",
+    orderErrorInvalid: "The order details are invalid. Check your cart and delivery address.",
+    orderTooLarge: "The order details are too long to send. Shorten the delivery instructions and try again.",
     updatedAddressCount: "{count}/5 addresses",
     close: "Close",
   },
@@ -647,8 +652,8 @@ function renderConfirmation(order) {
     <div class="confirmation-head">
       <span class="confirmation-mark" aria-hidden="true">✓</span>
       <span class="section-kicker">${t("orderNumber")} ${escapeHtml(order.number)}</span>
-      <h1 id="confirmation-title" tabindex="-1">${t("orderDrafted")}</h1>
-      <p>${t("orderDraftIntro")}</p>
+      <h1 id="confirmation-title" tabindex="-1">${t("orderSent")}</h1>
+      <p>${t("orderSentIntro")}</p>
     </div>
     <div class="confirmation-details">
       <div><span>${t("customer")}</span><strong>${escapeHtml(profile.name)}<br>${escapeHtml(profile.phone)}</strong></div>
@@ -666,9 +671,6 @@ function renderConfirmation(order) {
       <div class="status-step"><i>3</i><span>${t("deliveryToConfirm")}</span></div>
     </div>
     <div class="confirmation-actions">
-      <a class="button button--primary" href="${order.whatsappUrl}" target="_blank" rel="noopener noreferrer">
-        <span>${t("openWhatsappAgain")}</span><span aria-hidden="true">→</span>
-      </a>
       <button class="button button--outline" type="button" data-return-home>${t("returnToShop")}</button>
     </div>
   `;
@@ -798,27 +800,7 @@ function saveAddressFromForm(form) {
   return true;
 }
 
-function buildWhatsappUrl(order) {
-  const text = [
-    t("orderRequestTitle"),
-    `${t("orderNumber")}: ${order.number}`,
-    `${t("customer")}: ${profile.name}`,
-    `${t("phone")}: ${profile.phone}`,
-    `${t("deliveryAddress")}: ${order.address.label}, ${order.address.neighborhood}, ${order.address.street}, ${order.address.district}, ${order.address.city}${order.address.note ? ` (${order.address.note})` : ""}`,
-    `${t("deliveryPreference")}: ${order.deliveryPreference === "soon" ? t("contactSoon") : t("contactForDeliveryTime")}`,
-    `${t("items")}:`,
-    ...order.items.map((item) => `- ${getText(item.name)} × ${item.quantity}: ${formatPrice(item.price * item.quantity)}`),
-    `${t("subtotalLabel")}: ${formatPrice(order.subtotal)}`,
-    `${t("feeLabel")}: ${order.fee ? formatPrice(order.fee) : (language === "tr" ? "Ücretsiz" : "Free")}`,
-    `${t("totalLabel")}: ${formatPrice(order.total)}`,
-    language === "tr" ? "Fiyat, stok ve teslimat uygunluğunu teyit eder misiniz?" : "Please confirm current prices, availability, and delivery.",
-  ].join("\n");
-  const recipient = WHATSAPP_NUMBER.replace(/\D/g, "");
-  const baseUrl = recipient ? `https://wa.me/${recipient}` : "https://wa.me/";
-  return `${baseUrl}?text=${encodeURIComponent(text)}`;
-}
-
-function startWhatsappOrder() {
+async function startWhatsappOrder() {
   if (!$("#checkout-address").value) {
     showToast(t("chooseAddress"));
     return;
@@ -828,32 +810,72 @@ function startWhatsappOrder() {
     showToast(t("chooseAddress"));
     return;
   }
-  profile.activeAddressId = address.id;
-  saveProfile();
-  const subtotal = getSubtotal();
-  const fee = getDeliveryFee(subtotal);
-  lastOrder = {
-    number: `SG-${Math.floor(100000 + Math.random() * 900000)}`,
-    items: getCartItems().map(({ product, quantity }) => ({ name: product.name, quantity, price: product.price })),
-    address,
-    deliveryPreference: $('input[name="deliverySlot"]:checked').value,
-    subtotal,
-    fee,
-    total: subtotal + fee,
-  };
-  lastOrder.whatsappUrl = buildWhatsappUrl(lastOrder);
-  confirmationPage.hidden = false;
-  renderConfirmation(lastOrder);
-  checkoutOverlay.hidden = true;
-  main.hidden = true;
-  header.hidden = true;
-  footer.hidden = true;
-  document.body.classList.remove("has-overlay");
-  renderCart();
-  $("#confirmation-title").focus();
-  window.scrollTo({ top: 0 });
-  if (!WHATSAPP_NUMBER) showToast(t("noWhatsappNumber"));
-  window.open(lastOrder.whatsappUrl, "_blank", "noopener,noreferrer");
+  if (!getCartCount()) return;
+
+  const submitButton = $("#whatsapp-order");
+  const buttonLabel = $("[data-i18n]", submitButton);
+  submitButton.disabled = true;
+  submitButton.setAttribute("aria-busy", "true");
+  buttonLabel.textContent = t("sendingOrder");
+
+  try {
+    const response = await fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        customer: { name: profile.name, phone: profile.phone },
+        address,
+        deliveryPreference: $('input[name="deliverySlot"]:checked').value,
+        items: getCartItems().map(({ product, quantity }) => ({ id: product.id, quantity })),
+      }),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      const errorMessages = {
+        service_not_configured: "orderErrorConfig",
+        invalid_order: "orderErrorInvalid",
+        order_too_large: "orderTooLarge",
+      };
+      const messageKey = errorMessages[result.error] || "orderErrorFailed";
+      showToast(t(messageKey));
+      return;
+    }
+
+    profile.activeAddressId = address.id;
+    saveProfile();
+    lastOrder = {
+      number: result.orderNumber,
+      items: result.items.map((item) => ({
+        name: products.find((product) => product.id === item.id).name,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+      address,
+      deliveryPreference: $('input[name="deliverySlot"]:checked').value,
+      subtotal: result.subtotal,
+      fee: result.deliveryFee,
+      total: result.total,
+    };
+    cart = {};
+    saveCart();
+    confirmationPage.hidden = false;
+    renderConfirmation(lastOrder);
+    checkoutOverlay.hidden = true;
+    main.hidden = true;
+    header.hidden = true;
+    footer.hidden = true;
+    document.body.classList.remove("has-overlay");
+    renderCart();
+    $("#confirmation-title").focus();
+    window.scrollTo({ top: 0 });
+  } catch (error) {
+    console.error("Order submission failed:", error);
+    showToast(t("orderErrorFailed"));
+  } finally {
+    submitButton.disabled = false;
+    submitButton.removeAttribute("aria-busy");
+    buttonLabel.textContent = t("sendOrder");
+  }
 }
 
 function returnHome() {
