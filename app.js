@@ -1,29 +1,316 @@
+const WHATSAPP_NUMBER = "";
+const PROFILE_STORAGE_KEY = "sengun-demo-profile-v1";
+const CART_STORAGE_KEY = "sengun-demo-cart-v2";
+const DELIVERY_FEE = 29.9;
+const FREE_DELIVERY_THRESHOLD = 500;
+
+const translations = {
+  tr: {
+    welcomeEyebrow: "ŞENGÜN SÜPERMARKET",
+    welcomeTitle: "Alışverişe<br>başlayalım.",
+    welcomeIntro: "Teslimat bilgilerini ekle, sepetini oluştur. Bilgilerin bu cihazda saklanır.",
+    welcomeStepProfile: "İletişim bilgilerin",
+    welcomeStepAddress: "Teslimat adresin",
+    googleDemoButton: "Google ile devam et",
+    demoBadge: "DEMO",
+    googleDemoHint: "Google/Firebase girişi bu MVP'de etkin değildir. Şimdilik bilgilerini aşağıya gir.",
+    orEnterDetails: "veya bilgilerini gir",
+    fullName: "Ad soyad",
+    phoneNumber: "Telefon numarası",
+    firstDeliveryAddress: "İlk teslimat adresin",
+    addressLabel: "Adres adı",
+    city: "İl",
+    district: "İlçe",
+    neighborhood: "Mahalle",
+    streetAddress: "Sokak, bina ve daire",
+    addressNote: "Adres tarifi (isteğe bağlı)",
+    namePlaceholder: "Adın ve soyadın",
+    phonePlaceholder: "+90 5xx xxx xx xx",
+    addressLabelPlaceholder: "Ev, İş...",
+    cityPlaceholder: "İl",
+    districtPlaceholder: "İlçe",
+    neighborhoodPlaceholder: "Mahalle",
+    streetPlaceholder: "Cadde/sokak, bina no, daire no",
+    addressNotePlaceholder: "Daireyi bulmaya yardımcı olacak bilgi",
+    localStorageNote: "Bilgilerin yalnızca bu tarayıcıda saklanır. WhatsApp'a ancak sipariş mesajını açmayı seçtiğinde aktarılır.",
+    saveAndShop: "Bilgilerimi kaydet ve alışverişe başla",
+    deliverTo: "Teslimat adresi",
+    searchProducts: "Ürün ara",
+    searchPlaceholder: "Ürün veya marka ara",
+    cart: "Sepet",
+    account: "Hesabım",
+    allProducts: "Tüm ürünler",
+    offers: "Fırsatlar",
+    categories: "Kategoriler",
+    demoPrices: "Görsellerdeki fiyatlar güncel olmayabilir",
+    heroEyebrow: "ŞENGÜN SÜPERMARKET",
+    heroTitle: "Mahallenden<br>sofrana Şengün.",
+    heroIntro: "Alışverişini seç, adresini belirle. Siparişini WhatsApp üzerinden mağazaya ilet.",
+    startShopping: "Alışverişe başla",
+    localMarket: "Yerel marketin, online yanında.",
+    marketSelection: "Şengün Süpermarket",
+    shopOnline: "Online ürün vitrini",
+    browseByCategory: "KATEGORİYE GÖRE GÖZ AT",
+    categoryTitle: "Aradığını kolayca bul.",
+    viewAll: "Tümünü gör",
+    storePromotions: "ŞENGÜN SÜPERMARKET",
+    promoTitle: "Ürünleri keşfet,<br>fiyatı mağazaya sor.",
+    promoCopy: "Listelenen fiyatlar tanıtım amaçlıdır. Siparişte mağazadan teyit edilir.",
+    discoverProducts: "Ürünleri keşfet",
+    storeCatalog: "ŞENGÜN SÜPERMARKET",
+    productsTitle: "Marketin öne çıkanları.",
+    priceDisclaimer: "Fiyatlar tanıtım görsellerinden alınmıştır; güncel fiyat ve stok değişebilir. Sipariş sırasında mağazadan teyit edilir.",
+    noResults: "Bu aramada ürün bulunamadı.",
+    promiseOneTitle: "Fiyat mağazada teyit edilir",
+    promiseOneCopy: "Siparişiniz WhatsApp'tan iletilir.",
+    promiseTwoTitle: "Adreslerin her zaman yanında",
+    promiseTwoCopy: "Hesabında en fazla 5 adres sakla.",
+    promiseThreeTitle: "Kolay ve güvenli",
+    promiseThreeCopy: "Ödeme bilgisi bu demo uygulamada alınmaz.",
+    footerNote: "Şengün Süpermarket için hazırlanmış online sipariş demosu.",
+    demoOnly: "Demo · gerçek ödeme alınmaz",
+    viewCart: "Sepeti gör",
+    accountDetails: "HESAP BİLGİLERİ",
+    yourAccount: "Hesabın ve adreslerin",
+    saveProfile: "Bilgileri kaydet",
+    savedAddresses: "Kayıtlı adresler",
+    addAddress: "Yeni adres ekle",
+    cancel: "Vazgeç",
+    saveAddress: "Adresi kaydet",
+    orderSummary: "SİPARİŞ ÖZETİ",
+    emptyCart: "Sepetin şu an boş",
+    emptyCartCopy: "Ürünlere göz atıp alışverişe başlayabilirsin.",
+    subtotal: "Ara toplam",
+    deliveryFee: "Teslimat ücreti",
+    total: "Toplam",
+    continueOrder: "Siparişe devam et",
+    whatsappSendNote: "WhatsApp mesajı açılır; göndermeden önce kontrol edebilirsin.",
+    checkout: "SİPARİŞİ TAMAMLA",
+    deliveryDetails: "Teslimat bilgileri",
+    checkoutIntro: "Sipariş adresini seç. Ürün ve fiyat bilgisi WhatsApp'ta mağazaya iletilir.",
+    deliverToAddress: "Teslimat adresi",
+    manageAddresses: "Adresleri yönet",
+    deliveryTime: "Teslimat zamanı tercihi",
+    asap: "Mağazayla teyitleş",
+    contactForTime: "Teslimat saatini konuşalım",
+    sendToWhatsapp: "WhatsApp ile sipariş isteği gönder",
+    whatsappConsentNote: "WhatsApp'ta hazır mesaj açılır. Bilgileri kontrol edip Gönder'e dokunmalısın; sipariş ve teslimat mağaza tarafından teyit edilir.",
+    categoryCount: "{count} ürün",
+    searchResults: "{count} ürün bulundu",
+    addToCart: "Sepete ekle",
+    addAnother: "Bir tane daha ekle",
+    itemAdded: "{name} sepete eklendi.",
+    cartStoredError: "Sepetin bu oturumda saklanamadı.",
+    profileStoredError: "Bilgilerin kaydedilemedi. Tarayıcı depolama alanını kontrol et.",
+    addressLimit: "En fazla 5 adres kaydedebilirsin.",
+    profileSaved: "İletişim bilgilerin kaydedildi.",
+    addressSaved: "Adresin kaydedildi.",
+    addressRemoved: "Adres silindi.",
+    chooseAddress: "Teslimat için bir adres seç.",
+    freeDeliveryRemaining: "{amount} daha ekle, teslimat ücreti kalksın.",
+    freeDeliveryReached: "Teslimat ücreti ücretsiz.",
+    unitNotListed: "Birim belirtilmemiş",
+    displayPrice: "görsel fiyatı",
+    perUnit: "/ {unit}",
+    orderRequestTitle: "Şengün Süpermarket sipariş isteği",
+    orderNumber: "İstek numarası",
+    customer: "Müşteri",
+    phone: "Telefon",
+    deliveryAddress: "Teslimat adresi",
+    deliveryPreference: "Teslimat tercihi",
+    contactSoon: "Mağazayla teyitleş",
+    contactForDeliveryTime: "Teslimat saatini konuşalım",
+    items: "Ürünler",
+    subtotalLabel: "Ara toplam",
+    feeLabel: "Tahmini teslimat ücreti",
+    totalLabel: "Tahmini toplam",
+    orderDrafted: "WhatsApp mesajın hazır",
+    orderDraftIntro: "Sipariş isteğin hazır. Aşağıdaki düğmeden WhatsApp'ı aç, bilgileri kontrol edip Gönder'e dokun; mağaza fiyat, stok ve teslimatı teyit etsin.",
+    requestPrepared: "İstek hazırlandı",
+    waitingStore: "Mağaza teyidi bekleniyor",
+    deliveryToConfirm: "Teslimat teyit edilecek",
+    openWhatsappAgain: "WhatsApp'ı yeniden aç",
+    returnToShop: "Alışverişe dön",
+    addressSelected: "Seçili adres",
+    selected: "Seçili",
+    selectAddress: "Teslimat adresi olarak seç",
+    removeAddress: "Adresi sil",
+    addAddressLimit: "Adres sınırına ulaştın (5/5).",
+    profileRequired: "Başlamak için iletişim bilgilerini ve ilk adresini kaydet.",
+    googleDemoMessage: "Google girişi, Firebase Authentication bağlandığında etkinleştirilecek. Bu demo sürümünde giriş yapılmaz; lütfen formu doldur.",
+    noAddresses: "Henüz kayıtlı adres yok.",
+    addressSummary: "{label} · {district}, {city}",
+    noWhatsappNumber: "Mağazanın WhatsApp numarası henüz uygulamaya bağlanmadı. Hazır mesaj WhatsApp'ta alıcı seçmen için açılacak.",
+    updatedAddressCount: "{count}/5 adres",
+    close: "Kapat",
+  },
+  en: {
+    welcomeEyebrow: "ŞENGÜN SUPERMARKET",
+    welcomeTitle: "Let's get<br>started.",
+    welcomeIntro: "Add your contact and delivery details to start shopping. Your information stays on this device.",
+    welcomeStepProfile: "Your contact details",
+    welcomeStepAddress: "Your delivery address",
+    googleDemoButton: "Continue with Google",
+    demoBadge: "DEMO",
+    googleDemoHint: "Google/Firebase sign-in is not enabled in this MVP. Enter your details below for now.",
+    orEnterDetails: "or enter your details",
+    fullName: "Full name",
+    phoneNumber: "Phone number",
+    firstDeliveryAddress: "Your first delivery address",
+    addressLabel: "Address label",
+    city: "City",
+    district: "District",
+    neighborhood: "Neighborhood",
+    streetAddress: "Street, building and apartment",
+    addressNote: "Delivery instructions (optional)",
+    namePlaceholder: "Your full name",
+    phonePlaceholder: "+90 5xx xxx xx xx",
+    addressLabelPlaceholder: "Home, Work...",
+    cityPlaceholder: "City",
+    districtPlaceholder: "District",
+    neighborhoodPlaceholder: "Neighborhood",
+    streetPlaceholder: "Street, building number, apartment",
+    addressNotePlaceholder: "Details to help find your door",
+    localStorageNote: "Your details are stored only in this browser. They are shared with WhatsApp only if you choose to open an order message.",
+    saveAndShop: "Save details and start shopping",
+    deliverTo: "Deliver to",
+    searchProducts: "Search products",
+    searchPlaceholder: "Search products or brands",
+    cart: "Cart",
+    account: "My account",
+    allProducts: "All products",
+    offers: "Offers",
+    categories: "Categories",
+    demoPrices: "Prices shown may not be current",
+    heroEyebrow: "ŞENGÜN SUPERMARKET",
+    heroTitle: "Your neighborhood<br>market, online.",
+    heroIntro: "Choose your groceries and delivery address. Send your order request to the store on WhatsApp.",
+    startShopping: "Start shopping",
+    localMarket: "Your local market, now online.",
+    marketSelection: "Şengün Supermarket",
+    shopOnline: "Online grocery catalog",
+    browseByCategory: "SHOP BY CATEGORY",
+    categoryTitle: "Find what you need.",
+    viewAll: "View all",
+    storePromotions: "ŞENGÜN SUPERMARKET",
+    promoTitle: "Browse the products.<br>Confirm today's price.",
+    promoCopy: "Displayed prices are for reference and will be confirmed by the store when you order.",
+    discoverProducts: "Browse products",
+    storeCatalog: "ŞENGÜN SUPERMARKET",
+    productsTitle: "Popular at your local market.",
+    priceDisclaimer: "Prices are taken from promotional images. Current prices and availability may differ and will be confirmed by the store.",
+    noResults: "No products found. Try another search.",
+    promiseOneTitle: "Prices confirmed by the store",
+    promiseOneCopy: "Order requests are sent through WhatsApp.",
+    promiseTwoTitle: "Your addresses, ready when needed",
+    promiseTwoCopy: "Save up to five addresses in your account.",
+    promiseThreeTitle: "Simple and secure",
+    promiseThreeCopy: "This demo does not collect payment details.",
+    footerNote: "An online ordering demo for Şengün Supermarket.",
+    demoOnly: "Demo · no real payments",
+    viewCart: "View cart",
+    accountDetails: "ACCOUNT DETAILS",
+    yourAccount: "Your account and addresses",
+    saveProfile: "Save details",
+    savedAddresses: "Saved addresses",
+    addAddress: "Add a new address",
+    cancel: "Cancel",
+    saveAddress: "Save address",
+    orderSummary: "ORDER SUMMARY",
+    emptyCart: "Your cart is empty",
+    emptyCartCopy: "Browse the catalog and add a few things.",
+    subtotal: "Subtotal",
+    deliveryFee: "Delivery fee",
+    total: "Total",
+    continueOrder: "Continue to checkout",
+    whatsappSendNote: "A WhatsApp message will open for you to review before sending.",
+    checkout: "CHECKOUT",
+    deliveryDetails: "Delivery details",
+    checkoutIntro: "Choose a saved address. Your items and price estimate will be sent to the store in WhatsApp.",
+    deliverToAddress: "Delivery address",
+    manageAddresses: "Manage addresses",
+    deliveryTime: "Delivery preference",
+    asap: "Confirm timing with store",
+    contactForTime: "Ask store to arrange a time",
+    sendToWhatsapp: "Send order request with WhatsApp",
+    whatsappConsentNote: "A prepared WhatsApp message will open. Review it and tap Send; the store must confirm prices, stock, and delivery.",
+    categoryCount: "{count} products",
+    searchResults: "{count} results",
+    addToCart: "Add to cart",
+    addAnother: "Add one more",
+    itemAdded: "{name} added to cart.",
+    cartStoredError: "Your cart could not be saved in this browser.",
+    profileStoredError: "Your details could not be saved. Check browser storage settings.",
+    addressLimit: "You can save up to five addresses.",
+    profileSaved: "Your contact details have been saved.",
+    addressSaved: "Your address has been saved.",
+    addressRemoved: "Address removed.",
+    chooseAddress: "Choose a delivery address.",
+    freeDeliveryRemaining: "Add {amount} more for free delivery.",
+    freeDeliveryReached: "Delivery fee is waived.",
+    unitNotListed: "Unit not specified",
+    displayPrice: "displayed price",
+    perUnit: "/ {unit}",
+    orderRequestTitle: "Şengün Supermarket order request",
+    orderNumber: "Request number",
+    customer: "Customer",
+    phone: "Phone",
+    deliveryAddress: "Delivery address",
+    deliveryPreference: "Delivery preference",
+    contactSoon: "Confirm timing with store",
+    contactForDeliveryTime: "Arrange a delivery time",
+    items: "Items",
+    subtotalLabel: "Subtotal",
+    feeLabel: "Estimated delivery fee",
+    totalLabel: "Estimated total",
+    orderDrafted: "Your WhatsApp message is ready",
+    orderDraftIntro: "Your order request is ready. Open WhatsApp using the button below, review the details, and tap Send so the store can confirm prices, availability, and delivery.",
+    requestPrepared: "Request prepared",
+    waitingStore: "Awaiting store confirmation",
+    deliveryToConfirm: "Delivery to be confirmed",
+    openWhatsappAgain: "Open WhatsApp again",
+    returnToShop: "Return to shopping",
+    addressSelected: "Selected address",
+    selected: "Selected",
+    selectAddress: "Set as delivery address",
+    removeAddress: "Remove address",
+    addAddressLimit: "Address limit reached (5/5).",
+    profileRequired: "Save your contact details and first address to get started.",
+    googleDemoMessage: "Google sign-in will be enabled when Firebase Authentication is connected. This demo does not sign you in; please fill in the form.",
+    noAddresses: "No saved addresses yet.",
+    addressSummary: "{label} · {district}, {city}",
+    noWhatsappNumber: "The store's WhatsApp number has not been configured yet. WhatsApp will open so you can select the recipient.",
+    updatedAddressCount: "{count}/5 addresses",
+    close: "Close",
+  },
+};
+
 const categories = [
-  { id: "Meyve & Sebze", label: "Meyve & Sebze", count: "Instagram paylaşımları", emoji: "🍇", bg: "#e9efdf" },
-  { id: "Kasap", label: "Kasap", count: "Instagram paylaşımları", emoji: "🥩", bg: "#f2e3dc" },
-  { id: "Süt & Şarküteri", label: "Süt & Şarküteri", count: "Instagram paylaşımları", emoji: "🧀", bg: "#f5ebd6" },
-  { id: "Kuru Gıda", label: "Kuru Gıda", count: "Instagram paylaşımları", emoji: "🌾", bg: "#f2e8df" },
-  { id: "Ev & Temizlik", label: "Ev & Temizlik", count: "Instagram paylaşımları", emoji: "🫧", bg: "#e5eee7" },
+  { id: "produce", tr: "Meyve & Sebze", en: "Fruit & Vegetables" },
+  { id: "butcher", tr: "Kasap", en: "Butcher" },
+  { id: "dairy", tr: "Süt & Şarküteri", en: "Dairy & Deli" },
+  { id: "pantry", tr: "Kuru Gıda", en: "Pantry" },
+  { id: "household", tr: "Ev & Temizlik", en: "Home & Cleaning" },
 ];
 
 const products = [
-  { id: "dana-kiyma", name: "Dana Kıyma", category: "Kasap", unit: "Birim görselde belirtilmemiş", price: 889.9, emoji: "🥩", image: "assets/instagram/dana-kiyma.jpg", bg: "#f4e5df", tag: "POST · 29 EKİ", sourceDate: "29 Ekim 2026", sourceUrl: "https://www.instagram.com/supermarketsengun/p/DfEif-jidjJ/" },
-  { id: "sultani-uzum", name: "Sultani Üzüm", category: "Meyve & Sebze", unit: "Birim görselde belirtilmemiş", price: 99.9, emoji: "🍇", image: "assets/instagram/sultani-uzum.jpg", bg: "#e9efdf", tag: "POST · 17 EKİ", sourceDate: "17 Ekim 2026", sourceUrl: "https://www.instagram.com/supermarketsengun/p/DeljfwrggP_/" },
-  { id: "duru-bulgur", name: "Duru Pratik Bulgur Pilavı", category: "Kuru Gıda", unit: "250 g · farklı çeşitler", price: 69.9, emoji: "🌾", image: "assets/instagram/duru-bulgur.jpg", bg: "#f2e8df", tag: "POST · 17 EKİ", sourceDate: "17 Ekim 2026", sourceUrl: "https://www.instagram.com/supermarketsengun/p/DelibNnghnO/" },
-  { id: "kovil-sabun", name: "Kovil Sıvı Sabun Çeşitleri", category: "Ev & Temizlik", unit: "400 ml", price: 29.9, emoji: "🫧", image: "assets/instagram/kovil-liquid-soap.jpg", bg: "#e5eee7", tag: "POST · 23 EKİ", sourceDate: "23 Ekim 2026", sourceUrl: "https://www.instagram.com/supermarketsengun/p/De3duUFAp2u/" },
-  { id: "danablu", name: "Castello Danablu", category: "Süt & Şarküteri", unit: "100 g", price: 139.9, emoji: "🧀", image: "assets/instagram/castello-danablu.jpg", bg: "#f5ebd6", tag: "POST · 25 EYL", sourceDate: "25 Eylül 2026", sourceUrl: "https://www.instagram.com/supermarketsengun/p/DdvVcRbgjcW/" },
-  { id: "seftali", name: "Şeftali", category: "Meyve & Sebze", unit: "Birim görselde belirtilmemiş", price: 84.9, emoji: "🍑", image: "assets/instagram/peaches.jpg", bg: "#f6e5df", tag: "POST · 18 EYL", sourceDate: "18 Eylül 2026", sourceUrl: "https://www.instagram.com/supermarketsengun/p/Dddato2gmju/" },
-  { id: "kavun", name: "Kavun", category: "Meyve & Sebze", unit: "Birim görselde belirtilmemiş", price: 34.9, emoji: "🍈", image: "assets/instagram/honeydew-melon.jpg", bg: "#e8efdf", tag: "POST · 12 EYL", sourceDate: "12 Eylül 2026", sourceUrl: "https://www.instagram.com/supermarketsengun/p/DdLm-EtgsRM/" },
+  { id: "dana-kiyma", name: { tr: "Dana Kıyma", en: "Ground Beef" }, category: "butcher", unit: { tr: "Birim belirtilmemiş", en: "Unit not specified" }, price: 889.9, image: "assets/products/dana-kiyma.jpg", bg: "#f4e5df", tag: { tr: "ÖNE ÇIKAN", en: "FEATURED" } },
+  { id: "sultani-uzum", name: { tr: "Sultani Üzüm", en: "Sultani Grapes" }, category: "produce", unit: { tr: "Birim belirtilmemiş", en: "Unit not specified" }, price: 99.9, image: "assets/products/sultani-uzum.jpg", bg: "#e9efdf" },
+  { id: "duru-bulgur", name: { tr: "Duru Pratik Bulgur Pilavı", en: "Duru Quick Bulgur Pilaf" }, category: "pantry", unit: { tr: "250 g · farklı çeşitler", en: "250 g · assorted varieties" }, price: 69.9, image: "assets/products/duru-bulgur.jpg", bg: "#f2e8df" },
+  { id: "kovil-sabun", name: { tr: "Kovil Sıvı Sabun Çeşitleri", en: "Kovil Liquid Soap, Assorted" }, category: "household", unit: { tr: "400 ml", en: "400 ml" }, price: 29.9, image: "assets/products/kovil-liquid-soap.jpg", bg: "#e5eee7" },
+  { id: "danablu", name: { tr: "Castello Danablu", en: "Castello Danablu Cheese" }, category: "dairy", unit: { tr: "100 g", en: "100 g" }, price: 139.9, image: "assets/products/castello-danablu.jpg", bg: "#f5ebd6" },
+  { id: "seftali", name: { tr: "Şeftali", en: "Peaches" }, category: "produce", unit: { tr: "Birim belirtilmemiş", en: "Unit not specified" }, price: 84.9, image: "assets/products/peaches.jpg", bg: "#f6e5df" },
+  { id: "kavun", name: { tr: "Kavun", en: "Melon" }, category: "produce", unit: { tr: "Birim belirtilmemiş", en: "Unit not specified" }, price: 34.9, image: "assets/products/honeydew-melon.jpg", bg: "#e8efdf" },
 ];
 
 const money = new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY" });
-const DELIVERY_FEE = 29.9;
-const FREE_DELIVERY_THRESHOLD = 500;
-const CART_STORAGE_KEY = "sepet-demo-cart-v1";
-
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const main = $("#main-content");
+const header = $("#site-header");
+const footer = $("#site-footer");
+const welcomeScreen = $("#welcome-screen");
+const accountOverlay = $("#account-overlay");
 const cartOverlay = $("#cart-overlay");
 const checkoutOverlay = $("#checkout-overlay");
 const confirmationPage = $("#confirmation-page");
@@ -31,10 +318,93 @@ const searchInput = $("#search-input");
 const productGrid = $("#product-grid");
 const toast = $("#toast");
 
-let selectedCategory = null;
+let language = loadLanguage();
+let profile = loadProfile();
 let cart = loadCart();
+let selectedCategory = null;
 let previousFocus = null;
+let accountReturnToCheckout = false;
+let lastOrder = null;
 let toastTimer;
+
+function t(key, values = {}) {
+  let text = translations[language][key] || translations.en[key] || key;
+  for (const [name, value] of Object.entries(values)) {
+    text = text.replaceAll(`{${name}}`, String(value));
+  }
+  return text;
+}
+
+function loadLanguage() {
+  try {
+    return localStorage.getItem("sengun-demo-language") === "en" ? "en" : "tr";
+  } catch (error) {
+    console.error("Language preference could not be read:", error);
+    return "tr";
+  }
+}
+
+function applyTranslations() {
+  document.documentElement.lang = language;
+  document.title = language === "tr" ? "Şengün Süpermarket" : "Şengün Supermarket";
+  $$("[data-i18n]").forEach((element) => { element.innerHTML = t(element.dataset.i18n); });
+  $$("[data-i18n-placeholder]").forEach((element) => {
+    element.placeholder = t(element.dataset.i18nPlaceholder);
+  });
+  $$("[data-language]").forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.dataset.language === language));
+  });
+  $$("[data-toggle-language]").forEach((button) => {
+    button.textContent = language === "tr" ? "EN" : "TR";
+    button.setAttribute("aria-label", language === "tr" ? "Switch to English" : "Türkçeye geç");
+  });
+  renderCategories();
+  renderProducts();
+  renderCart();
+  renderAccount();
+  if (!checkoutOverlay.hidden) renderCheckout();
+  if (lastOrder && !confirmationPage.hidden) renderConfirmation(lastOrder);
+}
+
+function saveLanguage() {
+  try {
+    localStorage.setItem("sengun-demo-language", language);
+  } catch (error) {
+    console.error("Language preference could not be saved:", error);
+  }
+}
+
+function loadProfile() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(PROFILE_STORAGE_KEY) || "null");
+    if (!stored || typeof stored.name !== "string" || typeof stored.phone !== "string" || !Array.isArray(stored.addresses)) {
+      return { name: "", phone: "", addresses: [], activeAddressId: "" };
+    }
+    const addresses = stored.addresses.slice(0, 5).filter((address) =>
+      address && typeof address.id === "string" && typeof address.label === "string" &&
+      typeof address.city === "string" && typeof address.district === "string" &&
+      typeof address.neighborhood === "string" && typeof address.street === "string"
+    );
+    const activeAddressId = addresses.some((address) => address.id === stored.activeAddressId)
+      ? stored.activeAddressId
+      : addresses[0]?.id || "";
+    return { name: stored.name.slice(0, 80), phone: stored.phone.slice(0, 24), addresses, activeAddressId };
+  } catch (error) {
+    console.error("Saved profile could not be read:", error);
+    return { name: "", phone: "", addresses: [], activeAddressId: "" };
+  }
+}
+
+function saveProfile() {
+  try {
+    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(profile));
+    return true;
+  } catch (error) {
+    console.error("Saved profile could not be written:", error);
+    showToast(t("profileStoredError"));
+    return false;
+  }
+}
 
 function loadCart() {
   try {
@@ -43,13 +413,11 @@ function loadCart() {
     return Object.fromEntries(
       Object.entries(stored).filter(([id, quantity]) =>
         products.some((product) => product.id === id) &&
-        Number.isInteger(quantity) &&
-        quantity > 0 &&
-        quantity < 100
+        Number.isInteger(quantity) && quantity > 0 && quantity < 100
       ),
     );
   } catch (error) {
-    console.error("Sepet bilgisi okunamadı:", error);
+    console.error("Saved cart could not be read:", error);
     return {};
   }
 }
@@ -58,13 +426,31 @@ function saveCart() {
   try {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
   } catch (error) {
-    console.error("Sepet bilgisi kaydedilemedi:", error);
-    showToast("Sepetin bu oturumda saklanamadı.");
+    console.error("Saved cart could not be written:", error);
+    showToast(t("cartStoredError"));
   }
 }
 
 function formatPrice(value) {
   return money.format(value);
+}
+
+function getText(value) {
+  return typeof value === "string" ? value : value[language];
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;",
+  })[character]);
+}
+
+function getAddress(id = profile.activeAddressId) {
+  return profile.addresses.find((address) => address.id === id) || null;
 }
 
 function getCartItems() {
@@ -85,57 +471,74 @@ function getCartCount() {
   return Object.values(cart).reduce((sum, quantity) => sum + quantity, 0);
 }
 
+function makeAddress(formData) {
+  return {
+    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    label: String(formData.get("label") || "").trim(),
+    city: String(formData.get("city") || "").trim(),
+    district: String(formData.get("district") || "").trim(),
+    neighborhood: String(formData.get("neighborhood") || "").trim(),
+    street: String(formData.get("street") || "").trim(),
+    note: String(formData.get("note") || "").trim(),
+  };
+}
+
+function addressSummary(address) {
+  return t("addressSummary", { label: address.label, district: address.district, city: address.city });
+}
+
 function renderCategories() {
-  $("#category-list").innerHTML = categories.map((category) => `
-    <button
-      class="category-card${selectedCategory === category.id ? " is-active" : ""}"
-      type="button"
-      data-category="${category.id}"
-      style="--cat-bg:${category.bg}"
-      aria-pressed="${selectedCategory === category.id}"
-    >
-      <span class="category-card__text"><strong>${category.label}</strong><small>${category.count}</small></span>
-      <span class="category-card__art" aria-hidden="true">${category.emoji}</span>
-      <span class="category-card__arrow" aria-hidden="true">↗</span>
-    </button>
-  `).join("");
+  $("#category-list").innerHTML = categories.map((category) => {
+    const label = category[language];
+    const count = products.filter((product) => product.category === category.id).length;
+    return `
+      <button class="category-card${selectedCategory === category.id ? " is-active" : ""}"
+        type="button" data-category="${category.id}" aria-pressed="${selectedCategory === category.id}">
+        <span class="category-card__initial" aria-hidden="true">${escapeHtml(label.slice(0, 1))}</span>
+        <span class="category-card__text"><strong>${escapeHtml(label)}</strong><small>${t("categoryCount", { count })}</small></span>
+        <span class="category-card__arrow" aria-hidden="true">→</span>
+      </button>
+    `;
+  }).join("");
 }
 
 function renderProducts() {
-  const query = searchInput.value.trim().toLocaleLowerCase("tr-TR");
+  const query = searchInput.value.trim().toLocaleLowerCase(language === "tr" ? "tr-TR" : "en-US");
   const filtered = products.filter((product) => {
     const matchesCategory = !selectedCategory || product.category === selectedCategory;
-    const matchesQuery = !query ||
-      product.name.toLocaleLowerCase("tr-TR").includes(query) ||
-      product.category.toLocaleLowerCase("tr-TR").includes(query);
-    return matchesCategory && matchesQuery;
+    const searchText = `${getText(product.name)} ${getText(categories.find((category) => category.id === product.category)[language])}`
+      .toLocaleLowerCase(language === "tr" ? "tr-TR" : "en-US");
+    return matchesCategory && (!query || searchText.includes(query));
   });
 
-  $("#products-title").innerHTML = selectedCategory
-    ? `${selectedCategory} <span>güzellikleri.</span>`
-    : query ? `Arama <span>sonuçların.</span>` : `Şengün'den <span>paylaşımlar.</span>`;
-  $("#results-label").textContent = selectedCategory || (query ? `${filtered.length} ürün bulundu` : "Instagram fiyat görselleri");
+  $("#products-title").textContent = selectedCategory
+    ? categories.find((category) => category.id === selectedCategory)[language]
+    : query ? t("searchResults", { count: filtered.length }) : t("productsTitle");
+  $("#results-label").textContent = query
+    ? t("searchResults", { count: filtered.length })
+    : `${filtered.length} ${language === "tr" ? "ürün" : "products"}`;
   $("#no-results").hidden = filtered.length !== 0;
   productGrid.innerHTML = filtered.map((product) => {
     const quantity = cart[product.id] || 0;
+    const name = getText(product.name);
+    const unit = getText(product.unit);
     return `
       <article class="product-card">
-        <div class="product-card__visual${product.image ? " has-image" : ""}" style="--product-bg:${product.bg}">
-          ${product.image ? `<img class="product-card__image" src="${product.image}" alt="${product.name} için Şengün Süpermarket Instagram paylaşımı (${product.sourceDate})" loading="lazy" />` : ""}
-          ${product.tag ? `<span class="product-card__tag">${product.tag}</span>` : ""}
-          ${product.image ? "" : `<span class="product-card__emoji" aria-hidden="true">${product.emoji}</span>`}
+        <div class="product-card__visual" style="--product-bg:${product.bg}">
+          <img class="product-card__image" src="${product.image}" alt="${escapeHtml(name)}" loading="lazy" />
+          ${product.tag ? `<span class="product-card__tag">${escapeHtml(getText(product.tag))}</span>` : ""}
         </div>
         <div class="product-card__body">
-          <span class="product-card__category">${product.category}</span>
-          <h3 class="product-card__name">${product.name}</h3>
-          <span class="product-card__unit">${product.unit}</span>
+          <span class="product-card__category">${escapeHtml(categories.find((category) => category.id === product.category)[language])}</span>
+          <h3 class="product-card__name">${escapeHtml(name)}</h3>
+          <span class="product-card__unit">${escapeHtml(unit)}</span>
           <div class="product-card__bottom">
-            <span class="product-card__price">${formatPrice(product.price)} <small>${product.unit.startsWith("Birim") ? "görsel fiyatı" : `/ ${product.unit.split(" · ")[0]}`}</small></span>
-            <button class="add-button${quantity ? " is-added" : ""}" type="button" data-add="${product.id}" aria-label="${product.name} ${quantity ? "sepette, bir tane daha ekle" : "sepete ekle"}">
+            <span class="product-card__price">${formatPrice(product.price)} <small>${unit === t("unitNotListed") ? t("displayPrice") : t("perUnit", { unit: escapeHtml(unit.split(" · ")[0]) })}</small></span>
+            <button class="add-button${quantity ? " is-added" : ""}" type="button" data-add="${product.id}"
+              aria-label="${escapeHtml(name)} — ${quantity ? t("addAnother") : t("addToCart")}">
               ${quantity ? `${quantity} ✓` : "+"}
             </button>
           </div>
-          <a class="product-card__source" href="${product.sourceUrl}" target="_blank" rel="noopener noreferrer">Instagram paylaşımı · ${product.sourceDate} <span aria-hidden="true">↗</span></a>
         </div>
       </article>
     `;
@@ -150,22 +553,24 @@ function renderCart() {
   const isEmpty = count === 0;
 
   $$("[data-cart-count]").forEach((element) => { element.textContent = count; });
-  $("[data-mobile-cart-count]").textContent = `${count} ürün`;
+  $("[data-mobile-cart-count]").textContent = `${count} ${language === "tr" ? "ürün" : "items"}`;
   $("[data-mobile-cart-total]").textContent = formatPrice(subtotal + fee);
-  $("[data-mobile-cart]").hidden = isEmpty || !main.hidden;
+  $("[data-mobile-cart]").hidden = isEmpty || !profile.name || !confirmationPage.hidden;
   $("#cart-empty").hidden = !isEmpty;
   $("#cart-bottom").hidden = isEmpty;
 
   $("#cart-items").innerHTML = items.map(({ product, quantity }) => `
     <article class="cart-row">
-      <span class="cart-row__visual" style="--product-bg:${product.bg}" aria-hidden="true">${product.image ? `<img src="${product.image}" alt="" loading="lazy" />` : product.emoji}</span>
+      <img class="cart-row__image" src="${product.image}" alt="" loading="lazy" />
       <div class="cart-row__info">
-        <strong>${product.name}</strong>
-        <small>${product.unit} · ${formatPrice(product.price)}</small>
-        <div class="cart-row__controls" aria-label="${product.name} miktarı">
-          <button class="quantity-button" type="button" data-quantity="${product.id}" data-change="-1" aria-label="${product.name} miktarını azalt">−</button>
+        <strong>${escapeHtml(getText(product.name))}</strong>
+        <small>${escapeHtml(getText(product.unit))} · ${formatPrice(product.price)}</small>
+        <div class="cart-row__controls">
+          <button class="quantity-button" type="button" data-quantity="${product.id}" data-change="-1"
+            aria-label="${language === "tr" ? "Azalt" : "Decrease"} ${escapeHtml(getText(product.name))}">−</button>
           <span class="cart-row__quantity">${quantity}</span>
-          <button class="quantity-button" type="button" data-quantity="${product.id}" data-change="1" aria-label="${product.name} miktarını artır">+</button>
+          <button class="quantity-button" type="button" data-quantity="${product.id}" data-change="1"
+            aria-label="${language === "tr" ? "Artır" : "Increase"} ${escapeHtml(getText(product.name))}">+</button>
         </div>
       </div>
       <strong class="cart-row__price">${formatPrice(product.price * quantity)}</strong>
@@ -173,52 +578,157 @@ function renderCart() {
   `).join("");
 
   $("#cart-subtotal").textContent = formatPrice(subtotal);
-  $("#cart-delivery").textContent = fee ? formatPrice(fee) : "Ücretsiz";
+  $("#cart-delivery").textContent = fee ? formatPrice(fee) : (language === "tr" ? "Ücretsiz" : "Free");
   $("#cart-total").textContent = formatPrice(subtotal + fee);
   const remaining = Math.max(0, FREE_DELIVERY_THRESHOLD - subtotal);
-  $("#free-delivery-note").textContent = isEmpty
-    ? ""
-    : remaining
-      ? `${formatPrice(remaining)} daha ekle, teslimat ücretsiz olsun.`
-      : "Harika! Teslimat ücretin bizden.";
+  $("#free-delivery-note").textContent = isEmpty ? "" : remaining
+    ? t("freeDeliveryRemaining", { amount: formatPrice(remaining) })
+    : t("freeDeliveryReached");
   $("#checkout-button").disabled = isEmpty;
+  const activeAddress = getAddress();
+  $("#active-address-label").textContent = activeAddress ? activeAddress.label : t("noAddresses");
+  $("#header-customer-name").textContent = profile.name || t("account");
   renderProducts();
 }
 
-function renderCheckoutSummary() {
-  const items = getCartItems();
+function renderAccount() {
+  const profileForm = $("#profile-form");
+  profileForm.elements.name.value = profile.name;
+  profileForm.elements.phone.value = profile.phone;
+  $("#address-count").textContent = t("updatedAddressCount", { count: profile.addresses.length });
+  $("#saved-addresses").innerHTML = profile.addresses.length
+    ? profile.addresses.map((address) => `
+      <article class="saved-address${address.id === profile.activeAddressId ? " is-selected" : ""}">
+        <button class="saved-address__select" type="button" data-select-address="${address.id}">
+          <span class="saved-address__radio" aria-hidden="true"></span>
+          <span class="saved-address__details">
+            <strong>${escapeHtml(address.label)}${address.id === profile.activeAddressId ? ` <small>${t("selected")}</small>` : ""}</strong>
+            <span>${escapeHtml(addressSummary(address))}</span>
+            <small>${escapeHtml(address.neighborhood)}, ${escapeHtml(address.street)}</small>
+            ${address.note ? `<small>${escapeHtml(address.note)}</small>` : ""}
+          </span>
+        </button>
+        <button class="remove-address" type="button" data-remove-address="${address.id}" aria-label="${t("removeAddress")}: ${escapeHtml(address.label)}">×</button>
+      </article>
+    `).join("")
+    : `<p class="empty-addresses">${t("noAddresses")}</p>`;
+  const atLimit = profile.addresses.length >= 5;
+  $("#add-address").disabled = atLimit;
+  $("#add-address").textContent = atLimit ? t("addAddressLimit") : t("addAddress");
+  $("#address-form").hidden = true;
+  $("#add-address").hidden = atLimit;
+}
+
+function renderCheckout() {
+  const addressSelect = $("#checkout-address");
+  addressSelect.innerHTML = profile.addresses.map((address) => `
+    <option value="${address.id}" ${address.id === profile.activeAddressId ? "selected" : ""}>
+      ${escapeHtml(addressSummary(address))}
+    </option>
+  `).join("");
+  addressSelect.disabled = profile.addresses.length === 0;
   const subtotal = getSubtotal();
   const fee = getDeliveryFee(subtotal);
-  $("#checkout-items").innerHTML = items.map(({ product, quantity }) => `
+  $("#checkout-items").innerHTML = getCartItems().map(({ product, quantity }) => `
     <div class="checkout-summary__row">
-      <span class="checkout-summary__emoji" style="--product-bg:${product.bg}" aria-hidden="true">${product.image ? `<img src="${product.image}" alt="" loading="lazy" />` : product.emoji}</span>
-      <span><strong>${product.name}</strong><small>${quantity} × ${formatPrice(product.price)}</small></span>
+      <img src="${product.image}" alt="" loading="lazy" />
+      <span><strong>${escapeHtml(getText(product.name))}</strong><small>${quantity} × ${formatPrice(product.price)}</small></span>
       <b>${formatPrice(product.price * quantity)}</b>
     </div>
   `).join("");
   $("#checkout-subtotal").textContent = formatPrice(subtotal);
-  $("#checkout-delivery").textContent = fee ? formatPrice(fee) : "Ücretsiz";
+  $("#checkout-delivery").textContent = fee ? formatPrice(fee) : (language === "tr" ? "Ücretsiz" : "Free");
   $("#checkout-total").textContent = formatPrice(subtotal + fee);
+}
+
+function renderConfirmation(order) {
+  const address = order.address;
+  confirmationPage.innerHTML = `
+    <div class="confirmation-head">
+      <span class="confirmation-mark" aria-hidden="true">✓</span>
+      <span class="section-kicker">${t("orderNumber")} ${escapeHtml(order.number)}</span>
+      <h1 id="confirmation-title" tabindex="-1">${t("orderDrafted")}</h1>
+      <p>${t("orderDraftIntro")}</p>
+    </div>
+    <div class="confirmation-details">
+      <div><span>${t("customer")}</span><strong>${escapeHtml(profile.name)}<br>${escapeHtml(profile.phone)}</strong></div>
+      <div><span>${t("deliveryAddress")}</span><strong>${escapeHtml(address.label)} · ${escapeHtml(address.neighborhood)}, ${escapeHtml(address.district)}, ${escapeHtml(address.city)}<br>${escapeHtml(address.street)}</strong></div>
+    </div>
+    <div class="confirmation-order">
+      <h2>${t("orderSummary")}</h2>
+      ${order.items.map((item) => `<div class="confirmation-order__row"><span>${escapeHtml(getText(item.name))} × ${item.quantity}</span><strong>${formatPrice(item.price * item.quantity)}</strong></div>`).join("")}
+      <div class="confirmation-order__row"><span>${t("feeLabel")}</span><strong>${order.fee ? formatPrice(order.fee) : (language === "tr" ? "Ücretsiz" : "Free")}</strong></div>
+      <div class="confirmation-order__total"><span>${t("totalLabel")}</span><span>${formatPrice(order.total)}</span></div>
+    </div>
+    <div class="status-timeline" aria-label="${t("orderSummary")}">
+      <div class="status-step is-current"><i>1</i><span>${t("requestPrepared")}</span></div>
+      <div class="status-step"><i>2</i><span>${t("waitingStore")}</span></div>
+      <div class="status-step"><i>3</i><span>${t("deliveryToConfirm")}</span></div>
+    </div>
+    <div class="confirmation-actions">
+      <a class="button button--primary" href="${order.whatsappUrl}" target="_blank" rel="noopener noreferrer">
+        <span>${t("openWhatsappAgain")}</span><span aria-hidden="true">→</span>
+      </a>
+      <button class="button button--outline" type="button" data-return-home>${t("returnToShop")}</button>
+    </div>
+  `;
 }
 
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add("is-visible");
   window.clearTimeout(toastTimer);
-  toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 2400);
+  toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 3000);
+}
+
+function showWelcome() {
+  welcomeScreen.hidden = false;
+  header.hidden = true;
+  main.hidden = true;
+  footer.hidden = true;
+  $("[name='name']", $("#welcome-form")).focus();
+}
+
+function enterShop() {
+  welcomeScreen.hidden = true;
+  header.hidden = false;
+  main.hidden = false;
+  footer.hidden = false;
+  renderCart();
 }
 
 function setOverlay(openElement, closeElement) {
   if (closeElement) {
     closeElement.hidden = true;
-    if (openElement.hidden) document.body.classList.remove("has-overlay");
+    if (accountOverlay.hidden && cartOverlay.hidden && checkoutOverlay.hidden) {
+      document.body.classList.remove("has-overlay");
+    }
     return;
   }
   previousFocus = document.activeElement;
   openElement.hidden = false;
   document.body.classList.add("has-overlay");
-  const focusTarget = openElement.querySelector("[role='dialog'] .icon-button, [role='dialog'] input");
-  focusTarget?.focus();
+  openElement.querySelector("[role='dialog'] .icon-button, [role='dialog'] input")?.focus();
+}
+
+function openAccount() {
+  accountReturnToCheckout = !checkoutOverlay.hidden;
+  if (accountReturnToCheckout) checkoutOverlay.hidden = true;
+  renderAccount();
+  setOverlay(accountOverlay);
+}
+
+function closeAccount() {
+  setOverlay(accountOverlay, true);
+  if (accountReturnToCheckout) {
+    checkoutOverlay.hidden = false;
+    document.body.classList.add("has-overlay");
+    renderCheckout();
+    $("#checkout-address").focus();
+    accountReturnToCheckout = false;
+  } else {
+    previousFocus?.focus();
+  }
 }
 
 function openCart() {
@@ -228,22 +738,26 @@ function openCart() {
 
 function closeCart() {
   setOverlay(cartOverlay, true);
-  if (checkoutOverlay.hidden) document.body.classList.remove("has-overlay");
   previousFocus?.focus();
 }
 
 function openCheckout() {
   if (!getCartCount()) return;
-  renderCheckoutSummary();
+  if (!profile.addresses.length) {
+    closeCart();
+    openAccount();
+    showToast(t("chooseAddress"));
+    return;
+  }
+  renderCheckout();
   checkoutOverlay.hidden = false;
   cartOverlay.hidden = true;
   document.body.classList.add("has-overlay");
-  checkoutOverlay.querySelector("input")?.focus();
+  $("#checkout-address").focus();
 }
 
 function closeCheckout() {
-  checkoutOverlay.hidden = true;
-  if (cartOverlay.hidden) document.body.classList.remove("has-overlay");
+  setOverlay(checkoutOverlay, true);
   previousFocus?.focus();
 }
 
@@ -253,77 +767,199 @@ function changeQuantity(id, amount) {
   else cart[id] = Math.min(next, 99);
   saveCart();
   renderCart();
-  if (!checkoutOverlay.hidden) renderCheckoutSummary();
+  if (!checkoutOverlay.hidden) renderCheckout();
 }
 
-function confirmOrder(formData) {
-  const items = getCartItems();
-  if (!items.length) return;
-  const subtotal = getSubtotal();
-  const order = {
-    number: `SP-${Math.floor(100000 + Math.random() * 900000)}`,
-    items: items.map(({ product, quantity }) => ({ name: product.name, quantity, price: product.price })),
-    total: subtotal + getDeliveryFee(subtotal),
-    address: `${formData.get("addressName")} · ${formData.get("address")}`,
-    district: `${formData.get("district")}, ${formData.get("city")}`,
-    slot: formData.get("deliverySlot"),
+function saveAddressFromForm(form) {
+  if (profile.addresses.length >= 5) {
+    showToast(t("addressLimit"));
+    return false;
+  }
+  const address = makeAddress(new FormData(form));
+  if (!address.label || !address.city || !address.district || !address.neighborhood || !address.street) {
+    form.reportValidity();
+    return false;
+  }
+  const previous = profile;
+  profile = {
+    ...profile,
+    addresses: [...profile.addresses, address],
+    activeAddressId: address.id,
   };
-  cart = {};
-  saveCart();
-  checkoutOverlay.hidden = true;
-  document.body.classList.remove("has-overlay");
-  main.hidden = true;
-  $(".site-header").hidden = true;
-  $(".site-footer").hidden = true;
-  confirmationPage.hidden = false;
-  confirmationPage.innerHTML = `
-    <div class="confirmation-head">
-      <span class="confirmation-check" aria-hidden="true">✓</span>
-      <span class="section-kicker">SİPARİŞİN ALINDI</span>
-      <h1 id="confirmation-title" tabindex="-1">Güzel seçim. <em>♡</em></h1>
-      <p>Sipariş numaran <strong>${order.number}</strong></p>
-    </div>
-    <p class="confirmation-warning"><strong>Demo bilgilendirmesi:</strong> Bu sipariş yalnızca örnek olarak oluşturuldu. Ödeme alınmadı ve gerçek bir teslimat planlanmadı.</p>
-    <div class="confirmation-details">
-      <div><span>Teslimat adresi</span><strong>${escapeHtml(order.address)}<br />${escapeHtml(order.district)}</strong></div>
-      <div><span>Teslimat zamanı</span><strong>${escapeHtml(order.slot)}</strong></div>
-    </div>
-    <div class="confirmation-order">
-      <h2>Sipariş özeti</h2>
-      ${order.items.map((item) => `<div class="confirmation-order__row"><span>${escapeHtml(item.name)} × ${item.quantity}</span><strong>${formatPrice(item.price * item.quantity)}</strong></div>`).join("")}
-      <div class="confirmation-order__total"><span>Toplam</span><span>${formatPrice(order.total)}</span></div>
-    </div>
-    <div class="status-timeline" aria-label="Demo sipariş durumu">
-      <div class="status-step is-current"><i>✓</i><span>Sipariş alındı</span></div>
-      <div class="status-step"><i>2</i><span>Hazırlanıyor</span></div>
-      <div class="status-step"><i>3</i><span>Yola çıktı</span></div>
-    </div>
-    <button class="button button--dark confirmation-home" type="button" data-return-home>Alışverişe devam et <span aria-hidden="true">→</span></button>
-  `;
+  if (!saveProfile()) {
+    profile = previous;
+    return false;
+  }
+  form.reset();
+  renderAccount();
   renderCart();
-  confirmationPage.scrollIntoView({ behavior: "smooth", block: "start" });
-  $("#confirmation-title").focus?.();
+  if (!checkoutOverlay.hidden) renderCheckout();
+  showToast(t("addressSaved"));
+  return true;
 }
 
-function escapeHtml(value) {
-  return String(value).replace(/[&<>"']/g, (character) => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;",
-  })[character]);
+function buildWhatsappUrl(order) {
+  const text = [
+    t("orderRequestTitle"),
+    `${t("orderNumber")}: ${order.number}`,
+    `${t("customer")}: ${profile.name}`,
+    `${t("phone")}: ${profile.phone}`,
+    `${t("deliveryAddress")}: ${order.address.label}, ${order.address.neighborhood}, ${order.address.street}, ${order.address.district}, ${order.address.city}${order.address.note ? ` (${order.address.note})` : ""}`,
+    `${t("deliveryPreference")}: ${order.deliveryPreference === "soon" ? t("contactSoon") : t("contactForDeliveryTime")}`,
+    `${t("items")}:`,
+    ...order.items.map((item) => `- ${getText(item.name)} × ${item.quantity}: ${formatPrice(item.price * item.quantity)}`),
+    `${t("subtotalLabel")}: ${formatPrice(order.subtotal)}`,
+    `${t("feeLabel")}: ${order.fee ? formatPrice(order.fee) : (language === "tr" ? "Ücretsiz" : "Free")}`,
+    `${t("totalLabel")}: ${formatPrice(order.total)}`,
+    language === "tr" ? "Fiyat, stok ve teslimat uygunluğunu teyit eder misiniz?" : "Please confirm current prices, availability, and delivery.",
+  ].join("\n");
+  const recipient = WHATSAPP_NUMBER.replace(/\D/g, "");
+  const baseUrl = recipient ? `https://wa.me/${recipient}` : "https://wa.me/";
+  return `${baseUrl}?text=${encodeURIComponent(text)}`;
+}
+
+function startWhatsappOrder() {
+  if (!$("#checkout-address").value) {
+    showToast(t("chooseAddress"));
+    return;
+  }
+  const address = getAddress($("#checkout-address").value);
+  if (!address) {
+    showToast(t("chooseAddress"));
+    return;
+  }
+  profile.activeAddressId = address.id;
+  saveProfile();
+  const subtotal = getSubtotal();
+  const fee = getDeliveryFee(subtotal);
+  lastOrder = {
+    number: `SG-${Math.floor(100000 + Math.random() * 900000)}`,
+    items: getCartItems().map(({ product, quantity }) => ({ name: product.name, quantity, price: product.price })),
+    address,
+    deliveryPreference: $('input[name="deliverySlot"]:checked').value,
+    subtotal,
+    fee,
+    total: subtotal + fee,
+  };
+  lastOrder.whatsappUrl = buildWhatsappUrl(lastOrder);
+  confirmationPage.hidden = false;
+  renderConfirmation(lastOrder);
+  checkoutOverlay.hidden = true;
+  main.hidden = true;
+  header.hidden = true;
+  footer.hidden = true;
+  document.body.classList.remove("has-overlay");
+  renderCart();
+  $("#confirmation-title").focus();
+  window.scrollTo({ top: 0 });
+  if (!WHATSAPP_NUMBER) showToast(t("noWhatsappNumber"));
+  window.open(lastOrder.whatsappUrl, "_blank", "noopener,noreferrer");
 }
 
 function returnHome() {
   confirmationPage.hidden = true;
   confirmationPage.innerHTML = "";
-  main.hidden = false;
-  $(".site-header").hidden = false;
-  $(".site-footer").hidden = false;
-  renderCart();
+  lastOrder = null;
+  enterShop();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+
+function handleWelcomeSubmit(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  if (!form.reportValidity()) return;
+  const formData = new FormData(form);
+  const address = makeAddress(formData);
+  profile = {
+    name: String(formData.get("name")).trim(),
+    phone: String(formData.get("phone")).trim(),
+    addresses: [address],
+    activeAddressId: address.id,
+  };
+  if (!saveProfile()) {
+    profile = { name: "", phone: "", addresses: [], activeAddressId: "" };
+    return;
+  }
+  enterShop();
+}
+
+$("#welcome-form").addEventListener("submit", handleWelcomeSubmit);
+$("#google-demo").addEventListener("click", () => showToast(t("googleDemoMessage")));
+
+$$("[data-language]").forEach((button) => {
+  button.addEventListener("click", () => {
+    language = button.dataset.language;
+    saveLanguage();
+    applyTranslations();
+  });
+});
+
+$("[data-toggle-language]").addEventListener("click", () => {
+  language = language === "tr" ? "en" : "tr";
+  saveLanguage();
+  applyTranslations();
+});
+
+$("#profile-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (!event.currentTarget.reportValidity()) return;
+  const formData = new FormData(event.currentTarget);
+  const previous = profile;
+  profile = { ...profile, name: String(formData.get("name")).trim(), phone: String(formData.get("phone")).trim() };
+  if (!saveProfile()) {
+    profile = previous;
+    return;
+  }
+  renderCart();
+  showToast(t("profileSaved"));
+});
+
+$("#address-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  saveAddressFromForm(event.currentTarget);
+});
+
+$("#add-address").addEventListener("click", () => {
+  $("#address-form").hidden = false;
+  $("#address-form").querySelector("input")?.focus();
+});
+
+$("#cancel-address").addEventListener("click", () => {
+  $("#address-form").reset();
+  $("#address-form").hidden = true;
+});
+
+$("#saved-addresses").addEventListener("click", (event) => {
+  const select = event.target.closest("[data-select-address]");
+  if (select) {
+    profile.activeAddressId = select.dataset.selectAddress;
+    if (saveProfile()) {
+      renderAccount();
+      renderCart();
+      if (!checkoutOverlay.hidden) renderCheckout();
+    }
+    return;
+  }
+  const remove = event.target.closest("[data-remove-address]");
+  if (!remove) return;
+  const previous = profile;
+  const addresses = profile.addresses.filter((address) => address.id !== remove.dataset.removeAddress);
+  profile = {
+    ...profile,
+    addresses,
+    activeAddressId: profile.activeAddressId === remove.dataset.removeAddress
+      ? addresses[0]?.id || ""
+      : profile.activeAddressId,
+  };
+  if (!saveProfile()) {
+    profile = previous;
+    return;
+  }
+  renderAccount();
+  renderCart();
+  if (!checkoutOverlay.hidden) renderCheckout();
+  showToast(t("addressRemoved"));
+});
 
 $("#category-list").addEventListener("click", (event) => {
   const button = event.target.closest("[data-category]");
@@ -338,7 +974,7 @@ productGrid.addEventListener("click", (event) => {
   const button = event.target.closest("[data-add]");
   if (!button) return;
   changeQuantity(button.dataset.add, 1);
-  showToast(`${products.find((product) => product.id === button.dataset.add).name} sepete eklendi.`);
+  showToast(t("itemAdded", { name: getText(products.find((product) => product.id === button.dataset.add).name) }));
 });
 
 $("#cart-items").addEventListener("click", (event) => {
@@ -361,8 +997,13 @@ searchInput.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("click", (event) => {
+  if (event.target.closest("[data-open-account]")) {
+    event.preventDefault();
+    openAccount();
+  }
+  if (event.target.closest("[data-close-account]")) closeAccount();
   if (event.target.closest("[data-open-cart]")) openCart();
-  if (event.target.closest("[data-close-overlay]")) closeCart();
+  if (event.target.closest("[data-close-cart]")) closeCart();
   if (event.target.closest("[data-close-checkout]")) closeCheckout();
   if (event.target.closest("[data-home-link]")) {
     event.preventDefault();
@@ -372,25 +1013,15 @@ document.addEventListener("click", (event) => {
 });
 
 $("#checkout-button").addEventListener("click", openCheckout);
-$("#back-to-cart").addEventListener("click", () => {
-  checkoutOverlay.hidden = true;
-  cartOverlay.hidden = false;
-  renderCart();
-  $("#drawer .icon-button").focus();
-});
-
-$("#checkout-form").addEventListener("submit", (event) => {
-  event.preventDefault();
-  if (!event.currentTarget.reportValidity()) return;
-  confirmOrder(new FormData(event.currentTarget));
-  event.currentTarget.reset();
-});
+$("#whatsapp-order").addEventListener("click", startWhatsappOrder);
 
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
-  if (!checkoutOverlay.hidden) closeCheckout();
+  if (!accountOverlay.hidden) closeAccount();
+  else if (!checkoutOverlay.hidden) closeCheckout();
   else if (!cartOverlay.hidden) closeCart();
 });
 
-renderCategories();
-renderCart();
+applyTranslations();
+if (profile.name && profile.phone && profile.addresses.length) enterShop();
+else showWelcome();
