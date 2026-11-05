@@ -1,7 +1,8 @@
 const { randomUUID } = require("node:crypto");
 
-const DELIVERY_FEE = 29.9;
-const FREE_DELIVERY_THRESHOLD = 500;
+const ORDER_RECIPIENT = "905391168536";
+const DELIVERY_FEE_KURUS = 2990;
+const FREE_DELIVERY_THRESHOLD_KURUS = 50000;
 const PRODUCTS = {
   "dana-kiyma": { name: "Dana Kıyma", price: 889.9, unit: "Fiyat mağazada teyit edilecek" },
   "sultani-uzum": { name: "Sultani Üzüm", price: 99.9, unit: "Fiyat mağazada teyit edilecek" },
@@ -33,19 +34,17 @@ function formatPrice(value) {
 }
 
 function getConfiguration() {
-  const { WHATSAPP_ACCESS_TOKEN, WHATSAPP_PHONE_NUMBER_ID, WHATSAPP_TEMPLATE_NAME, WHATSAPP_GRAPH_API_VERSION, WHATSAPP_RECIPIENT } = process.env;
-  const recipient = WHATSAPP_RECIPIENT;
-  if (!recipient || !WHATSAPP_ACCESS_TOKEN || !WHATSAPP_PHONE_NUMBER_ID || !WHATSAPP_TEMPLATE_NAME || !WHATSAPP_GRAPH_API_VERSION) {
+  const { WHATSAPP_ACCESS_TOKEN, WHATSAPP_PHONE_NUMBER_ID, WHATSAPP_TEMPLATE_NAME, WHATSAPP_GRAPH_API_VERSION } = process.env;
+  if (!WHATSAPP_ACCESS_TOKEN || !WHATSAPP_PHONE_NUMBER_ID || !WHATSAPP_TEMPLATE_NAME || !WHATSAPP_GRAPH_API_VERSION) {
     return null;
   }
-  if (!/^\d{10,15}$/.test(recipient) ||
-      !/^\d+$/.test(WHATSAPP_PHONE_NUMBER_ID) ||
+  if (!/^\d+$/.test(WHATSAPP_PHONE_NUMBER_ID) ||
       !/^[a-z0-9_]{1,128}$/.test(WHATSAPP_TEMPLATE_NAME) ||
       !/^v\d+\.\d+$/.test(WHATSAPP_GRAPH_API_VERSION)) {
     return null;
   }
   return {
-    recipient,
+    recipient: ORDER_RECIPIENT,
     token: WHATSAPP_ACCESS_TOKEN,
     phoneNumberId: WHATSAPP_PHONE_NUMBER_ID,
     templateName: WHATSAPP_TEMPLATE_NAME,
@@ -91,34 +90,50 @@ function buildOrder(body) {
     return null;
   }
 
-  const subtotal = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const deliveryFee = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
+  const subtotalKurus = orderItems.reduce(
+    (sum, item) => sum + Math.round(item.price * 100) * item.quantity,
+    0,
+  );
+  const deliveryFeeKurus = subtotalKurus >= FREE_DELIVERY_THRESHOLD_KURUS ? 0 : DELIVERY_FEE_KURUS;
+  const subtotal = subtotalKurus / 100;
+  const deliveryFee = deliveryFeeKurus / 100;
+  const total = (subtotalKurus + deliveryFeeKurus) / 100;
   const orderNumber = `SG-${randomUUID().slice(0, 8).toUpperCase()}`;
   const addressText = [
     safeAddress.label,
     safeAddress.neighborhood,
     safeAddress.street,
-    safeAddress.district,
-    safeAddress.city,
-    safeAddress.note && `Tarif: ${safeAddress.note}`,
+    `${safeAddress.district}/${safeAddress.city}`,
+    safeAddress.note && `Not: ${safeAddress.note}`,
   ].filter(Boolean).join(", ");
   const message = [
-    "Yeni Şengün Süpermarket siparişi",
-    `Sipariş no: ${orderNumber}`,
-    `Müşteri: ${name}`,
-    `Telefon: ${phone}`,
-    `Adres: ${addressText}`,
-    `Teslimat: ${body.deliveryPreference === "soon" ? "Mağazayla teyitleş" : "Saat tercihi için müşteriyle iletişime geç"}`,
+    "ŞENGÜN SÜPERMARKET | SİPARİŞ ÖN FİŞİ",
+    `Sipariş no: ${orderNumber} · ${new Intl.DateTimeFormat("tr-TR", {
+      dateStyle: "short",
+      timeStyle: "short",
+      timeZone: "Europe/Istanbul",
+    }).format(new Date())}`,
+    "",
+    `Müşteri: ${name} · ${phone}`,
+    `Teslimat adresi: ${addressText}`,
+    `Teslimat tercihi: ${body.deliveryPreference === "soon" ? "Mağazayla teyitleş" : "Saat tercihi için müşteriyle iletişime geç"}`,
+    "",
     "Ürünler:",
-    ...orderItems.map((item) => `- ${item.name} (${item.unit}) × ${item.quantity}: ${formatPrice(item.price * item.quantity)}`),
+    ...orderItems.map((item) => {
+      const unit = item.unit === "Fiyat mağazada teyit edilecek" ? "" : ` (${item.unit})`;
+      const lineTotalKurus = Math.round(item.price * 100) * item.quantity;
+      return `• ${item.name}${unit} × ${item.quantity} @ ${formatPrice(item.price)} = ${formatPrice(lineTotalKurus / 100)}`;
+    }),
+    "",
     `Ara toplam: ${formatPrice(subtotal)}`,
-    `Tahmini teslimat: ${deliveryFee ? formatPrice(deliveryFee) : "Ücretsiz"}`,
-    `Tahmini toplam: ${formatPrice(subtotal + deliveryFee)}`,
-    "Fiyat, stok ve teslimat uygunluğunu müşteriyle teyit edin.",
+    `Teslimat ücreti: ${deliveryFee ? formatPrice(deliveryFee) : "Ücretsiz"}`,
+    `TAHMİNİ TOPLAM: ${formatPrice(total)}`,
+    "",
+    "Not: Fiyat ve stok mağaza teyidine tabidir; bu sipariş talebi onay bekliyor.",
   ].join("\n");
 
   if (message.length > 1024) return { tooLarge: true };
-  return { orderNumber, name, phone, address: safeAddress, items: orderItems, subtotal, deliveryFee, total: subtotal + deliveryFee, message };
+  return { orderNumber, name, phone, address: safeAddress, items: orderItems, subtotal, deliveryFee, total, message };
 }
 
 module.exports = async function handler(req, res) {
