@@ -1,5 +1,7 @@
 const PROFILE_STORAGE_KEY = "sengun-demo-profile-v1";
 const CART_STORAGE_KEY = "sengun-demo-cart-v2";
+const PRODUCTS_STORAGE_KEY = "sengun-demo-staff-products-v1";
+const ORDERS_STORAGE_KEY = "sengun-demo-staff-orders-v1";
 const DELIVERY_FEE = 29.9;
 const FREE_DELIVERY_THRESHOLD = 500;
 
@@ -32,6 +34,63 @@ const translations = {
     streetPlaceholder: "Cadde/sokak, bina no, daire no",
     addressNotePlaceholder: "Daireyi bulmaya yardımcı olacak bilgi",
     localStorageNote: "Bilgilerin bu cihazda saklanır. Sipariş verdiğinde sipariş ve teslimat bilgilerin mağazaya iletilir.",
+    staffDemoTitle: "Personel demosu",
+    staffDemoWarning: "Yalnızca bu tarayıcıda çalışan örnek verili demo. Güvenli giriş değildir.",
+    staffDemoBadge: "YEREL DEMO · GÜVENLİ DEĞİL",
+    staffExit: "Mağazaya dön",
+    staffEyebrow: "PERSONEL PANELİ",
+    staffTitle: "Sipariş ve mağaza yönetimi",
+    adminRole: "Admin",
+    riderRole: "Teslimat görevlisi",
+    staffOrdersEyebrow: "SİPARİŞ AKIŞI",
+    staffOrdersTitle: "Siparişler",
+    staffCatalogEyebrow: "ÜRÜN VE FİYATLAR",
+    staffCatalogTitle: "Mağaza kataloğu",
+    resetCatalog: "Örnek kataloğu sıfırla",
+    staffCatalogNotice: "Değişiklikler yalnızca bu tarayıcıdaki vitrin demosuna uygulanır. Gerçek sipariş fiyatları sunucu kataloğundan alınır.",
+    addProductTitle: "Ürün ekle",
+    productNameTr: "Ürün adı (Türkçe)",
+    productNameEn: "Ürün adı (İngilizce)",
+    productPrice: "Fiyat (₺)",
+    productCategory: "Kategori",
+    productUnitTr: "Birim (Türkçe)",
+    productUnitEn: "Birim (İngilizce)",
+    productImage: "Örnek görsel",
+    addProduct: "Ürünü ekle",
+    saveProduct: "Değişiklikleri kaydet",
+    productActive: "Vitrinde göster",
+    productDemoOnly: "Yerel demo ürünü; gerçek siparişte kullanılamaz",
+    emptyOrders: "Bu rolde görüntülenecek sipariş yok.",
+    staffOrderCount: "{count} sipariş",
+    staffTotalOrders: "Toplam sipariş",
+    staffNeedsAcceptance: "Mağaza onayı bekliyor",
+    staffInDelivery: "Teslimat aşamasında",
+    staffProducts: "Aktif ürün",
+    orderStatusNew: "Yeni",
+    orderStatusAccepted: "Kabul edildi",
+    orderStatusRejected: "Reddedildi",
+    orderStatusPreparing: "Hazırlanıyor",
+    orderStatusReady: "Teslimata hazır",
+    orderStatusOut: "Yolda",
+    orderStatusDelivered: "Teslim edildi",
+    orderStatusCancelled: "İptal edildi",
+    orderNextAccepted: "Siparişi kabul et",
+    orderNextPreparing: "Hazırlamaya başla",
+    orderNextReady: "Teslimata hazır",
+    orderNextOut: "Teslim al ve yola çık",
+    orderNextDelivered: "Teslim edildi işaretle",
+    orderReject: "Reddet",
+    staffCustomer: "Müşteri",
+    staffAddress: "Teslimat adresi",
+    staffOrderItems: "Ürünler",
+    sampleOrder: "Örnek sipariş",
+    productAdded: "Ürün yerel demo kataloğuna eklendi.",
+    productSaved: "Ürün yerel demo kataloğunda güncellendi.",
+    catalogResetDone: "Yerel katalog değişiklikleri sıfırlandı.",
+    orderStatusSaved: "Sipariş durumu yerel demoda güncellendi.",
+    staffStorageError: "Demo değişikliği kaydedilemedi. Tarayıcı depolama alanını kontrol et.",
+    staffOrderStorageError: "Sipariş WhatsApp'a gönderildi ancak bu tarayıcıdaki demo sipariş listesine kaydedilemedi.",
+    demoCatalogCheckoutBlocked: "Bu yerel katalog değişikliği gerçek siparişte kullanılamaz. Sunucudaki katalog ayrıca güncellenmelidir.",
     saveAndShop: "Bilgilerimi kaydet ve alışverişe başla",
     deliverTo: "Teslimat adresi",
     searchProducts: "Ürün ara",
@@ -174,6 +233,63 @@ const translations = {
     streetPlaceholder: "Street, building number, apartment",
     addressNotePlaceholder: "Details to help find your door",
     localStorageNote: "Your details are stored on this device. Order and delivery details are sent to the store when you place an order.",
+    staffDemoTitle: "Staff demo",
+    staffDemoWarning: "Sample-data demo stored only in this browser. This is not secure staff sign-in.",
+    staffDemoBadge: "LOCAL DEMO · NOT SECURE",
+    staffExit: "Return to shop",
+    staffEyebrow: "STAFF PANEL",
+    staffTitle: "Store and order management",
+    adminRole: "Admin",
+    riderRole: "Delivery rider",
+    staffOrdersEyebrow: "ORDER WORKFLOW",
+    staffOrdersTitle: "Orders",
+    staffCatalogEyebrow: "PRODUCTS AND PRICES",
+    staffCatalogTitle: "Store catalog",
+    resetCatalog: "Reset sample catalog",
+    staffCatalogNotice: "Changes affect only this browser's storefront demo. Real order prices come from the server catalog.",
+    addProductTitle: "Add product",
+    productNameTr: "Product name (Turkish)",
+    productNameEn: "Product name (English)",
+    productPrice: "Price (₺)",
+    productCategory: "Category",
+    productUnitTr: "Unit (Turkish)",
+    productUnitEn: "Unit (English)",
+    productImage: "Sample image",
+    addProduct: "Add product",
+    saveProduct: "Save changes",
+    productActive: "Show in storefront",
+    productDemoOnly: "Local demo product; unavailable for real checkout",
+    emptyOrders: "There are no orders to show for this role.",
+    staffOrderCount: "{count} orders",
+    staffTotalOrders: "Total orders",
+    staffNeedsAcceptance: "Awaiting store review",
+    staffInDelivery: "In delivery",
+    staffProducts: "Active products",
+    orderStatusNew: "New",
+    orderStatusAccepted: "Accepted",
+    orderStatusRejected: "Rejected",
+    orderStatusPreparing: "Preparing",
+    orderStatusReady: "Ready for delivery",
+    orderStatusOut: "Out for delivery",
+    orderStatusDelivered: "Delivered",
+    orderStatusCancelled: "Cancelled",
+    orderNextAccepted: "Accept order",
+    orderNextPreparing: "Start preparing",
+    orderNextReady: "Ready for delivery",
+    orderNextOut: "Pick up and start delivery",
+    orderNextDelivered: "Mark delivered",
+    orderReject: "Reject",
+    staffCustomer: "Customer",
+    staffAddress: "Delivery address",
+    staffOrderItems: "Items",
+    sampleOrder: "Sample order",
+    productAdded: "Product added to the local demo catalog.",
+    productSaved: "Product updated in the local demo catalog.",
+    catalogResetDone: "Local catalog changes have been reset.",
+    orderStatusSaved: "Order status updated in the local demo.",
+    staffStorageError: "Could not save the demo change. Check browser storage.",
+    staffOrderStorageError: "The order was sent to WhatsApp but could not be saved to this browser's demo order list.",
+    demoCatalogCheckoutBlocked: "This local catalog change cannot be used for a real order. The server catalog must be updated separately.",
     saveAndShop: "Save details and start shopping",
     deliverTo: "Deliver to",
     searchProducts: "Search products",
@@ -298,7 +414,7 @@ const categories = [
   { id: "household", tr: "Ev & Temizlik", en: "Home & Cleaning" },
 ];
 
-const products = [
+const defaultProducts = [
   { id: "dana-kiyma", name: { tr: "Dana Kıyma", en: "Ground Beef" }, category: "butcher", unit: { tr: "Birim belirtilmemiş", en: "Unit not specified" }, price: 889.9, image: "assets/products/dana-kiyma.jpg", bg: "#f4e5df", tag: { tr: "ÖNE ÇIKAN", en: "FEATURED" } },
   { id: "sultani-uzum", name: { tr: "Sultani Üzüm", en: "Sultani Grapes" }, category: "produce", unit: { tr: "Birim belirtilmemiş", en: "Unit not specified" }, price: 99.9, image: "assets/products/sultani-uzum.jpg", bg: "#e9efdf" },
   { id: "duru-bulgur", name: { tr: "Duru Pratik Bulgur Pilavı", en: "Duru Quick Bulgur Pilaf" }, category: "pantry", unit: { tr: "250 g · farklı çeşitler", en: "250 g · assorted varieties" }, price: 69.9, image: "assets/products/duru-bulgur.jpg", bg: "#f2e8df" },
@@ -325,7 +441,10 @@ const toast = $("#toast");
 
 let language = loadLanguage();
 let profile = loadProfile();
+let products = loadProducts();
 let cart = loadCart();
+let demoOrders = loadDemoOrders();
+let staffRole = "admin";
 let selectedCategory = null;
 let previousFocus = null;
 let accountReturnToCheckout = false;
@@ -369,6 +488,7 @@ function applyTranslations() {
   renderAccount();
   if (!checkoutOverlay.hidden) renderCheckout();
   if (lastOrder && !confirmationPage.hidden) renderConfirmation(lastOrder);
+  if (!$("#staff-portal").hidden) renderStaffPortal();
 }
 
 function saveLanguage() {
@@ -407,6 +527,127 @@ function saveProfile() {
   } catch (error) {
     console.error("Saved profile could not be written:", error);
     showToast(t("profileStoredError"));
+    return false;
+  }
+}
+
+function copyProduct(product) {
+  return {
+    ...product,
+    name: { ...product.name },
+    unit: { ...product.unit },
+    active: product.active !== false,
+    demoOnly: product.demoOnly === true,
+  };
+}
+
+function isValidProduct(product) {
+  return product && typeof product.id === "string" && /^[a-z0-9-]{1,48}$/.test(product.id) &&
+    typeof product.name?.tr === "string" && typeof product.name?.en === "string" &&
+    typeof product.unit?.tr === "string" && typeof product.unit?.en === "string" &&
+    Number.isFinite(product.price) && product.price > 0 && product.price <= 100000 &&
+    categories.some((category) => category.id === product.category) &&
+    typeof product.image === "string" && /^assets\/products\/[a-z0-9-]+\.jpg$/i.test(product.image);
+}
+
+function loadProducts() {
+  const defaults = defaultProducts.map(copyProduct);
+  try {
+    const stored = JSON.parse(localStorage.getItem(PRODUCTS_STORAGE_KEY) || "null");
+    if (!Array.isArray(stored)) return defaults;
+    const defaultIds = new Set(defaults.map((product) => product.id));
+    const byId = new Map(stored.filter(isValidProduct).map((product) => [product.id, product]));
+    const editedDefaults = defaults.map((product) => {
+      const saved = byId.get(product.id);
+      if (!saved) return product;
+      return {
+        ...product,
+        name: { tr: saved.name.tr.slice(0, 80), en: saved.name.en.slice(0, 80) },
+        unit: { tr: saved.unit.tr.slice(0, 40), en: saved.unit.en.slice(0, 40) },
+        price: Math.round(saved.price * 100) / 100,
+        category: saved.category,
+        image: saved.image,
+        active: saved.active !== false,
+        demoOnly: saved.demoOnly === true,
+      };
+    });
+    const additions = stored
+      .filter((product) => isValidProduct(product) && !defaultIds.has(product.id))
+      .map((product) => ({
+        ...copyProduct(product),
+        id: product.id.slice(0, 48),
+        name: { tr: product.name.tr.slice(0, 80), en: product.name.en.slice(0, 80) },
+        unit: { tr: product.unit.tr.slice(0, 40), en: product.unit.en.slice(0, 40) },
+        price: Math.round(product.price * 100) / 100,
+        demoOnly: true,
+      }));
+    return [...editedDefaults, ...additions];
+  } catch (error) {
+    console.error("Staff demo catalog could not be read:", error);
+    return defaults;
+  }
+}
+
+function saveProducts() {
+  try {
+    localStorage.setItem(PRODUCTS_STORAGE_KEY, JSON.stringify(products));
+    return true;
+  } catch (error) {
+    console.error("Staff demo catalog could not be saved:", error);
+    showToast(t("staffStorageError"));
+    return false;
+  }
+}
+
+function createSampleOrders() {
+  const byId = (id) => defaultProducts.find((product) => product.id === id);
+  const now = Date.now();
+  return [
+    { id: "SG-DEMO-1042", sample: true, status: "new", name: "Demo Müşteri", phone: "+90 555 000 0001", address: "Ev · Moda, Kadıköy, İstanbul · Örnek Sokak 1", createdAt: new Date(now - 12 * 60_000).toISOString(), items: [{ id: "sultani-uzum", quantity: 2 }, { id: "duru-bulgur", quantity: 1 }] },
+    { id: "SG-DEMO-1041", sample: true, status: "preparing", name: "Demo Müşteri", phone: "+90 555 000 0002", address: "Ev · Kozyatağı, Kadıköy, İstanbul · Örnek Cadde 2", createdAt: new Date(now - 36 * 60_000).toISOString(), items: [{ id: "dana-kiyma", quantity: 1 }] },
+    { id: "SG-DEMO-1040", sample: true, status: "ready_for_delivery", name: "Demo Müşteri", phone: "+90 555 000 0003", address: "İş · Fenerbahçe, Kadıköy, İstanbul · Örnek Sokak 3", createdAt: new Date(now - 58 * 60_000).toISOString(), items: [{ id: "seftali", quantity: 2 }, { id: "kovil-sabun", quantity: 1 }] },
+  ].map((order) => {
+    const items = order.items.map((item) => {
+      const product = byId(item.id);
+      return { id: product.id, name: product.name.tr, quantity: item.quantity, price: product.price };
+    });
+    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const fee = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE;
+    return { ...order, items, subtotal, fee, total: subtotal + fee };
+  });
+}
+
+function loadDemoOrders() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(ORDERS_STORAGE_KEY) || "null");
+    if (Array.isArray(stored)) {
+      return stored.filter((order) =>
+        order && typeof order.id === "string" && typeof order.name === "string" &&
+        typeof order.phone === "string" && typeof order.address === "string" &&
+          ["new", "accepted", "rejected", "preparing", "ready_for_delivery", "out_for_delivery", "delivered", "cancelled"].includes(order.status) &&
+          typeof order.createdAt === "string" &&
+          Number.isFinite(Date.parse(order.createdAt)) && Number.isFinite(order.total) &&
+          Array.isArray(order.items) && order.items.every((item) =>
+            item && typeof item.name === "string" && Number.isInteger(item.quantity) &&
+            item.quantity > 0 && Number.isFinite(item.price)
+          )
+      ).slice(0, 100);
+    }
+    const orders = createSampleOrders();
+    localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders));
+    return orders;
+  } catch (error) {
+    console.error("Staff demo orders could not be read:", error);
+    return createSampleOrders();
+  }
+}
+
+function saveDemoOrders() {
+  try {
+    localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(demoOrders.slice(0, 100)));
+    return true;
+  } catch (error) {
+    console.error("Staff demo orders could not be saved:", error);
     return false;
   }
 }
@@ -495,7 +736,7 @@ function addressSummary(address) {
 function renderCategories() {
   $("#category-list").innerHTML = categories.map((category) => {
     const label = category[language];
-    const count = products.filter((product) => product.category === category.id).length;
+    const count = products.filter((product) => product.active && product.category === category.id).length;
     return `
       <button class="category-card${selectedCategory === category.id ? " is-active" : ""}"
         type="button" data-category="${category.id}" aria-pressed="${selectedCategory === category.id}">
@@ -510,6 +751,7 @@ function renderCategories() {
 function renderProducts() {
   const query = searchInput.value.trim().toLocaleLowerCase(language === "tr" ? "tr-TR" : "en-US");
   const filtered = products.filter((product) => {
+    if (!product.active) return false;
     const matchesCategory = !selectedCategory || product.category === selectedCategory;
     const searchText = `${getText(product.name)} ${getText(categories.find((category) => category.id === product.category)[language])}`
       .toLocaleLowerCase(language === "tr" ? "tr-TR" : "en-US");
@@ -529,8 +771,8 @@ function renderProducts() {
     const unit = getText(product.unit);
     return `
       <article class="product-card">
-        <div class="product-card__visual" style="--product-bg:${product.bg}">
-          <img class="product-card__image" src="${product.image}" alt="${escapeHtml(name)}" loading="lazy" />
+        <div class="product-card__visual" style="--product-bg:${escapeHtml(product.bg)}">
+          <img class="product-card__image" src="${escapeHtml(product.image)}" alt="${escapeHtml(name)}" loading="lazy" />
           ${product.tag ? `<span class="product-card__tag">${escapeHtml(getText(product.tag))}</span>` : ""}
         </div>
         <div class="product-card__body">
@@ -539,7 +781,7 @@ function renderProducts() {
           <span class="product-card__unit">${escapeHtml(unit)}</span>
           <div class="product-card__bottom">
             <span class="product-card__price">${formatPrice(product.price)} <small>${unit === t("unitNotListed") ? t("displayPrice") : t("perUnit", { unit: escapeHtml(unit.split(" · ")[0]) })}</small></span>
-            <button class="add-button${quantity ? " is-added" : ""}" type="button" data-add="${product.id}"
+            <button class="add-button${quantity ? " is-added" : ""}" type="button" data-add="${escapeHtml(product.id)}"
               aria-label="${escapeHtml(name)} — ${quantity ? t("addAnother") : t("addToCart")}">
               ${quantity ? `${quantity} ✓` : "+"}
             </button>
@@ -676,6 +918,259 @@ function renderConfirmation(order) {
   `;
 }
 
+const orderStatuses = {
+  new: "orderStatusNew",
+  accepted: "orderStatusAccepted",
+  rejected: "orderStatusRejected",
+  preparing: "orderStatusPreparing",
+  ready_for_delivery: "orderStatusReady",
+  out_for_delivery: "orderStatusOut",
+  delivered: "orderStatusDelivered",
+  cancelled: "orderStatusCancelled",
+};
+
+const nextOrderStatuses = {
+  new: ["accepted", "rejected"],
+  accepted: ["preparing", "cancelled"],
+  preparing: ["ready_for_delivery", "cancelled"],
+  ready_for_delivery: ["out_for_delivery", "cancelled"],
+  out_for_delivery: ["delivered"],
+  rejected: [],
+  delivered: [],
+  cancelled: [],
+};
+
+const riderTransitions = {
+  accepted: ["preparing"],
+  preparing: ["ready_for_delivery"],
+  ready_for_delivery: ["out_for_delivery"],
+  out_for_delivery: ["delivered"],
+};
+
+function renderCategoryOptions(selected = "") {
+  return categories.map((category) => `
+    <option value="${category.id}" ${selected === category.id ? "selected" : ""}>${escapeHtml(category[language])}</option>
+  `).join("");
+}
+
+function renderImageOptions(selected = "") {
+  const images = [...new Set(defaultProducts.map((product) => product.image))];
+  return images.map((image) => {
+    const product = defaultProducts.find((item) => item.image === image);
+    return `<option value="${escapeHtml(image)}" ${selected === image ? "selected" : ""}>${escapeHtml(getText(product.name))}</option>`;
+  }).join("");
+}
+
+function statusLabel(status) {
+  return t(orderStatuses[status] || "orderStatusNew");
+}
+
+function transitionsFor(order) {
+  if (staffRole === "rider") return riderTransitions[order.status] || [];
+  return nextOrderStatuses[order.status] || [];
+}
+
+function renderStaffPortal() {
+  const isAdmin = staffRole === "admin";
+  $$("[data-staff-role]").forEach((button) => {
+    button.setAttribute("aria-pressed", String(button.dataset.staffRole === staffRole));
+  });
+  $("#staff-catalog-section").hidden = !isAdmin;
+  const newOrders = demoOrders.filter((order) => order.status === "new").length;
+  const inDelivery = demoOrders.filter((order) =>
+    ["preparing", "ready_for_delivery", "out_for_delivery"].includes(order.status)
+  ).length;
+  $("#staff-stats").innerHTML = [
+    [t("staffTotalOrders"), demoOrders.length],
+    [t("staffNeedsAcceptance"), newOrders],
+    [t("staffInDelivery"), inDelivery],
+    [t("staffProducts"), products.filter((product) => product.active).length],
+  ].map(([label, count]) => `
+    <div class="staff-stat"><span>${escapeHtml(label)}</span><strong>${count}</strong></div>
+  `).join("");
+
+  const orders = demoOrders
+    .filter((order) => isAdmin || ["accepted", "preparing", "ready_for_delivery", "out_for_delivery"].includes(order.status))
+    .sort((left, right) => Date.parse(right.createdAt) - Date.parse(left.createdAt));
+  $("#staff-order-count").textContent = t("staffOrderCount", { count: orders.length });
+  $("#staff-order-list").innerHTML = orders.length ? orders.map((order) => {
+    const transitions = transitionsFor(order);
+    const items = order.items.map((item) => `
+      <li><span>${escapeHtml(item.name)} × ${item.quantity}</span><strong>${formatPrice(item.price * item.quantity)}</strong></li>
+    `).join("");
+    const actions = transitions.map((status) => {
+      const label = status === "accepted" ? "orderNextAccepted"
+        : status === "rejected" ? "orderReject"
+          : status === "preparing" ? "orderNextPreparing"
+            : status === "ready_for_delivery" ? "orderNextReady"
+              : status === "out_for_delivery" ? "orderNextOut"
+                : status === "delivered" ? "orderNextDelivered"
+                  : "orderStatusCancelled";
+      return `<button class="button ${status === "rejected" || status === "cancelled" ? "button--outline" : "button--primary"}" type="button" data-demo-order-status="${status}" data-order-id="${escapeHtml(order.id)}">${t(label)}</button>`;
+    }).join("");
+    const createdAt = new Intl.DateTimeFormat(language === "tr" ? "tr-TR" : "en-US", {
+      dateStyle: "short",
+      timeStyle: "short",
+    }).format(new Date(order.createdAt));
+    return `
+      <article class="staff-order-card">
+        <div class="staff-order-card__top">
+          <div><h3>${escapeHtml(order.id)} ${order.sample ? `<small>· ${t("sampleOrder")}</small>` : ""}</h3><small>${createdAt}</small></div>
+          <span class="staff-order-status" data-status="${escapeHtml(order.status)}">${escapeHtml(statusLabel(order.status))}</span>
+        </div>
+        <p class="staff-order-card__address"><strong>${t("staffCustomer")}:</strong> ${escapeHtml(order.name)} · ${escapeHtml(order.phone)}<br><strong>${t("staffAddress")}:</strong> ${escapeHtml(order.address)}</p>
+        <ul class="staff-order-card__items" aria-label="${t("staffOrderItems")}">${items}</ul>
+        <div class="staff-order-card__total"><span>${t("totalLabel")}</span><span>${formatPrice(order.total)}</span></div>
+        ${actions ? `<div class="staff-order-card__actions">${actions}</div>` : ""}
+      </article>
+    `;
+  }).join("") : `<p class="staff-empty">${t("emptyOrders")}</p>`;
+
+  $("#staff-product-form [name='category']").innerHTML = renderCategoryOptions();
+  $("#staff-product-form [name='image']").innerHTML = renderImageOptions(defaultProducts[0].image);
+  $("#staff-product-list").innerHTML = products.map((product) => `
+    <article class="staff-product-card">
+      <form class="staff-product-edit" data-product-id="${escapeHtml(product.id)}">
+        <label class="form-field"><span>${t("productNameTr")}</span><input name="nameTr" value="${escapeHtml(product.name.tr)}" required maxlength="80" /></label>
+        <label class="form-field"><span>${t("productNameEn")}</span><input name="nameEn" value="${escapeHtml(product.name.en)}" required maxlength="80" /></label>
+        <label class="form-field"><span>${t("productPrice")}</span><input name="price" type="number" min="0.01" max="100000" step="0.01" value="${product.price.toFixed(2)}" required /></label>
+        <label class="form-field"><span>${t("productCategory")}</span><select name="category" required>${renderCategoryOptions(product.category)}</select></label>
+        <label class="form-field"><span>${t("productUnitTr")}</span><input name="unitTr" value="${escapeHtml(product.unit.tr)}" required maxlength="40" /></label>
+        <label class="form-field"><span>${t("productUnitEn")}</span><input name="unitEn" value="${escapeHtml(product.unit.en)}" required maxlength="40" /></label>
+        <label class="form-field"><span>${t("productImage")}</span><select name="image" required>${renderImageOptions(product.image)}</select></label>
+        <label class="staff-product-card__status"><input type="checkbox" name="active" ${product.active ? "checked" : ""} />${t("productActive")}</label>
+        <div class="staff-product-card__actions">
+          <small>${product.demoOnly ? t("productDemoOnly") : ""}</small>
+          <button class="button button--primary" type="submit">${t("saveProduct")}</button>
+        </div>
+      </form>
+    </article>
+  `).join("");
+}
+
+function makeProductId(name) {
+  const base = name.toLocaleLowerCase("tr-TR")
+    .replace(/ı/g, "i")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 40) || "urun";
+  let id = base;
+  let suffix = 2;
+  while (products.some((product) => product.id === id)) id = `${base}-${suffix++}`;
+  return id;
+}
+
+function refreshCatalogViews() {
+  renderCategories();
+  renderProducts();
+  renderCart();
+  renderStaffPortal();
+}
+
+function createStaffProduct(form) {
+  const data = new FormData(form);
+  const nameTr = String(data.get("nameTr") || "").trim();
+  const product = {
+    id: makeProductId(nameTr),
+    name: {
+      tr: nameTr,
+      en: String(data.get("nameEn") || "").trim(),
+    },
+    unit: {
+      tr: String(data.get("unitTr") || "").trim(),
+      en: String(data.get("unitEn") || "").trim(),
+    },
+    price: Math.round(Number(data.get("price")) * 100) / 100,
+    category: String(data.get("category") || ""),
+    image: String(data.get("image") || ""),
+    bg: "#e9efdf",
+    active: true,
+    demoOnly: true,
+  };
+  if (!isValidProduct(product)) {
+    showToast(t("staffStorageError"));
+    return;
+  }
+  products = [...products, product];
+  if (!saveProducts()) {
+    products = products.filter((item) => item.id !== product.id);
+    return;
+  }
+  form.reset();
+  refreshCatalogViews();
+  showToast(t("productAdded"));
+}
+
+function updateStaffProduct(form) {
+  const index = products.findIndex((product) => product.id === form.dataset.productId);
+  if (index < 0) return;
+  const data = new FormData(form);
+  const previous = products[index];
+  const updated = {
+    ...previous,
+    name: {
+      tr: String(data.get("nameTr") || "").trim(),
+      en: String(data.get("nameEn") || "").trim(),
+    },
+    unit: {
+      tr: String(data.get("unitTr") || "").trim(),
+      en: String(data.get("unitEn") || "").trim(),
+    },
+    price: Math.round(Number(data.get("price")) * 100) / 100,
+    category: String(data.get("category") || ""),
+    image: String(data.get("image") || ""),
+    active: data.get("active") === "on",
+    demoOnly: previous.demoOnly ||
+      JSON.stringify(previous.name) !== JSON.stringify({ tr: String(data.get("nameTr") || "").trim(), en: String(data.get("nameEn") || "").trim() }) ||
+      JSON.stringify(previous.unit) !== JSON.stringify({ tr: String(data.get("unitTr") || "").trim(), en: String(data.get("unitEn") || "").trim() }) ||
+      previous.price !== Math.round(Number(data.get("price")) * 100) / 100 ||
+      previous.category !== String(data.get("category") || "") ||
+      previous.image !== String(data.get("image") || "") ||
+      previous.active !== (data.get("active") === "on"),
+  };
+  if (!isValidProduct(updated)) {
+    showToast(t("staffStorageError"));
+    return;
+  }
+  const oldProducts = products;
+  products = products.map((product, productIndex) => productIndex === index ? updated : product);
+  if (!saveProducts()) {
+    products = oldProducts;
+    return;
+  }
+  refreshCatalogViews();
+  showToast(t("productSaved"));
+}
+
+function resetStaffCatalog() {
+  const previousProducts = products;
+  const previousCart = cart;
+  try {
+    localStorage.removeItem(PRODUCTS_STORAGE_KEY);
+    products = defaultProducts.map(copyProduct);
+    cart = Object.fromEntries(Object.entries(cart).filter(([id]) => products.some((product) => product.id === id)));
+    saveCart();
+    refreshCatalogViews();
+    showToast(t("catalogResetDone"));
+  } catch (error) {
+    products = previousProducts;
+    cart = previousCart;
+    console.error("Staff demo catalog could not be reset:", error);
+    showToast(t("staffStorageError"));
+  }
+}
+
+function addressForStaff(address) {
+  return [
+    `${address.label} · ${address.neighborhood}`,
+    `${address.district}, ${address.city}`,
+    address.street,
+    address.note && `Not: ${address.note}`,
+  ].filter(Boolean).join(" · ");
+}
+
 function showToast(message) {
   toast.textContent = message;
   toast.classList.add("is-visible");
@@ -684,6 +1179,7 @@ function showToast(message) {
 }
 
 function showWelcome() {
+  $("#staff-portal").hidden = true;
   welcomeScreen.hidden = false;
   header.hidden = true;
   main.hidden = true;
@@ -692,11 +1188,30 @@ function showWelcome() {
 }
 
 function enterShop() {
+  $("#staff-portal").hidden = true;
   welcomeScreen.hidden = true;
   header.hidden = false;
   main.hidden = false;
   footer.hidden = false;
   renderCart();
+}
+
+function enterStaffPortal(role) {
+  staffRole = role === "rider" ? "rider" : "admin";
+  welcomeScreen.hidden = true;
+  header.hidden = true;
+  main.hidden = true;
+  footer.hidden = true;
+  confirmationPage.hidden = true;
+  $("#staff-portal").hidden = false;
+  renderStaffPortal();
+  window.scrollTo({ top: 0 });
+}
+
+function exitStaffPortal() {
+  $("#staff-portal").hidden = true;
+  if (profile.name && profile.phone && profile.addresses.length) enterShop();
+  else showWelcome();
 }
 
 function setOverlay(openElement, closeElement) {
@@ -811,6 +1326,10 @@ async function startWhatsappOrder() {
     return;
   }
   if (!getCartCount()) return;
+  if (getCartItems().some(({ product }) => product.demoOnly)) {
+    showToast(t("demoCatalogCheckoutBlocked"));
+    return;
+  }
 
   const submitButton = $("#whatsapp-order");
   const buttonLabel = $("[data-i18n]", submitButton);
@@ -840,6 +1359,27 @@ async function startWhatsappOrder() {
       showToast(t(messageKey));
       return;
     }
+
+    const storedOrder = {
+      id: result.orderNumber,
+      sample: false,
+      status: "new",
+      name: profile.name,
+      phone: profile.phone,
+      address: addressForStaff(address),
+      createdAt: new Date().toISOString(),
+      items: result.items.map((item) => ({
+        id: item.id,
+        name: products.find((product) => product.id === item.id)?.name.tr || item.id,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+      subtotal: result.subtotal,
+      fee: result.deliveryFee,
+      total: result.total,
+    };
+    demoOrders = [storedOrder, ...demoOrders.filter((order) => order.id !== storedOrder.id)].slice(0, 100);
+    if (!saveDemoOrders()) showToast(t("staffOrderStorageError"));
 
     profile.activeAddressId = address.id;
     saveProfile();
@@ -916,10 +1456,42 @@ $$("[data-language]").forEach((button) => {
   });
 });
 
-$("[data-toggle-language]").addEventListener("click", () => {
-  language = language === "tr" ? "en" : "tr";
-  saveLanguage();
-  applyTranslations();
+$$("[data-toggle-language]").forEach((button) => {
+  button.addEventListener("click", () => {
+    language = language === "tr" ? "en" : "tr";
+    saveLanguage();
+    applyTranslations();
+  });
+});
+
+$("#staff-product-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (!event.currentTarget.reportValidity()) return;
+  createStaffProduct(event.currentTarget);
+});
+
+$("#staff-product-list").addEventListener("submit", (event) => {
+  const form = event.target.closest(".staff-product-edit");
+  if (!form) return;
+  event.preventDefault();
+  if (!form.reportValidity()) return;
+  updateStaffProduct(form);
+});
+
+$("#staff-order-list").addEventListener("click", (event) => {
+  const button = event.target.closest("[data-demo-order-status]");
+  if (!button) return;
+  const order = demoOrders.find((item) => item.id === button.dataset.orderId);
+  if (!order || !transitionsFor(order).includes(button.dataset.demoOrderStatus)) return;
+  const oldStatus = order.status;
+  order.status = button.dataset.demoOrderStatus;
+  if (!saveDemoOrders()) {
+    order.status = oldStatus;
+    showToast(t("staffStorageError"));
+    return;
+  }
+  renderStaffPortal();
+  showToast(t("orderStatusSaved"));
 });
 
 $("#profile-form").addEventListener("submit", (event) => {
@@ -1019,6 +1591,23 @@ searchInput.addEventListener("keydown", (event) => {
 });
 
 document.addEventListener("click", (event) => {
+  const staffRoleButton = event.target.closest("[data-staff-role]");
+  if (staffRoleButton) {
+    enterStaffPortal(staffRoleButton.dataset.staffRole);
+    return;
+  }
+  if (event.target.closest("[data-open-staff]")) {
+    enterStaffPortal("admin");
+    return;
+  }
+  if (event.target.closest("[data-exit-staff]")) {
+    exitStaffPortal();
+    return;
+  }
+  if (event.target.closest("[data-reset-catalog]")) {
+    resetStaffCatalog();
+    return;
+  }
   if (event.target.closest("[data-open-account]")) {
     event.preventDefault();
     openAccount();

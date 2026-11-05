@@ -23,6 +23,17 @@
           </div>
         </div>
 
+        <div class="staff-entry">
+          <div>
+            <strong data-i18n="staffDemoTitle">Personel demosu</strong>
+            <small data-i18n="staffDemoWarning">Sadece bu tarayıcıda çalışan, güvenli olmayan demo alanı.</small>
+          </div>
+          <div class="staff-entry__actions">
+            <button type="button" class="button button--outline" data-staff-role="admin" data-i18n="adminRole">Admin</button>
+            <button type="button" class="button button--outline" data-staff-role="rider" data-i18n="riderRole">Teslimat görevlisi</button>
+          </div>
+        </div>
+
         <div class="welcome-layout">
           <div class="welcome-intro">
             <span class="eyebrow" data-i18n="welcomeEyebrow">ŞENGÜN SÜPERMARKET</span>
@@ -93,6 +104,71 @@
       </div>
     </section>
 
+    <section class="staff-portal" id="staff-portal" hidden aria-labelledby="staff-title">
+      <header class="staff-header">
+        <a class="brand" href="#" aria-label="Şengün Süpermarket">
+          <span class="brand__monogram">Ş</span>
+          <span class="brand__name">Şengün <span>market</span></span>
+        </a>
+        <div class="staff-header__actions">
+          <span class="staff-demo-badge" data-i18n="staffDemoBadge">YEREL DEMO · GÜVENLİ DEĞİL</span>
+          <button class="language-switch language-switch--header" type="button" data-toggle-language aria-label="Change language">EN</button>
+          <button class="button button--outline" type="button" data-exit-staff data-i18n="staffExit">Mağazaya dön</button>
+        </div>
+      </header>
+
+      <main class="staff-shell">
+        <div class="staff-heading">
+          <div>
+            <span class="section-kicker" data-i18n="staffEyebrow">PERSONEL PANELİ</span>
+            <h1 id="staff-title" data-i18n="staffTitle">Sipariş ve mağaza yönetimi</h1>
+            <p data-i18n="staffDemoWarning">Sadece bu tarayıcıda çalışan, güvenli olmayan demo alanı.</p>
+          </div>
+          <div class="staff-role-switch" role="group" aria-label="Staff demo role">
+            <button type="button" data-staff-role="admin" data-i18n="adminRole">Admin</button>
+            <button type="button" data-staff-role="rider" data-i18n="riderRole">Teslimat görevlisi</button>
+          </div>
+        </div>
+
+        <div class="staff-stats" id="staff-stats"></div>
+        <section class="staff-section" aria-labelledby="staff-orders-title">
+          <div class="staff-section__heading">
+            <div>
+              <span class="section-kicker" data-i18n="staffOrdersEyebrow">SİPARİŞ AKIŞI</span>
+              <h2 id="staff-orders-title" data-i18n="staffOrdersTitle">Siparişler</h2>
+            </div>
+            <span class="staff-count" id="staff-order-count"></span>
+          </div>
+          <div class="staff-order-list" id="staff-order-list"></div>
+        </section>
+
+        <section class="staff-section" id="staff-catalog-section" aria-labelledby="staff-catalog-title">
+          <div class="staff-section__heading">
+            <div>
+              <span class="section-kicker" data-i18n="staffCatalogEyebrow">ÜRÜN VE FİYATLAR</span>
+              <h2 id="staff-catalog-title" data-i18n="staffCatalogTitle">Mağaza kataloğu</h2>
+            </div>
+            <button class="button button--outline" type="button" data-reset-catalog data-i18n="resetCatalog">Örnek kataloğu sıfırla</button>
+          </div>
+          <p class="staff-demo-note" data-i18n="staffCatalogNotice">Değişiklikler yalnızca bu tarayıcıdaki vitrin demosuna uygulanır. Gerçek sipariş fiyatları sunucu kataloğundan alınır.</p>
+          <form class="staff-product-form" id="staff-product-form">
+            <h3 data-i18n="addProductTitle">Ürün ekle</h3>
+            <div class="staff-product-form__grid">
+              <label class="form-field"><span data-i18n="productNameTr">Ürün adı (Türkçe)</span><input name="nameTr" required maxlength="80" /></label>
+              <label class="form-field"><span data-i18n="productNameEn">Ürün adı (İngilizce)</span><input name="nameEn" required maxlength="80" /></label>
+              <label class="form-field"><span data-i18n="productPrice">Fiyat (₺)</span><input name="price" type="number" min="0.01" max="100000" step="0.01" required /></label>
+              <label class="form-field"><span data-i18n="productCategory">Kategori</span><select name="category" required></select></label>
+              <label class="form-field"><span data-i18n="productUnitTr">Birim (Türkçe)</span><input name="unitTr" required maxlength="40" /></label>
+              <label class="form-field"><span data-i18n="productUnitEn">Birim (İngilizce)</span><input name="unitEn" required maxlength="40" /></label>
+              <label class="form-field"><span data-i18n="productImage">Örnek görsel</span><select name="image" required></select></label>
+            </div>
+            <button class="button button--primary" type="submit" data-i18n="addProduct">Ürünü ekle</button>
+          </form>
+          <div class="staff-product-list" id="staff-product-list"></div>
+        </section>
+      </main>
+    </section>
+
     <header class="site-header" id="site-header" hidden>
       <div class="header-top">
         <a class="brand" href="#" aria-label="Şengün Süpermarket" data-home-link>
@@ -132,6 +208,7 @@
         <a href="#urunler" data-i18n="allProducts">Tüm ürünler</a>
         <a href="#firsatlar" data-i18n="offers">Fırsatlar</a>
         <a href="#kategoriler" data-i18n="categories">Kategoriler</a>
+        <button type="button" data-open-staff data-i18n="staffDemoTitle">Personel demosu</button>
         <span class="quick-nav__note" data-i18n="demoPrices">Görsellerdeki fiyatlar güncel olmayabilir</span>
       </nav>
     </header>
