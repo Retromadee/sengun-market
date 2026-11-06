@@ -1216,7 +1216,7 @@ function exitStaffPortal() {
 
 function setOverlay(openElement, closeElement) {
   if (closeElement) {
-    closeElement.hidden = true;
+    openElement.hidden = true;
     if (accountOverlay.hidden && cartOverlay.hidden && checkoutOverlay.hidden) {
       document.body.classList.remove("has-overlay");
     }
