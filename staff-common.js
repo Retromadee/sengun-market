@@ -95,6 +95,7 @@
       orderReject: "Reddet",
       customer: "Müşteri",
       address: "Teslimat adresi",
+      openMapLocation: "Harita konumunu aç",
       items: "Ürünler",
       total: "Tahmini toplam",
       sampleOrder: "Örnek sipariş",
@@ -157,6 +158,7 @@
       orderReject: "Reject",
       customer: "Customer",
       address: "Delivery address",
+      openMapLocation: "Open map location",
       items: "Items",
       total: "Estimated total",
       sampleOrder: "Sample order",
@@ -325,7 +327,13 @@
   }
 
   function validOrder(order) {
-    return order && typeof order.id === "string" && typeof order.name === "string" &&
+    const locationValid = !order?.location || (
+      Number.isFinite(order.location.latitude) && order.location.latitude >= -90 && order.location.latitude <= 90 &&
+      Number.isFinite(order.location.longitude) && order.location.longitude >= -180 && order.location.longitude <= 180 &&
+      (order.location.accuracy === undefined ||
+        (Number.isFinite(order.location.accuracy) && order.location.accuracy >= 0 && order.location.accuracy <= 100000))
+    );
+    return order && locationValid && typeof order.id === "string" && typeof order.name === "string" &&
       typeof order.phone === "string" && typeof order.address === "string" &&
       Object.hasOwn(statusKeys, order.status) && typeof order.createdAt === "string" &&
       Number.isFinite(Date.parse(order.createdAt)) && Number.isFinite(order.total) &&
@@ -386,6 +394,9 @@
     const items = order.items.map((item) =>
       `<li><span>${escapeHtml(item.name)} × ${item.quantity}</span><strong>${formatPrice(item.price * item.quantity)}</strong></li>`
     ).join("");
+    const locationLink = order.location
+      ? `<a class="address-map-link" href="https://maps.google.com/?q=${order.location.latitude},${order.location.longitude}" target="_blank" rel="noopener noreferrer">${escapeHtml(translate("openMapLocation"))}</a>`
+      : "";
 
     return `
       <article class="staff-order-card">
@@ -393,7 +404,7 @@
           <div><h3>${escapeHtml(order.id)} ${order.sample ? `<small>· ${escapeHtml(translate("sampleOrder"))}</small>` : ""}</h3><small>${escapeHtml(createdAt)}</small></div>
           <span class="staff-order-status" data-status="${escapeHtml(order.status)}">${escapeHtml(translate(statusKeys[order.status]))}</span>
         </div>
-        <p class="staff-order-card__address"><strong>${escapeHtml(translate("customer"))}:</strong> ${escapeHtml(order.name)} · ${escapeHtml(order.phone)}<br><strong>${escapeHtml(translate("address"))}:</strong> ${escapeHtml(order.address)}</p>
+        <p class="staff-order-card__address"><strong>${escapeHtml(translate("customer"))}:</strong> ${escapeHtml(order.name)} · ${escapeHtml(order.phone)}<br><strong>${escapeHtml(translate("address"))}:</strong> ${escapeHtml(order.address)}${locationLink ? `<br>${locationLink}` : ""}</p>
         <ul class="staff-order-card__items" aria-label="${escapeHtml(translate("items"))}">${items}</ul>
         <div class="staff-order-card__total"><span>${escapeHtml(translate("total"))}</span><span>${formatPrice(order.total)}</span></div>
         ${actions ? `<div class="staff-order-card__actions">${actions}</div>` : ""}

@@ -70,6 +70,13 @@
               </label>
               <div class="form-field form-field--full">
                 <span data-i18n="firstDeliveryAddress">İlk teslimat adresin</span>
+                <button class="button button--outline get-location-button" type="button" data-get-current-location>
+                  <span data-i18n="useCurrentLocation">Canlı konumumu kullan</span>
+                </button>
+                <span class="location-status" data-location-status role="status" aria-live="polite"></span>
+                <input type="hidden" name="locationLatitude" />
+                <input type="hidden" name="locationLongitude" />
+                <input type="hidden" name="locationAccuracy" />
               </div>
               <label class="form-field">
                 <span data-i18n="addressLabel">Adres adı</span>
@@ -96,7 +103,7 @@
                 <input name="note" maxlength="120" data-i18n-placeholder="addressNotePlaceholder" placeholder="Daireyi bulmaya yardımcı olacak bilgi" />
               </label>
             </div>
-            <p class="privacy-note" data-i18n="localStorageNote">Bilgilerin yalnızca bu tarayıcıda saklanır. WhatsApp'a ancak sipariş mesajını açmayı seçtiğinde aktarılır.</p>
+            <p class="privacy-note" data-i18n="localStorageNote">Bilgilerin ve konumun bu cihazda saklanır; yalnızca sipariş verdiğinde mağazaya iletilir.</p>
             <button class="button button--primary button--large button--wide" type="submit">
               <span data-i18n="saveAndShop">Bilgilerimi kaydet ve alışverişe başla</span>
               <span aria-hidden="true">→</span>
@@ -243,6 +250,15 @@
         <form id="address-form" class="address-form" hidden>
           <h3 data-i18n="addAddress">Yeni adres ekle</h3>
           <div class="form-grid">
+            <div class="form-field form-field--full">
+              <button class="button button--outline get-location-button" type="button" data-get-current-location>
+                <span data-i18n="useCurrentLocation">Canlı konumumu kullan</span>
+              </button>
+              <span class="location-status" data-location-status role="status" aria-live="polite"></span>
+              <input type="hidden" name="locationLatitude" />
+              <input type="hidden" name="locationLongitude" />
+              <input type="hidden" name="locationAccuracy" />
+            </div>
             <label class="form-field"><span data-i18n="addressLabel">Adres adı</span><input name="label" required maxlength="35" /></label>
             <label class="form-field"><span data-i18n="city">İl</span><input name="city" required maxlength="50" /></label>
             <label class="form-field"><span data-i18n="district">İlçe</span><input name="district" required maxlength="50" /></label>
@@ -253,7 +269,7 @@
           <div class="form-actions"><button class="button button--outline" type="button" id="cancel-address" data-i18n="cancel">Vazgeç</button><button class="button button--primary" type="submit" data-i18n="saveAddress">Adresi kaydet</button></div>
         </form>
         <button class="button button--outline button--wide add-address-button" type="button" id="add-address" data-i18n="addAddress">Yeni adres ekle</button>
-        <p class="privacy-note" data-i18n="localStorageNote">Bilgilerin yalnızca bu tarayıcıda saklanır. WhatsApp'a ancak sipariş mesajını açmayı seçtiğinde aktarılır.</p>
+        <p class="privacy-note" data-i18n="localStorageNote">Bilgilerin ve konumun bu cihazda saklanır; yalnızca sipariş verdiğinde mağazaya iletilir.</p>
       </section>
     </div>
 

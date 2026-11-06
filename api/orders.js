@@ -21,9 +21,20 @@ function cleanText(value, maxLength) {
 
 function validAddress(address) {
   if (!address || typeof address !== "object" || Array.isArray(address)) return false;
-  return ["label", "city", "district", "neighborhood", "street"].every((key) =>
+  const hasTextAddress = ["city", "district", "neighborhood", "street"].every((key) =>
     cleanText(address[key], 200).length > 0
   );
+  const hasLocation = validLocation(address.location);
+  const locationIsValid = address.location === undefined || address.location === null || hasLocation;
+  return cleanText(address.label, 35).length > 0 && locationIsValid && (hasTextAddress || hasLocation);
+}
+
+function validLocation(location) {
+  return location && typeof location === "object" && !Array.isArray(location) &&
+    Number.isFinite(location.latitude) && location.latitude >= -90 && location.latitude <= 90 &&
+    Number.isFinite(location.longitude) && location.longitude >= -180 && location.longitude <= 180 &&
+    (location.accuracy === undefined ||
+      (Number.isFinite(location.accuracy) && location.accuracy >= 0 && location.accuracy <= 100000));
 }
 
 function formatPrice(value) {
@@ -84,9 +95,17 @@ function buildOrder(body) {
     neighborhood: cleanText(address.neighborhood, 70),
     street: cleanText(address.street, 180),
     note: cleanText(address.note, 120),
+    location: validLocation(address.location) ? {
+      latitude: Math.round(address.location.latitude * 1_000_000) / 1_000_000,
+      longitude: Math.round(address.location.longitude * 1_000_000) / 1_000_000,
+      ...(Number.isFinite(address.location.accuracy)
+        ? { accuracy: Math.round(address.location.accuracy) }
+        : {}),
+    } : null,
   };
-  if (!safeAddress.label || !safeAddress.city || !safeAddress.district ||
-      !safeAddress.neighborhood || !safeAddress.street) {
+  const hasTextAddress = safeAddress.city && safeAddress.district &&
+    safeAddress.neighborhood && safeAddress.street;
+  if (!safeAddress.label || (!hasTextAddress && !safeAddress.location)) {
     return null;
   }
 
@@ -103,8 +122,10 @@ function buildOrder(body) {
     safeAddress.label,
     safeAddress.neighborhood,
     safeAddress.street,
-    `${safeAddress.district}/${safeAddress.city}`,
+    [safeAddress.district, safeAddress.city].filter(Boolean).join("/"),
     safeAddress.note && `Not: ${safeAddress.note}`,
+    safeAddress.location && `Harita konumu: https://maps.google.com/?q=${safeAddress.location.latitude},${safeAddress.location.longitude}`,
+    safeAddress.location?.accuracy !== undefined && `Konum doğruluğu: yaklaşık ±${safeAddress.location.accuracy} m`,
   ].filter(Boolean).join(", ");
   const message = [
     "ŞENGÜN SÜPERMARKET | SİPARİŞ ÖN FİŞİ",
@@ -192,6 +213,7 @@ module.exports = async function handler(req, res) {
 
     return res.status(201).json({
       orderNumber: order.orderNumber,
+      address: order.address,
       items: order.items.map(({ id, quantity, price }) => ({ id, quantity, price })),
       subtotal: order.subtotal,
       deliveryFee: order.deliveryFee,

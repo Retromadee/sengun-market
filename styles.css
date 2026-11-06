@@ -69,6 +69,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .form-field textarea { min-height: 67px; resize: vertical; }
 .form-field input::placeholder, .form-field textarea::placeholder { color: #848e84; }
 .form-field input:focus, .form-field textarea:focus, .form-field select:focus { border-color: #839c6b; }
+.get-location-button { justify-self: start; width: max-content; max-width: 100%; }
+.location-status { color: var(--muted); font-size: 12px; font-weight: 400; line-height: 1.5; }
+.address-map-link { display: inline-flex; width: max-content; max-width: 100%; color: var(--green); font-size: 12px; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+.saved-address__actions { display: flex; flex: 0 0 auto; align-items: center; gap: 8px; }
 .privacy-note { margin: 13px 0; color: #677369; font-size: 11px; line-height: 1.55; }
 .button { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; gap: 14px; padding: 0 17px; border: 1px solid transparent; border-radius: 5px; font-size: 14px; font-weight: 650; text-align: center; cursor: pointer; transition: background .16s, border-color .16s, transform .16s; }
 .button:hover { transform: translateY(-1px); }

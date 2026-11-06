@@ -178,6 +178,62 @@ test("uses server prices, calculates delivery, and sends a formatted receipt", a
   assert.match(payload.template.components[0].parameters[0].text, /₺69,90/);
 });
 
+test("sends a validated live location pin in the order receipt", async () => {
+  let receipt;
+  global.fetch = async (_url, options) => {
+    receipt = JSON.parse(options.body).template.components[0].parameters[0].text;
+    return { ok: true, json: async () => ({ messages: [{ id: "wamid.location" }] }) };
+  };
+  const response = createResponse();
+  const address = {
+    label: "Current location",
+    city: "",
+    district: "",
+    neighborhood: "",
+    street: "",
+    note: "",
+    location: { latitude: 41.008237, longitude: 28.978359, accuracy: 18 },
+  };
+
+  await handler({
+    method: "POST",
+    body: { ...validOrder, address },
+  }, response);
+
+  assert.equal(response.statusCode, 201);
+  assert.deepEqual(response.body.address.location, address.location);
+  assert.match(receipt, /https:\/\/maps\.google\.com\/\?q=41\.008237,28\.978359/);
+  assert.match(receipt, /Konum doğruluğu: yaklaşık ±18 m/);
+});
+
+test("rejects malformed or out-of-range live location coordinates", async () => {
+  let fetchCalled = false;
+  global.fetch = async () => {
+    fetchCalled = true;
+    throw new Error("Unexpected network request");
+  };
+  const invalidLocations = [
+    { latitude: 91, longitude: 28 },
+    { latitude: 41, longitude: -181 },
+    { latitude: "41.008", longitude: 28.978 },
+    { latitude: 41, longitude: 28, accuracy: 100001 },
+  ];
+
+  for (const location of invalidLocations) {
+    const response = createResponse();
+    await handler({
+      method: "POST",
+      body: {
+        ...validOrder,
+        address: { ...validOrder.address, location },
+      },
+    }, response);
+    assert.equal(response.statusCode, 400);
+    assert.deepEqual(response.body, { error: "invalid_order" });
+  }
+  assert.equal(fetchCalled, false);
+});
+
 test("waives delivery fee at the free-delivery threshold", async () => {
   global.fetch = async () => ({
     ok: true,

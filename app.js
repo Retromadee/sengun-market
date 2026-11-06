@@ -32,7 +32,17 @@ const translations = {
     neighborhoodPlaceholder: "Mahalle",
     streetPlaceholder: "Cadde/sokak, bina no, daire no",
     addressNotePlaceholder: "Daireyi bulmaya yardımcı olacak bilgi",
-    localStorageNote: "Bilgilerin bu cihazda saklanır. Sipariş verdiğinde sipariş ve teslimat bilgilerin mağazaya iletilir.",
+    localStorageNote: "Bilgilerin ve konumun bu cihazda saklanır; yalnızca sipariş verdiğinde mağazaya iletilir.",
+    useCurrentLocation: "Canlı konumumu kullan",
+    gettingLocation: "Konum alınıyor…",
+    locationCaptured: "Konum alındı. Bu pin sipariş verdiğinde mağazaya iletilir.",
+    locationPermissionDenied: "Konum izni verilmedi. Tarayıcı ayarlarından izin ver veya adresi elle gir.",
+    locationUnavailable: "Konum alınamadı. GPS'i açıp tekrar dene veya adresi elle gir.",
+    locationTimeout: "Konum isteği zaman aşımına uğradı. Tekrar dene veya adresi elle gir.",
+    locationUnsupported: "Bu tarayıcı konum desteği sunmuyor. Adresi elle gir.",
+    currentLocation: "Canlı konum",
+    openMapLocation: "Harita konumunu aç",
+    locationAccuracy: "Konum doğruluğu yaklaşık ±{meters} m",
     staffDemoTitle: "Personel demosu",
     staffDemoWarning: "Yalnızca bu tarayıcıda çalışan örnek verili demo. Güvenli giriş değildir.",
     staffDemoBadge: "YEREL DEMO · GÜVENLİ DEĞİL",
@@ -231,7 +241,17 @@ const translations = {
     neighborhoodPlaceholder: "Neighborhood",
     streetPlaceholder: "Street, building number, apartment",
     addressNotePlaceholder: "Details to help find your door",
-    localStorageNote: "Your details are stored on this device. Order and delivery details are sent to the store when you place an order.",
+    localStorageNote: "Your details and location stay on this device and are shared with the store only when you place an order.",
+    useCurrentLocation: "Use my live location",
+    gettingLocation: "Getting your location…",
+    locationCaptured: "Location captured. This pin will be sent to the store with your order.",
+    locationPermissionDenied: "Location permission was denied. Allow it in your browser settings or enter the address manually.",
+    locationUnavailable: "Could not get your location. Turn on GPS and try again, or enter the address manually.",
+    locationTimeout: "The location request timed out. Try again or enter the address manually.",
+    locationUnsupported: "This browser does not support location. Enter the address manually.",
+    currentLocation: "Current location",
+    openMapLocation: "Open map location",
+    locationAccuracy: "Location accuracy approximately ±{meters} m",
     staffDemoTitle: "Staff demo",
     staffDemoWarning: "Sample-data demo stored only in this browser. This is not secure staff sign-in.",
     staffDemoBadge: "LOCAL DEMO · NOT SECURE",
@@ -479,6 +499,20 @@ function saveLanguage() {
   }
 }
 
+function validCoordinates(location) {
+  return location && typeof location === "object" && !Array.isArray(location) &&
+    Number.isFinite(location.latitude) && location.latitude >= -90 && location.latitude <= 90 &&
+    Number.isFinite(location.longitude) && location.longitude >= -180 && location.longitude <= 180 &&
+    (location.accuracy === undefined ||
+      (Number.isFinite(location.accuracy) && location.accuracy >= 0 && location.accuracy <= 100000));
+}
+
+function mapLocationUrl(location) {
+  return validCoordinates(location)
+    ? `https://maps.google.com/?q=${location.latitude},${location.longitude}`
+    : "";
+}
+
 function loadProfile() {
   try {
     const stored = JSON.parse(localStorage.getItem(PROFILE_STORAGE_KEY) || "null");
@@ -489,7 +523,14 @@ function loadProfile() {
       address && typeof address.id === "string" && typeof address.label === "string" &&
       typeof address.city === "string" && typeof address.district === "string" &&
       typeof address.neighborhood === "string" && typeof address.street === "string"
-    );
+    ).map((address) => ({
+      ...address,
+      location: validCoordinates(address.location) ? {
+        latitude: address.location.latitude,
+        longitude: address.location.longitude,
+        ...(Number.isFinite(address.location.accuracy) ? { accuracy: address.location.accuracy } : {}),
+      } : null,
+    }));
     const activeAddressId = addresses.some((address) => address.id === stored.activeAddressId)
       ? stored.activeAddressId
       : addresses[0]?.id || "";
@@ -645,18 +686,29 @@ function getCartCount() {
 }
 
 function makeAddress(formData) {
+  const rawLatitude = String(formData.get("locationLatitude") || "");
+  const rawLongitude = String(formData.get("locationLongitude") || "");
+  const rawAccuracy = String(formData.get("locationAccuracy") || "");
+  const latitude = Number(rawLatitude);
+  const longitude = Number(rawLongitude);
+  const accuracy = Number(rawAccuracy);
+  const location = rawLatitude && rawLongitude && Number.isFinite(latitude) && Number.isFinite(longitude)
+    ? { latitude, longitude, ...(rawAccuracy && Number.isFinite(accuracy) && accuracy >= 0 ? { accuracy } : {}) }
+    : null;
   return {
     id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-    label: String(formData.get("label") || "").trim(),
+    label: String(formData.get("label") || (location ? t("currentLocation") : "")).trim(),
     city: String(formData.get("city") || "").trim(),
     district: String(formData.get("district") || "").trim(),
     neighborhood: String(formData.get("neighborhood") || "").trim(),
     street: String(formData.get("street") || "").trim(),
     note: String(formData.get("note") || "").trim(),
+    location: validCoordinates(location) ? location : null,
   };
 }
 
 function addressSummary(address) {
+  if (!address.district && !address.city) return address.label;
   return t("addressSummary", { label: address.label, district: address.district, city: address.city });
 }
 
@@ -778,11 +830,14 @@ function renderAccount() {
           <span class="saved-address__details">
             <strong>${escapeHtml(address.label)}${address.id === profile.activeAddressId ? ` <small>${t("selected")}</small>` : ""}</strong>
             <span>${escapeHtml(addressSummary(address))}</span>
-            <small>${escapeHtml(address.neighborhood)}, ${escapeHtml(address.street)}</small>
+            <small>${escapeHtml([address.neighborhood, address.street].filter(Boolean).join(", "))}</small>
             ${address.note ? `<small>${escapeHtml(address.note)}</small>` : ""}
           </span>
         </button>
-        <button class="remove-address" type="button" data-remove-address="${address.id}" aria-label="${t("removeAddress")}: ${escapeHtml(address.label)}">×</button>
+        <div class="saved-address__actions">
+          ${address.location ? `<a class="address-map-link" href="${mapLocationUrl(address.location)}" target="_blank" rel="noopener noreferrer">${t("openMapLocation")}</a>` : ""}
+          <button class="remove-address" type="button" data-remove-address="${address.id}" aria-label="${t("removeAddress")}: ${escapeHtml(address.label)}">×</button>
+        </div>
       </article>
     `).join("")
     : `<p class="empty-addresses">${t("noAddresses")}</p>`;
@@ -826,7 +881,7 @@ function renderConfirmation(order) {
     </div>
     <div class="confirmation-details">
       <div><span>${t("customer")}</span><strong>${escapeHtml(profile.name)}<br>${escapeHtml(profile.phone)}</strong></div>
-      <div><span>${t("deliveryAddress")}</span><strong>${escapeHtml(address.label)} · ${escapeHtml(address.neighborhood)}, ${escapeHtml(address.district)}, ${escapeHtml(address.city)}<br>${escapeHtml(address.street)}</strong></div>
+      <div><span>${t("deliveryAddress")}</span><strong>${escapeHtml(address.label)} · ${escapeHtml([address.neighborhood, address.district, address.city].filter(Boolean).join(", "))}<br>${escapeHtml(address.street)}${address.location ? `<br><a class="address-map-link" href="${mapLocationUrl(address.location)}" target="_blank" rel="noopener noreferrer">${t("openMapLocation")}</a>` : ""}</strong></div>
     </div>
     <div class="confirmation-order">
       <h2>${t("orderSummary")}</h2>
@@ -851,6 +906,7 @@ function addressForStaff(address) {
     `${address.district}, ${address.city}`,
     address.street,
     address.note && `Not: ${address.note}`,
+    address.location && `GPS: ${address.location.latitude}, ${address.location.longitude}`,
   ].filter(Boolean).join(" · ");
 }
 
@@ -956,7 +1012,9 @@ function saveAddressFromForm(form) {
     return false;
   }
   const address = makeAddress(new FormData(form));
-  if (!address.label || !address.city || !address.district || !address.neighborhood || !address.street) {
+  if (!address.label || (!address.location &&
+      (!address.city || !address.district || !address.neighborhood || !address.street))) {
+    setLocationFieldsRequired(form, true);
     form.reportValidity();
     return false;
   }
@@ -971,11 +1029,67 @@ function saveAddressFromForm(form) {
     return false;
   }
   form.reset();
+  setLocationFieldsRequired(form, true);
   renderAccount();
   renderCart();
   if (!checkoutOverlay.hidden) renderCheckout();
   showToast(t("addressSaved"));
   return true;
+}
+
+function setLocationFieldsRequired(form, required) {
+  ["city", "district", "neighborhood", "street"].forEach((name) => {
+    const field = form.elements.namedItem(name);
+    if (field) field.required = required;
+  });
+}
+
+function requestCurrentLocation(button) {
+  const form = button.closest("form");
+  const status = form.querySelector("[data-location-status]");
+  const label = button.querySelector("[data-i18n]");
+  if (!navigator.geolocation) {
+    status.textContent = t("locationUnsupported");
+    return;
+  }
+
+  button.disabled = true;
+  label.textContent = t("gettingLocation");
+  status.textContent = "";
+  const finish = (message) => {
+    button.disabled = false;
+    label.textContent = t("useCurrentLocation");
+    status.textContent = message;
+  };
+  const fail = (error) => {
+    const message = error.code === 1
+      ? t("locationPermissionDenied")
+      : error.code === 3 ? t("locationTimeout") : t("locationUnavailable");
+    finish(message);
+  };
+
+  try {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude, accuracy } = position.coords;
+      if (!Number.isFinite(latitude) || !Number.isFinite(longitude) ||
+          latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180 ||
+          (Number.isFinite(accuracy) && accuracy > 100000)) {
+        finish(t("locationUnavailable"));
+        return;
+      }
+      form.elements.locationLatitude.value = latitude.toFixed(6);
+      form.elements.locationLongitude.value = longitude.toFixed(6);
+      const accuracyMeters = Number.isFinite(accuracy) && accuracy >= 0 ? Math.round(accuracy) : null;
+      form.elements.locationAccuracy.value = accuracyMeters === null ? "" : String(accuracyMeters);
+      const labelInput = form.elements.label;
+      if (labelInput && !labelInput.value.trim()) labelInput.value = t("currentLocation");
+      setLocationFieldsRequired(form, false);
+      finish(`${t("locationCaptured")}${accuracyMeters === null ? "" : ` ${t("locationAccuracy", { meters: accuracyMeters })}`}`);
+    }, fail, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+  } catch (error) {
+    console.error("Browser location request failed:", error);
+    finish(t("locationUnavailable"));
+  }
 }
 
 async function startWhatsappOrder() {
@@ -1041,6 +1155,7 @@ async function startWhatsappOrder() {
       fee: result.deliveryFee,
       total: result.total,
     };
+    storedOrder.location = result.address?.location || null;
     if (!window.SengunStaff.addOrder(storedOrder)) showToast(t("staffOrderStorageError"));
 
     profile.activeAddressId = address.id;
@@ -1094,6 +1209,11 @@ function handleWelcomeSubmit(event) {
   if (!form.reportValidity()) return;
   const formData = new FormData(form);
   const address = makeAddress(formData);
+  if (!address.location && (!address.city || !address.district || !address.neighborhood || !address.street)) {
+    setLocationFieldsRequired(form, true);
+    form.reportValidity();
+    return;
+  }
   profile = {
     name: String(formData.get("name")).trim(),
     phone: String(formData.get("phone")).trim(),
@@ -1109,6 +1229,11 @@ function handleWelcomeSubmit(event) {
 
 $("#welcome-form").addEventListener("submit", handleWelcomeSubmit);
 $("#google-demo").addEventListener("click", () => showToast(t("googleDemoMessage")));
+
+document.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-get-current-location]");
+  if (button) requestCurrentLocation(button);
+});
 
 $$("[data-language]").forEach((button) => {
   button.addEventListener("click", () => {
@@ -1151,8 +1276,10 @@ $("#add-address").addEventListener("click", () => {
 });
 
 $("#cancel-address").addEventListener("click", () => {
-  $("#address-form").reset();
-  $("#address-form").hidden = true;
+  const form = $("#address-form");
+  form.reset();
+  setLocationFieldsRequired(form, true);
+  form.hidden = true;
 });
 
 $("#saved-addresses").addEventListener("click", (event) => {
