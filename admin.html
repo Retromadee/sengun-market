@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8f8f3" />
+    <title>Şengün Süpermarket · Admin</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./staff.css" />
+    <script src="./catalog-data.js" defer></script>
+    <script src="./staff-common.js" defer></script>
+    <script src="./admin.js" defer></script>
+  </head>
+  <body class="staff-page">
+    <header class="staff-header">
+      <a class="brand" href="./index.html" aria-label="Şengün Süpermarket">
+        <span class="brand__monogram">Ş</span>
+        <span class="brand__name">Şengün <span>market</span></span>
+      </a>
+      <nav class="staff-header__actions" aria-label="Staff pages">
+        <a class="button button--outline" href="./admin.html" aria-current="page" data-staff-i18n="adminRole">Admin</a>
+        <a class="button button--outline" href="./delivery.html" data-staff-i18n="deliveryRole">Teslimat görevlisi</a>
+        <span class="staff-demo-badge" data-staff-i18n="demoWarning">Yerel tarayıcı demosu · Güvenli giriş değildir · Değişiklikler bu cihazda saklanır.</span>
+        <button class="language-switch language-switch--header" type="button" data-toggle-language>EN</button>
+        <a class="button button--outline" href="./index.html" data-staff-i18n="store">Mağazaya dön</a>
+      </nav>
+    </header>
+
+    <main class="staff-shell">
+      <div class="staff-heading">
+        <div>
+          <span class="section-kicker" data-staff-i18n="catalogEyebrow">ÜRÜN VE FİYATLAR</span>
+          <h1 data-staff-i18n="adminTitle">Admin paneli</h1>
+          <p data-staff-i18n="adminSubtitle">Siparişleri ve ürün kataloğunu yönetin.</p>
+        </div>
+      </div>
+
+      <div class="staff-stats" id="staff-stats"></div>
+      <section class="staff-section" aria-labelledby="staff-orders-title">
+        <div class="staff-section__heading">
+          <div>
+            <span class="section-kicker" data-staff-i18n="ordersEyebrow">SİPARİŞ AKIŞI</span>
+            <h2 id="staff-orders-title" data-staff-i18n="orders">Siparişler</h2>
+          </div>
+          <span class="staff-count" id="staff-order-count"></span>
+        </div>
+        <div class="staff-order-list" id="staff-order-list"></div>
+      </section>
+
+      <section class="staff-section" aria-labelledby="staff-catalog-title">
+        <div class="staff-section__heading">
+          <div>
+            <span class="section-kicker" data-staff-i18n="catalogEyebrow">ÜRÜN VE FİYATLAR</span>
+            <h2 id="staff-catalog-title" data-staff-i18n="catalog">Mağaza kataloğu</h2>
+          </div>
+          <button class="button button--outline" type="button" id="reset-catalog" data-staff-i18n="resetCatalog">Örnek kataloğu sıfırla</button>
+        </div>
+        <p class="staff-demo-note" data-staff-i18n="catalogNotice">Değişiklikler yalnızca bu tarayıcıdaki vitrine uygulanır. Gerçek sipariş fiyatları sunucu kataloğundan alınır.</p>
+        <form class="staff-product-form" id="staff-product-form">
+          <h3 data-staff-i18n="addProductTitle">Ürün ekle</h3>
+          <div class="staff-product-form__grid">
+            <label class="form-field"><span data-staff-i18n="productNameTr">Ürün adı (Türkçe)</span><input name="nameTr" required maxlength="80" /></label>
+            <label class="form-field"><span data-staff-i18n="productNameEn">Ürün adı (İngilizce)</span><input name="nameEn" required maxlength="80" /></label>
+            <label class="form-field"><span data-staff-i18n="productPrice">Fiyat (₺)</span><input name="price" type="number" min="0.01" max="100000" step="0.01" required /></label>
+            <label class="form-field"><span data-staff-i18n="productCategory">Kategori</span><select name="category" required></select></label>
+            <label class="form-field"><span data-staff-i18n="productUnitTr">Birim (Türkçe)</span><input name="unitTr" required maxlength="40" /></label>
+            <label class="form-field"><span data-staff-i18n="productUnitEn">Birim (İngilizce)</span><input name="unitEn" required maxlength="40" /></label>
+            <label class="form-field"><span data-staff-i18n="productImage">Örnek görsel</span><select name="image" required></select></label>
+          </div>
+          <button class="button button--primary" type="submit" data-staff-i18n="addProduct">Ürünü ekle</button>
+        </form>
+        <div class="staff-product-list" id="staff-product-list"></div>
+      </section>
+    </main>
+    <div class="toast" id="staff-toast" role="status" aria-live="polite"></div>
+  </body>
+</html>

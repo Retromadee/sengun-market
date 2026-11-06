@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8f8f3" />
+    <title>Şengün Süpermarket · Teslimat</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./staff.css" />
+    <script src="./catalog-data.js" defer></script>
+    <script src="./staff-common.js" defer></script>
+    <script src="./delivery.js" defer></script>
+  </head>
+  <body class="staff-page">
+    <header class="staff-header">
+      <a class="brand" href="./index.html" aria-label="Şengün Süpermarket">
+        <span class="brand__monogram">Ş</span>
+        <span class="brand__name">Şengün <span>market</span></span>
+      </a>
+      <nav class="staff-header__actions" aria-label="Staff pages">
+        <a class="button button--outline" href="./admin.html" data-staff-i18n="adminRole">Admin</a>
+        <a class="button button--outline" href="./delivery.html" aria-current="page" data-staff-i18n="deliveryRole">Teslimat görevlisi</a>
+        <span class="staff-demo-badge" data-staff-i18n="demoWarning">Yerel tarayıcı demosu · Güvenli giriş değildir · Değişiklikler bu cihazda saklanır.</span>
+        <button class="language-switch language-switch--header" type="button" data-toggle-language>EN</button>
+        <a class="button button--outline" href="./index.html" data-staff-i18n="store">Mağazaya dön</a>
+      </nav>
+    </header>
+
+    <main class="staff-shell">
+      <div class="staff-heading">
+        <div>
+          <span class="section-kicker" data-staff-i18n="ordersEyebrow">SİPARİŞ AKIŞI</span>
+          <h1 data-staff-i18n="riderTitle">Teslimat paneli</h1>
+          <p data-staff-i18n="riderSubtitle">Hazırlanan ve teslimata çıkan siparişleri yönetin.</p>
+        </div>
+      </div>
+      <div class="staff-stats" id="staff-stats"></div>
+      <section class="staff-section" aria-labelledby="staff-orders-title">
+        <div class="staff-section__heading">
+          <div>
+            <span class="section-kicker" data-staff-i18n="ordersEyebrow">SİPARİŞ AKIŞI</span>
+            <h2 id="staff-orders-title" data-staff-i18n="orders">Siparişler</h2>
+          </div>
+          <span class="staff-count" id="staff-order-count"></span>
+        </div>
+        <div class="staff-order-list" id="staff-order-list"></div>
+      </section>
+    </main>
+    <div class="toast" id="staff-toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
