@@ -8,15 +8,19 @@ const translations = {
   tr: {
     welcomeEyebrow: "ŞENGÜN SÜPERMARKET",
     welcomeTitle: "Alışverişe<br>başlayalım.",
-    welcomeIntro: "Teslimat bilgilerini ekle, sepetini oluştur. Bilgilerin bu cihazda saklanır.",
-    welcomeStepProfile: "İletişim bilgilerin",
-    welcomeStepAddress: "Teslimat adresin",
+    welcomeIntro: "Başlamak için telefonunu, e-posta adresini ve ev adresini ekle.",
     googleDemoButton: "Google ile devam et",
     demoBadge: "DEMO",
-    googleDemoHint: "Google/Firebase girişi bu MVP'de etkin değildir. Şimdilik bilgilerini aşağıya gir.",
+    googleDemoHint: "Google ile giriş bu demoda henüz etkin değil. İstersen telefon, e-posta ve adresinle devam et.",
     orEnterDetails: "veya bilgilerini gir",
     fullName: "Ad soyad",
     phoneNumber: "Telefon numarası",
+    emailAddress: "E-posta adresi",
+    emailPlaceholder: "ornek@eposta.com",
+    homeAddress: "Ev adresin",
+    homeAddressPlaceholder: "Açık adresini yaz",
+    homeAddressLabel: "Ev",
+    otherAddressLabel: "Adres {count}",
     firstDeliveryAddress: "İlk teslimat adresin",
     addressLabel: "Adres adı",
     city: "İl",
@@ -32,7 +36,7 @@ const translations = {
     neighborhoodPlaceholder: "Mahalle",
     streetPlaceholder: "Cadde/sokak, bina no, daire no",
     addressNotePlaceholder: "Daireyi bulmaya yardımcı olacak bilgi",
-    localStorageNote: "Bilgilerin ve konumun bu cihazda saklanır; yalnızca sipariş verdiğinde mağazaya iletilir.",
+    localStorageNote: "Bilgilerin bu cihazda saklanır; yalnızca sipariş verdiğinde mağazaya iletilir.",
     useCurrentLocation: "Canlı konumumu kullan",
     gettingLocation: "Konum alınıyor…",
     locationCaptured: "Konum alındı. Bu pin sipariş verdiğinde mağazaya iletilir.",
@@ -44,6 +48,7 @@ const translations = {
     openMapLocation: "Harita konumunu aç",
     locationAccuracy: "Konum doğruluğu yaklaşık ±{meters} m",
     staffDemoTitle: "Personel demosu",
+    staffShortcuts: "Personel bağlantıları",
     staffDemoWarning: "Yalnızca bu tarayıcıda çalışan örnek verili demo. Güvenli giriş değildir.",
     staffDemoBadge: "YEREL DEMO · GÜVENLİ DEĞİL",
     staffExit: "Mağazaya dön",
@@ -111,14 +116,13 @@ const translations = {
     categories: "Kategoriler",
     demoPrices: "Görsellerdeki fiyatlar güncel olmayabilir",
     heroEyebrow: "ŞENGÜN SÜPERMARKET",
-    heroTitle: "Mahallenden<br>sofrana Şengün.",
-    heroIntro: "Alışverişini seç, adresini belirle. Siparişini WhatsApp üzerinden mağazaya ilet.",
+    heroTitle: "Ürünlere bugün<br>göz at.",
+    heroIntro: "Ürünlere göz at, sepetini oluştur ve siparişini mağazaya ilet.",
     startShopping: "Alışverişe başla",
-    localMarket: "Yerel marketin, online yanında.",
+    localMarket: "Alışverişin birkaç dokunuş uzağında.",
     marketSelection: "Şengün Süpermarket",
     shopOnline: "Online ürün vitrini",
     browseByCategory: "KATEGORİYE GÖRE GÖZ AT",
-    categoryTitle: "Aradığını kolayca bul.",
     viewAll: "Tümünü gör",
     storePromotions: "ŞENGÜN SÜPERMARKET",
     promoTitle: "Ürünleri keşfet,<br>fiyatı mağazaya sor.",
@@ -203,7 +207,7 @@ const translations = {
     selectAddress: "Teslimat adresi olarak seç",
     removeAddress: "Adresi sil",
     addAddressLimit: "Adres sınırına ulaştın (5/5).",
-    profileRequired: "Başlamak için iletişim bilgilerini ve ilk adresini kaydet.",
+    profileRequired: "Başlamak için telefonunu, e-posta adresini ve ev adresini kaydet.",
     googleDemoMessage: "Google girişi, Firebase Authentication bağlandığında etkinleştirilecek. Bu demo sürümünde giriş yapılmaz; lütfen formu doldur.",
     noAddresses: "Henüz kayıtlı adres yok.",
     addressSummary: "{label} · {district}, {city}",
@@ -217,15 +221,19 @@ const translations = {
   en: {
     welcomeEyebrow: "ŞENGÜN SUPERMARKET",
     welcomeTitle: "Let's get<br>started.",
-    welcomeIntro: "Add your contact and delivery details to start shopping. Your information stays on this device.",
-    welcomeStepProfile: "Your contact details",
-    welcomeStepAddress: "Your delivery address",
+    welcomeIntro: "Add your phone number, email, and home address to get started.",
     googleDemoButton: "Continue with Google",
     demoBadge: "DEMO",
-    googleDemoHint: "Google/Firebase sign-in is not enabled in this MVP. Enter your details below for now.",
+    googleDemoHint: "Google sign-in is not enabled in this demo yet. You can continue with your phone, email, and address.",
     orEnterDetails: "or enter your details",
     fullName: "Full name",
     phoneNumber: "Phone number",
+    emailAddress: "Email address",
+    emailPlaceholder: "you@example.com",
+    homeAddress: "Home address",
+    homeAddressPlaceholder: "Enter your full address",
+    homeAddressLabel: "Home",
+    otherAddressLabel: "Address {count}",
     firstDeliveryAddress: "Your first delivery address",
     addressLabel: "Address label",
     city: "City",
@@ -241,7 +249,7 @@ const translations = {
     neighborhoodPlaceholder: "Neighborhood",
     streetPlaceholder: "Street, building number, apartment",
     addressNotePlaceholder: "Details to help find your door",
-    localStorageNote: "Your details and location stay on this device and are shared with the store only when you place an order.",
+    localStorageNote: "Your details stay on this device and are shared with the store only when you place an order.",
     useCurrentLocation: "Use my live location",
     gettingLocation: "Getting your location…",
     locationCaptured: "Location captured. This pin will be sent to the store with your order.",
@@ -253,6 +261,7 @@ const translations = {
     openMapLocation: "Open map location",
     locationAccuracy: "Location accuracy approximately ±{meters} m",
     staffDemoTitle: "Staff demo",
+    staffShortcuts: "Staff shortcuts",
     staffDemoWarning: "Sample-data demo stored only in this browser. This is not secure staff sign-in.",
     staffDemoBadge: "LOCAL DEMO · NOT SECURE",
     staffExit: "Return to shop",
@@ -320,14 +329,13 @@ const translations = {
     categories: "Categories",
     demoPrices: "Prices shown may not be current",
     heroEyebrow: "ŞENGÜN SUPERMARKET",
-    heroTitle: "Your neighborhood<br>market, online.",
-    heroIntro: "Choose your groceries and delivery address. Send your order request to the store on WhatsApp.",
+    heroTitle: "Browse products<br>today.",
+    heroIntro: "Browse the products, fill your cart, and send your order to the store.",
     startShopping: "Start shopping",
-    localMarket: "Your local market, now online.",
+    localMarket: "Your groceries are just a few clicks away.",
     marketSelection: "Şengün Supermarket",
     shopOnline: "Online grocery catalog",
     browseByCategory: "SHOP BY CATEGORY",
-    categoryTitle: "Find what you need.",
     viewAll: "View all",
     storePromotions: "ŞENGÜN SUPERMARKET",
     promoTitle: "Browse the products.<br>Confirm today's price.",
@@ -412,7 +420,7 @@ const translations = {
     selectAddress: "Set as delivery address",
     removeAddress: "Remove address",
     addAddressLimit: "Address limit reached (5/5).",
-    profileRequired: "Save your contact details and first address to get started.",
+    profileRequired: "Save your phone, email, and home address to get started.",
     googleDemoMessage: "Google sign-in will be enabled when Firebase Authentication is connected. This demo does not sign you in; please fill in the form.",
     noAddresses: "No saved addresses yet.",
     addressSummary: "{label} · {district}, {city}",
@@ -476,6 +484,12 @@ function applyTranslations() {
   $$("[data-i18n-placeholder]").forEach((element) => {
     element.placeholder = t(element.dataset.i18nPlaceholder);
   });
+  $$("[data-i18n-aria-label]").forEach((element) => {
+    element.setAttribute("aria-label", t(element.dataset.i18nAriaLabel));
+  });
+  $$("[data-i18n-title]").forEach((element) => {
+    element.title = t(element.dataset.i18nTitle);
+  });
   $$("[data-language]").forEach((button) => {
     button.setAttribute("aria-pressed", String(button.dataset.language === language));
   });
@@ -516,8 +530,8 @@ function mapLocationUrl(location) {
 function loadProfile() {
   try {
     const stored = JSON.parse(localStorage.getItem(PROFILE_STORAGE_KEY) || "null");
-    if (!stored || typeof stored.name !== "string" || typeof stored.phone !== "string" || !Array.isArray(stored.addresses)) {
-      return { name: "", phone: "", addresses: [], activeAddressId: "" };
+    if (!stored || typeof stored.phone !== "string" || !Array.isArray(stored.addresses)) {
+      return { name: "", phone: "", email: "", addresses: [], activeAddressId: "" };
     }
     const addresses = stored.addresses.slice(0, 5).filter((address) =>
       address && typeof address.id === "string" && typeof address.label === "string" &&
@@ -534,10 +548,16 @@ function loadProfile() {
     const activeAddressId = addresses.some((address) => address.id === stored.activeAddressId)
       ? stored.activeAddressId
       : addresses[0]?.id || "";
-    return { name: stored.name.slice(0, 80), phone: stored.phone.slice(0, 24), addresses, activeAddressId };
+    return {
+      name: typeof stored.name === "string" ? stored.name.slice(0, 80) : "",
+      phone: stored.phone.slice(0, 24),
+      email: typeof stored.email === "string" ? stored.email.slice(0, 254) : "",
+      addresses,
+      activeAddressId,
+    };
   } catch (error) {
     console.error("Saved profile could not be read:", error);
-    return { name: "", phone: "", addresses: [], activeAddressId: "" };
+    return { name: "", phone: "", email: "", addresses: [], activeAddressId: "" };
   }
 }
 
@@ -697,19 +717,25 @@ function makeAddress(formData) {
     : null;
   return {
     id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-    label: String(formData.get("label") || (location ? t("currentLocation") : "")).trim(),
+    label: String(formData.get("label") || t(profile.addresses.length ? "otherAddressLabel" : "homeAddressLabel", {
+      count: profile.addresses.length + 1,
+    })).trim(),
     city: String(formData.get("city") || "").trim(),
     district: String(formData.get("district") || "").trim(),
     neighborhood: String(formData.get("neighborhood") || "").trim(),
-    street: String(formData.get("street") || "").trim(),
+    street: String(formData.get("street") || formData.get("homeAddress") || "").trim(),
     note: String(formData.get("note") || "").trim(),
     location: validCoordinates(location) ? location : null,
   };
 }
 
 function addressSummary(address) {
-  if (!address.district && !address.city) return address.label;
-  return t("addressSummary", { label: address.label, district: address.district, city: address.city });
+  return [
+    address.street,
+    address.neighborhood,
+    address.district,
+    address.city,
+  ].filter(Boolean).join(", ") || address.label;
 }
 
 function renderCategories() {
@@ -781,7 +807,7 @@ function renderCart() {
   $$("[data-cart-count]").forEach((element) => { element.textContent = count; });
   $("[data-mobile-cart-count]").textContent = `${count} ${language === "tr" ? "ürün" : "items"}`;
   $("[data-mobile-cart-total]").textContent = formatPrice(subtotal + fee);
-  $("[data-mobile-cart]").hidden = isEmpty || !profile.name || !confirmationPage.hidden;
+  $("[data-mobile-cart]").hidden = isEmpty || !profile.phone || !confirmationPage.hidden;
   $("#cart-empty").hidden = !isEmpty;
   $("#cart-bottom").hidden = isEmpty;
 
@@ -812,15 +838,15 @@ function renderCart() {
     : t("freeDeliveryReached");
   $("#checkout-button").disabled = isEmpty;
   const activeAddress = getAddress();
-  $("#active-address-label").textContent = activeAddress ? activeAddress.label : t("noAddresses");
-  $("#header-customer-name").textContent = profile.name || t("account");
+  $("#active-address-label").textContent = activeAddress ? addressSummary(activeAddress) : t("noAddresses");
+  $("#header-customer-name").textContent = profile.name || profile.email || t("account");
   renderProducts();
 }
 
 function renderAccount() {
   const profileForm = $("#profile-form");
-  profileForm.elements.name.value = profile.name;
   profileForm.elements.phone.value = profile.phone;
+  profileForm.elements.email.value = profile.email;
   $("#address-count").textContent = t("updatedAddressCount", { count: profile.addresses.length });
   $("#saved-addresses").innerHTML = profile.addresses.length
     ? profile.addresses.map((address) => `
@@ -830,7 +856,6 @@ function renderAccount() {
           <span class="saved-address__details">
             <strong>${escapeHtml(address.label)}${address.id === profile.activeAddressId ? ` <small>${t("selected")}</small>` : ""}</strong>
             <span>${escapeHtml(addressSummary(address))}</span>
-            <small>${escapeHtml([address.neighborhood, address.street].filter(Boolean).join(", "))}</small>
             ${address.note ? `<small>${escapeHtml(address.note)}</small>` : ""}
           </span>
         </button>
@@ -880,8 +905,8 @@ function renderConfirmation(order) {
       <p>${t("orderSentIntro")}</p>
     </div>
     <div class="confirmation-details">
-      <div><span>${t("customer")}</span><strong>${escapeHtml(profile.name)}<br>${escapeHtml(profile.phone)}</strong></div>
-      <div><span>${t("deliveryAddress")}</span><strong>${escapeHtml(address.label)} · ${escapeHtml([address.neighborhood, address.district, address.city].filter(Boolean).join(", "))}<br>${escapeHtml(address.street)}${address.location ? `<br><a class="address-map-link" href="${mapLocationUrl(address.location)}" target="_blank" rel="noopener noreferrer">${t("openMapLocation")}</a>` : ""}</strong></div>
+      <div><span>${t("customer")}</span><strong>${escapeHtml(profile.phone)}<br>${escapeHtml(profile.email)}</strong></div>
+      <div><span>${t("deliveryAddress")}</span><strong>${escapeHtml(addressSummary(address))}${address.location ? `<br><a class="address-map-link" href="${mapLocationUrl(address.location)}" target="_blank" rel="noopener noreferrer">${t("openMapLocation")}</a>` : ""}</strong></div>
     </div>
     <div class="confirmation-order">
       <h2>${t("orderSummary")}</h2>
@@ -902,9 +927,7 @@ function renderConfirmation(order) {
 
 function addressForStaff(address) {
   return [
-    `${address.label} · ${address.neighborhood}`,
-    `${address.district}, ${address.city}`,
-    address.street,
+    `${address.label}: ${addressSummary(address)}`,
     address.note && `Not: ${address.note}`,
     address.location && `GPS: ${address.location.latitude}, ${address.location.longitude}`,
   ].filter(Boolean).join(" · ");
@@ -922,7 +945,12 @@ function showWelcome() {
   header.hidden = true;
   main.hidden = true;
   footer.hidden = true;
-  $("[name='name']", $("#welcome-form")).focus();
+  const form = $("#welcome-form");
+  form.elements.phone.value = profile.phone;
+  form.elements.email.value = profile.email;
+  const savedAddress = getAddress();
+  if (savedAddress) form.elements.street.value = addressSummary(savedAddress);
+  form.elements.phone.focus();
 }
 
 function enterShop() {
@@ -1012,12 +1040,7 @@ function saveAddressFromForm(form) {
     return false;
   }
   const address = makeAddress(new FormData(form));
-  if (!address.label || (!address.location &&
-      (!address.city || !address.district || !address.neighborhood || !address.street))) {
-    setLocationFieldsRequired(form, true);
-    form.reportValidity();
-    return false;
-  }
+  if (!address.street) return false;
   const previous = profile;
   profile = {
     ...profile,
@@ -1029,67 +1052,11 @@ function saveAddressFromForm(form) {
     return false;
   }
   form.reset();
-  setLocationFieldsRequired(form, true);
   renderAccount();
   renderCart();
   if (!checkoutOverlay.hidden) renderCheckout();
   showToast(t("addressSaved"));
   return true;
-}
-
-function setLocationFieldsRequired(form, required) {
-  ["city", "district", "neighborhood", "street"].forEach((name) => {
-    const field = form.elements.namedItem(name);
-    if (field) field.required = required;
-  });
-}
-
-function requestCurrentLocation(button) {
-  const form = button.closest("form");
-  const status = form.querySelector("[data-location-status]");
-  const label = button.querySelector("[data-i18n]");
-  if (!navigator.geolocation) {
-    status.textContent = t("locationUnsupported");
-    return;
-  }
-
-  button.disabled = true;
-  label.textContent = t("gettingLocation");
-  status.textContent = "";
-  const finish = (message) => {
-    button.disabled = false;
-    label.textContent = t("useCurrentLocation");
-    status.textContent = message;
-  };
-  const fail = (error) => {
-    const message = error.code === 1
-      ? t("locationPermissionDenied")
-      : error.code === 3 ? t("locationTimeout") : t("locationUnavailable");
-    finish(message);
-  };
-
-  try {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude, accuracy } = position.coords;
-      if (!Number.isFinite(latitude) || !Number.isFinite(longitude) ||
-          latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180 ||
-          (Number.isFinite(accuracy) && accuracy > 100000)) {
-        finish(t("locationUnavailable"));
-        return;
-      }
-      form.elements.locationLatitude.value = latitude.toFixed(6);
-      form.elements.locationLongitude.value = longitude.toFixed(6);
-      const accuracyMeters = Number.isFinite(accuracy) && accuracy >= 0 ? Math.round(accuracy) : null;
-      form.elements.locationAccuracy.value = accuracyMeters === null ? "" : String(accuracyMeters);
-      const labelInput = form.elements.label;
-      if (labelInput && !labelInput.value.trim()) labelInput.value = t("currentLocation");
-      setLocationFieldsRequired(form, false);
-      finish(`${t("locationCaptured")}${accuracyMeters === null ? "" : ` ${t("locationAccuracy", { meters: accuracyMeters })}`}`);
-    }, fail, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
-  } catch (error) {
-    console.error("Browser location request failed:", error);
-    finish(t("locationUnavailable"));
-  }
 }
 
 async function startWhatsappOrder() {
@@ -1119,7 +1086,7 @@ async function startWhatsappOrder() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        customer: { name: profile.name, phone: profile.phone },
+        customer: { name: profile.name, phone: profile.phone, email: profile.email },
         address,
         deliveryPreference: $('input[name="deliverySlot"]:checked').value,
         items: getCartItems().map(({ product, quantity }) => ({ id: product.id, quantity })),
@@ -1141,8 +1108,9 @@ async function startWhatsappOrder() {
       id: result.orderNumber,
       sample: false,
       status: "new",
-      name: profile.name,
+      name: profile.name || profile.email,
       phone: profile.phone,
+      email: profile.email,
       address: addressForStaff(address),
       createdAt: new Date().toISOString(),
       items: result.items.map((item) => ({
@@ -1208,20 +1176,18 @@ function handleWelcomeSubmit(event) {
   const form = event.currentTarget;
   if (!form.reportValidity()) return;
   const formData = new FormData(form);
+  formData.set("label", t("homeAddressLabel"));
   const address = makeAddress(formData);
-  if (!address.location && (!address.city || !address.district || !address.neighborhood || !address.street)) {
-    setLocationFieldsRequired(form, true);
-    form.reportValidity();
-    return;
-  }
+  if (!address.street) return;
   profile = {
-    name: String(formData.get("name")).trim(),
+    name: profile.name,
     phone: String(formData.get("phone")).trim(),
+    email: String(formData.get("email")).trim(),
     addresses: [address],
     activeAddressId: address.id,
   };
   if (!saveProfile()) {
-    profile = { name: "", phone: "", addresses: [], activeAddressId: "" };
+    profile = { name: "", phone: "", email: "", addresses: [], activeAddressId: "" };
     return;
   }
   enterShop();
@@ -1229,11 +1195,6 @@ function handleWelcomeSubmit(event) {
 
 $("#welcome-form").addEventListener("submit", handleWelcomeSubmit);
 $("#google-demo").addEventListener("click", () => showToast(t("googleDemoMessage")));
-
-document.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-get-current-location]");
-  if (button) requestCurrentLocation(button);
-});
 
 $$("[data-language]").forEach((button) => {
   button.addEventListener("click", () => {
@@ -1256,7 +1217,11 @@ $("#profile-form").addEventListener("submit", (event) => {
   if (!event.currentTarget.reportValidity()) return;
   const formData = new FormData(event.currentTarget);
   const previous = profile;
-  profile = { ...profile, name: String(formData.get("name")).trim(), phone: String(formData.get("phone")).trim() };
+  profile = {
+    ...profile,
+    phone: String(formData.get("phone")).trim(),
+    email: String(formData.get("email")).trim(),
+  };
   if (!saveProfile()) {
     profile = previous;
     return;
@@ -1272,13 +1237,12 @@ $("#address-form").addEventListener("submit", (event) => {
 
 $("#add-address").addEventListener("click", () => {
   $("#address-form").hidden = false;
-  $("#address-form").querySelector("input")?.focus();
+  $("#address-form").querySelector("textarea")?.focus();
 });
 
 $("#cancel-address").addEventListener("click", () => {
   const form = $("#address-form");
   form.reset();
-  setLocationFieldsRequired(form, true);
   form.hidden = true;
 });
 
@@ -1376,5 +1340,5 @@ document.addEventListener("keydown", (event) => {
 });
 
 applyTranslations();
-if (profile.name && profile.phone && profile.addresses.length) enterShop();
+if (profile.phone && profile.email && profile.addresses.length) enterShop();
 else showWelcome();

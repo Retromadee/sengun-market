@@ -30,7 +30,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 .brand { display: inline-flex; align-items: center; gap: 10px; width: max-content; }
-.brand__monogram { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 6px; background: var(--green); color: #fff; font-family: Georgia, serif; font-size: 27px; font-weight: 700; }
+.brand__monogram { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 6px; background: var(--green); color: #fff; }
+.brand__monogram svg { width: 25px; height: 25px; fill: currentColor; }
 .brand__name { color: var(--ink); font-size: 19px; font-weight: 750; letter-spacing: -.04em; }
 .brand__name > span { display: block; margin-top: -6px; color: var(--muted); font-size: 10px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
 .section-kicker, .eyebrow { color: #697d58; font-size: 11px; font-weight: 700; letter-spacing: .12em; }
@@ -38,12 +39,11 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .welcome-screen { min-height: 100vh; display: grid; place-items: center; padding: 32px 18px; background: #edf0e7; }
 .welcome-card { width: min(1040px, 100%); overflow: hidden; border: 1px solid #e6e9df; border-radius: 12px; background: #fff; box-shadow: var(--shadow); }
 .welcome-top { min-height: 78px; display: flex; align-items: center; justify-content: space-between; padding: 14px 32px; border-bottom: 1px solid var(--line); }
-.staff-entry { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 32px; border-bottom: 1px solid var(--line); background: #f5f7f1; }
-.staff-entry > div:first-child { display: grid; gap: 2px; }
-.staff-entry strong { font-size: 13px; }
-.staff-entry small { color: var(--muted); font-size: 11px; }
-.staff-entry__actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.staff-entry__actions .button { min-height: 40px; }
+.welcome-top__actions { display: flex; align-items: center; gap: 12px; }
+.staff-shortcuts { display: inline-flex; align-items: center; gap: 5px; }
+.staff-shortcut { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid transparent; border-radius: 5px; color: #788477; transition: background .16s, border-color .16s, color .16s; }
+.staff-shortcut:hover { border-color: var(--line); background: #f7f8f4; color: var(--green); }
+.staff-shortcut svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
 .language-switch { display: inline-flex; align-items: center; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
 .language-switch button { min-width: 39px; min-height: 32px; padding: 0 8px; border: 0; border-radius: 4px; background: transparent; color: var(--muted); font-size: 12px; font-weight: 700; cursor: pointer; }
 .language-switch button[aria-pressed="true"] { background: var(--green); color: #fff; }
@@ -193,7 +193,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .promise-strip strong { font-size: 13px; }
 .promise-strip small { color: #667268; font-size: 11px; }
 .site-footer { width: min(1220px, calc(100% - 64px)); min-height: 94px; margin: 37px auto 0; display: flex; align-items: center; gap: 18px; border-top: 1px solid var(--line); color: #58675c; font-size: 12px; }
-.brand--footer .brand__monogram { width: 34px; height: 34px; font-size: 21px; }
+.brand--footer .brand__monogram { width: 34px; height: 34px; }
+.brand--footer .brand__monogram svg { width: 21px; height: 21px; }
 .brand--footer .brand__name { font-size: 16px; }
 .brand--footer .brand__name > span { font-size: 8px; }
 .site-footer__copyright { margin-left: auto; color: #68756b; }
@@ -332,10 +333,10 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .welcome-screen { min-height: 100svh; align-items: start; padding: 12px; }
   .welcome-card { border-radius: 9px; }
   .welcome-top { min-height: 64px; padding: 10px 15px; }
-  .staff-entry { align-items: stretch; flex-direction: column; padding: 12px 15px; }
-  .staff-entry__actions { display: grid; grid-template-columns: 1fr 1fr; }
-  .staff-entry__actions .button { padding: 0 10px; }
-  .brand__monogram { width: 36px; height: 36px; font-size: 23px; }
+  .welcome-top__actions { gap: 7px; }
+  .staff-shortcuts { gap: 2px; }
+  .staff-shortcut { width: 31px; height: 36px; }
+  .brand__monogram { width: 36px; height: 36px; }
   .brand__name { font-size: 17px; }
   .welcome-layout { grid-template-columns: 1fr; gap: 17px; padding: 21px 15px 17px; }
   .welcome-intro { padding-top: 0; }
@@ -351,13 +352,13 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .privacy-note { margin: 10px 0; font-size: 11px; }
   .button { font-size: 13px; }
   .header-top { width: calc(100% - 28px); min-height: 67px; grid-template-columns: auto 1fr auto; gap: 9px; }
-  .site-header .brand__monogram { width: 34px; height: 34px; font-size: 21px; }
+  .site-header .brand__monogram { width: 34px; height: 34px; }
   .site-header .brand__name { font-size: 16px; }
   .site-header .brand__name > span { font-size: 8px; }
   .location-button { display: none; }
   .search-box { grid-column: 1 / -1; grid-row: 2; max-width: none; height: 42px; margin-bottom: 9px; }
   .header-top { padding-bottom: 0; }
-  .header-actions { grid-column: 3; grid-row: 1; gap: 6px; }
+  .header-actions { grid-column: 3; grid-row: 1; gap: 5px; }
   .search-box input { font-size: 16px; }
   .language-switch--header { min-width: 40px; min-height: 40px; padding: 0 7px; }
   .account-button, .header-cart { min-height: 40px; gap: 6px; padding: 0 8px; font-size: 11px; }
@@ -451,8 +452,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
   .header-top { width: calc(100% - 20px); }
   .site-header .brand { gap: 6px; }
   .site-header .brand__name { font-size: 14px; }
-  .header-actions { gap: 4px; }
-  .account-button, .header-cart { padding: 0 6px; }
+  .header-actions { gap: 3px; }
+  .staff-shortcuts { gap: 0; }
+  .staff-shortcut { width: 26px; min-width: 26px; height: 36px; }
+  .language-switch--header { min-width: 36px; }
+  .account-button { min-width: 34px; padding: 0 6px; }
+  .header-cart { min-width: 48px; padding: 0 4px; gap: 4px; }
   .page-shell { width: calc(100% - 20px); }
   .category-card { gap: 6px; padding: 7px; }
   .category-card__initial { width: 30px; height: 30px; }

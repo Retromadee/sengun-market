@@ -335,6 +335,7 @@
     );
     return order && locationValid && typeof order.id === "string" && typeof order.name === "string" &&
       typeof order.phone === "string" && typeof order.address === "string" &&
+      (order.email === undefined || typeof order.email === "string") &&
       Object.hasOwn(statusKeys, order.status) && typeof order.createdAt === "string" &&
       Number.isFinite(Date.parse(order.createdAt)) && Number.isFinite(order.total) &&
       Array.isArray(order.items) && order.items.every((item) =>
@@ -404,7 +405,7 @@
           <div><h3>${escapeHtml(order.id)} ${order.sample ? `<small>· ${escapeHtml(translate("sampleOrder"))}</small>` : ""}</h3><small>${escapeHtml(createdAt)}</small></div>
           <span class="staff-order-status" data-status="${escapeHtml(order.status)}">${escapeHtml(translate(statusKeys[order.status]))}</span>
         </div>
-        <p class="staff-order-card__address"><strong>${escapeHtml(translate("customer"))}:</strong> ${escapeHtml(order.name)} · ${escapeHtml(order.phone)}<br><strong>${escapeHtml(translate("address"))}:</strong> ${escapeHtml(order.address)}${locationLink ? `<br>${locationLink}` : ""}</p>
+        <p class="staff-order-card__address"><strong>${escapeHtml(translate("customer"))}:</strong> ${escapeHtml(order.name)} · ${escapeHtml(order.phone)}${order.email ? ` · ${escapeHtml(order.email)}` : ""}<br><strong>${escapeHtml(translate("address"))}:</strong> ${escapeHtml(order.address)}${locationLink ? `<br>${locationLink}` : ""}</p>
         <ul class="staff-order-card__items" aria-label="${escapeHtml(translate("items"))}">${items}</ul>
         <div class="staff-order-card__total"><span>${escapeHtml(translate("total"))}</span><span>${formatPrice(order.total)}</span></div>
         ${actions ? `<div class="staff-order-card__actions">${actions}</div>` : ""}

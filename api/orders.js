@@ -21,12 +21,14 @@ function cleanText(value, maxLength) {
 
 function validAddress(address) {
   if (!address || typeof address !== "object" || Array.isArray(address)) return false;
-  const hasTextAddress = ["city", "district", "neighborhood", "street"].every((key) =>
+  const hasDetailedTextAddress = ["city", "district", "neighborhood", "street"].every((key) =>
     cleanText(address[key], 200).length > 0
   );
+  const hasFlatTextAddress = cleanText(address.street, 180).length > 0;
   const hasLocation = validLocation(address.location);
   const locationIsValid = address.location === undefined || address.location === null || hasLocation;
-  return cleanText(address.label, 35).length > 0 && locationIsValid && (hasTextAddress || hasLocation);
+  return cleanText(address.label, 35).length > 0 && locationIsValid &&
+    (hasDetailedTextAddress || hasFlatTextAddress || hasLocation);
 }
 
 function validLocation(location) {
@@ -68,9 +70,12 @@ function buildOrder(body) {
   const customer = body?.customer;
   const address = body?.address;
   const items = body?.items;
-  const name = cleanText(customer?.name, 80);
+  const name = cleanText(customer?.name, 80) || "Customer";
   const phone = cleanText(customer?.phone, 24);
-  if (!name || !/^[+\d\s().-]{7,24}$/.test(phone) || !validAddress(address) ||
+  const email = cleanText(customer?.email, 254);
+  if (!/^[+\d\s().-]{7,24}$/.test(phone) ||
+      (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) ||
+      !validAddress(address) ||
       !Array.isArray(items) || items.length < 1 || items.length > Object.keys(PRODUCTS).length ||
       !["soon", "schedule"].includes(body.deliveryPreference)) {
     return null;
@@ -103,8 +108,10 @@ function buildOrder(body) {
         : {}),
     } : null,
   };
-  const hasTextAddress = safeAddress.city && safeAddress.district &&
-    safeAddress.neighborhood && safeAddress.street;
+  const hasTextAddress = safeAddress.street && (
+    (safeAddress.city && safeAddress.district && safeAddress.neighborhood) ||
+    (!safeAddress.city && !safeAddress.district && !safeAddress.neighborhood)
+  );
   if (!safeAddress.label || (!hasTextAddress && !safeAddress.location)) {
     return null;
   }
@@ -135,7 +142,7 @@ function buildOrder(body) {
       timeZone: "Europe/Istanbul",
     }).format(new Date())}`,
     "",
-    `Müşteri: ${name} · ${phone}`,
+    `Müşteri: ${name} · ${phone}${email ? ` · ${email}` : ""}`,
     `Teslimat adresi: ${addressText}`,
     `Teslimat tercihi: ${body.deliveryPreference === "soon" ? "Mağazayla teyitleş" : "Saat tercihi için müşteriyle iletişime geç"}`,
     "",
@@ -154,7 +161,7 @@ function buildOrder(body) {
   ].join("\n");
 
   if (message.length > 1024) return { tooLarge: true };
-  return { orderNumber, name, phone, address: safeAddress, items: orderItems, subtotal, deliveryFee, total, message };
+  return { orderNumber, name, phone, email, address: safeAddress, items: orderItems, subtotal, deliveryFee, total, message };
 }
 
 module.exports = async function handler(req, res) {
@@ -213,6 +220,7 @@ module.exports = async function handler(req, res) {
 
     return res.status(201).json({
       orderNumber: order.orderNumber,
+      email: order.email,
       address: order.address,
       items: order.items.map(({ id, quantity, price }) => ({ id, quantity, price })),
       subtotal: order.subtotal,

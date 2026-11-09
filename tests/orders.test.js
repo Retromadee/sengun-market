@@ -89,6 +89,7 @@ test("reports missing WhatsApp configuration without making a request", async ()
 test("rejects malformed, unknown, and duplicate cart items before sending", async () => {
   const invalidOrders = [
     { ...validOrder, customer: { ...validOrder.customer, phone: "call me" } },
+    { ...validOrder, customer: { ...validOrder.customer, email: "not-an-email" } },
     { ...validOrder, address: { ...validOrder.address, street: "" } },
     { ...validOrder, deliveryPreference: "tomorrow" },
     { ...validOrder, items: [{ id: "not-a-product", quantity: 1 }] },
@@ -176,6 +177,34 @@ test("uses server prices, calculates delivery, and sends a formatted receipt", a
   assert.equal(payload.template.name, "order_receipt");
   assert.match(payload.template.components[0].parameters[0].text, /SİPARİŞ ÖN FİŞİ/);
   assert.match(payload.template.components[0].parameters[0].text, /₺69,90/);
+});
+
+test("accepts a single freeform address and includes the customer's email", async () => {
+  let receipt;
+  global.fetch = async (_url, options) => {
+    receipt = JSON.parse(options.body).template.components[0].parameters[0].text;
+    return { ok: true, json: async () => ({ messages: [{ id: "wamid.email" }] }) };
+  };
+  const response = createResponse();
+  const body = {
+    ...validOrder,
+    customer: { phone: "+90 555 123 4567", email: "shopper@example.com" },
+    address: {
+      label: "Home",
+      city: "",
+      district: "",
+      neighborhood: "",
+      street: "12 Example Street, Apartment 3",
+      note: "",
+    },
+  };
+
+  await handler({ method: "POST", body }, response);
+
+  assert.equal(response.statusCode, 201);
+  assert.equal(response.body.email, "shopper@example.com");
+  assert.match(receipt, /shopper@example\.com/);
+  assert.match(receipt, /12 Example Street, Apartment 3/);
 });
 
 test("sends a validated live location pin in the order receipt", async () => {
