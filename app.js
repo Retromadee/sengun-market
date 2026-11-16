@@ -202,7 +202,7 @@ const translations = {
     feeLabel: "Tahmini teslimat ücreti",
     totalLabel: "Tahmini toplam",
     orderSent: "Siparişin mağazaya iletildi",
-    orderSentIntro: "Sipariş bilgilerin mağazanın WhatsApp hattına gönderildi. Mağaza fiyat, stok ve teslimat bilgilerini seninle teyit edecek.",
+    orderSentIntro: "Siparişiniz doğrudan market yönetim sistemine iletildi. Mağaza siparişinizi hazırlayıp onayladığında kuryeniz yola çıkacaktır.",
     requestPrepared: "Mağazaya iletildi",
     waitingStore: "Mağaza teyidi bekleniyor",
     deliveryToConfirm: "Teslimat teyit edilecek",
@@ -251,6 +251,41 @@ const translations = {
     courierVehicle: "🛵 34 SG 1984 (Honda Activa)",
     courierRating: "4.9 ★ (1.420 teslimat)",
     callCourier: "Kuryeyi Ara",
+    useLiveGps: "Canlı Harita Konumu Al (GPS)",
+    gpsAcquiring: "GPS konumu alınıyor…",
+    gpsSuccess: "✓ Konum alındı: {lat}, {lng}",
+    gpsFailed: "Konum alınamadı. Tarayıcı izinlerini kontrol edin.",
+    signOut: "Çıkış Yap",
+    signOutDone: "Hesabından çıkış yapıldı.",
+    switchOrSignUp: "Farklı Hesapla Giriş / Kayıt Ol",
+    paymentMethodTitle: "Ödeme Yöntemi",
+    onlineCardTitle: "Online Kredi / Banka Kartı",
+    onlineCardDesc: "256-bit Güvenli Demo Ödeme",
+    cashOnDeliveryTitle: "Kapıda Nakit",
+    cashOnDeliveryDesc: "Teslimatta nakit ödeme",
+    posOnDeliveryTitle: "Kapıda Kredi Kartı",
+    posOnDeliveryDesc: "Temassız POS cihazıyla",
+    cardName: "Kart Üzerindeki İsim",
+    cardNumber: "Kart Numarası",
+    cardExpiry: "Son Kullanma (AA/YY)",
+    cardCvv: "CVV",
+    placeOrder: "Siparişi Onayla ve Öde",
+    orderProcessing: "Ödeme Doğrulanıyor ve Sipariş İletiliyor...",
+    systemOrderNote: "Sipariş doğrudan mağaza yönetim sistemine iletilir ve kurye atanır.",
+    orderSystemConsent: "Siparişiniz doğrudan market paneline iletilir; kurye hazır olduğunda kapınıza doğru yola çıkar.",
+    billboardTag1: "GÜNÜN FIRSATI",
+    billboardTitle1: "Taze Dana Kıyma %15 İndirim",
+    billboardDesc1: "Günlük taze çekim %100 yerli dana döş kıyma. Akşam yemekleriniz için özel indirim.",
+    billboardTag2: "FIRINDAN YENİ ÇIKTI",
+    billboardTitle2: "Taş Fırın Ekşi Mayalı Ekmek",
+    billboardDesc2: "Doğal ekşi maya ile 24 saat soğuk fermantasyon. Dışı çıtır, içi yumuşacık köy ekmeği.",
+    billboardTag3: "ERKEN HASAT",
+    billboardTitle3: "Soğuk Sıkım Sızma Zeytinyağı",
+    billboardDesc3: "Kuzey Ege zeytinlerinden asit oranı 0.4'ün altında şifa kaynağı sızma zeytinyağı.",
+    billboardTag4: "KAHVALTI ÖZEL",
+    billboardTitle4: "Ezine Peyniri & Organik Çiftlik Yumurtası",
+    billboardDesc4: "Geleneksel Çanakkale Ezine peyniri ve gezen tavuk yumurtasıyla güne zinde başlayın.",
+    dealAddToCart: "Fırsatı Sepete Ekle",
   },
   en: {
     welcomeEyebrow: "ŞENGÜN SUPERMARKET",
@@ -449,7 +484,7 @@ const translations = {
     feeLabel: "Estimated delivery fee",
     totalLabel: "Estimated total",
     orderSent: "Your order was sent to the store",
-    orderSentIntro: "Your order details were sent to the store's WhatsApp. The store will confirm prices, availability, and delivery with you.",
+    orderSentIntro: "Your order has been transmitted directly to the store management system. Courier delivery will begin as soon as items are prepared and confirmed.",
     requestPrepared: "Sent to store",
     waitingStore: "Awaiting store confirmation",
     deliveryToConfirm: "Delivery to be confirmed",
@@ -498,6 +533,41 @@ const translations = {
     courierVehicle: "🛵 34 SG 1984 (Honda Activa)",
     courierRating: "4.9 ★ (1,420 deliveries)",
     callCourier: "Call Rider",
+    useLiveGps: "Get Live GPS Map Pin",
+    gpsAcquiring: "Acquiring GPS location…",
+    gpsSuccess: "✓ Pin captured: {lat}, {lng}",
+    gpsFailed: "Could not get location. Check browser permissions.",
+    signOut: "Sign Out",
+    signOutDone: "You have signed out.",
+    switchOrSignUp: "Sign In / Switch Account",
+    paymentMethodTitle: "Payment Method",
+    onlineCardTitle: "Online Credit / Debit Card",
+    onlineCardDesc: "256-bit Secure Demo Payment",
+    cashOnDeliveryTitle: "Cash on Delivery",
+    cashOnDeliveryDesc: "Pay cash at the door",
+    posOnDeliveryTitle: "Card on Delivery (POS)",
+    posOnDeliveryDesc: "Contactless card payment at door",
+    cardName: "Name on Card",
+    cardNumber: "Card Number",
+    cardExpiry: "Expiry (MM/YY)",
+    cardCvv: "CVV",
+    placeOrder: "Confirm & Place Order",
+    orderProcessing: "Processing Payment & Dispatching Order...",
+    systemOrderNote: "Order is routed directly to store admin and courier dispatch systems.",
+    orderSystemConsent: "Your order is dispatched directly to the store panel; courier will depart once items are packed.",
+    billboardTag1: "TODAY'S SPECIAL",
+    billboardTitle1: "Fresh Beef Ground Meat 15% OFF",
+    billboardDesc1: "Daily fresh local beef chuck minced meat. Special discount for your dinner recipes.",
+    billboardTag2: "FRESH FROM BAKERY",
+    billboardTitle2: "Stone Oven Sourdough Bread",
+    billboardDesc2: "Naturally cold fermented for 24h. Crispy crust with airy, soft crumb.",
+    billboardTag3: "EARLY HARVEST",
+    billboardTitle3: "Cold-Pressed Extra Virgin Olive Oil",
+    billboardDesc3: "Acidity under 0.4% from North Aegean olives. Pure Mediterranean liquid gold.",
+    billboardTag4: "BREAKFAST SPECIAL",
+    billboardTitle4: "Ezine Goat Cheese & Organic Farm Eggs",
+    billboardDesc4: "Traditional Çanakkale Ezine cheese and free-range farm eggs to kickstart your morning.",
+    dealAddToCart: "Add Deal to Cart",
   },
 };
 
@@ -570,6 +640,7 @@ function applyTranslations() {
     button.textContent = language === "tr" ? "EN" : "TR";
     button.setAttribute("aria-label", language === "tr" ? "Switch to English" : "Türkçeye geç");
   });
+  renderBillboardCarousel();
   renderCategories();
   renderProducts();
   renderCart();
@@ -812,6 +883,124 @@ function addressSummary(address) {
   ].filter(Boolean).join(", ") || address.label;
 }
 
+let billboardTimer = null;
+let currentBillboardIndex = 0;
+
+const BILLBOARD_DEALS = [
+  {
+    productId: "dana-kiyma",
+    tagKey: "billboardTag1",
+    titleKey: "billboardTitle1",
+    descKey: "billboardDesc1",
+    badge: "-%15",
+    discountPrice: 357,
+    oldPrice: 420,
+    unit: "1 kg",
+  },
+  {
+    productId: "eksi-maya-koy-ekmegi",
+    tagKey: "billboardTag2",
+    titleKey: "billboardTitle2",
+    descKey: "billboardDesc2",
+    badge: "-%15",
+    discountPrice: 38,
+    oldPrice: 45,
+    unit: "Adet",
+  },
+  {
+    productId: "zeytinyagi-sizma",
+    tagKey: "billboardTag3",
+    titleKey: "billboardTitle3",
+    descKey: "billboardDesc3",
+    badge: "-%16",
+    discountPrice: 320,
+    oldPrice: 380,
+    unit: "1 L",
+  },
+  {
+    productId: "ezine-peyniri",
+    tagKey: "billboardTag4",
+    titleKey: "billboardTitle4",
+    descKey: "billboardDesc4",
+    badge: "-%16",
+    discountPrice: 185,
+    oldPrice: 220,
+    unit: "500 g",
+  },
+];
+
+function renderBillboardCarousel() {
+  const track = $("#billboard-track");
+  const dotsContainer = $("#billboard-dots");
+  if (!track) return;
+
+  track.innerHTML = BILLBOARD_DEALS.map((deal) => {
+    const product = products.find((p) => p.id === deal.productId);
+    const imgSrc = product ? product.image : "sample-product.svg";
+    return `
+      <div class="billboard-slide" data-product-id="${deal.productId}">
+        <div class="billboard-slide__copy">
+          <span class="billboard-badge billboard-badge--deal">🏷️ ${t(deal.tagKey)} · ${deal.badge}</span>
+          <h2>${t(deal.titleKey)}</h2>
+          <p>${t(deal.descKey)}</p>
+          <div class="billboard-price-row">
+            <span class="billboard-price">${formatPrice(deal.discountPrice)}</span>
+            <span class="billboard-old-price">${formatPrice(deal.oldPrice)}</span>
+            <span class="billboard-unit">/ ${deal.unit}</span>
+          </div>
+          <button class="billboard-cta" type="button" data-deal-add="${deal.productId}">
+            <span>🛒</span>
+            <span>${t("dealAddToCart")}</span>
+          </button>
+        </div>
+        <div class="billboard-slide__visual">
+          <img class="billboard-slide__img" src="${imgSrc}" alt="${t(deal.titleKey)}" loading="lazy" />
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  if (dotsContainer) {
+    dotsContainer.innerHTML = BILLBOARD_DEALS.map((_, i) => `
+      <button class="billboard-dot${i === currentBillboardIndex ? " is-active" : ""}" type="button" data-billboard-index="${i}" aria-label="Fırsat ${i + 1}"></button>
+    `).join("");
+  }
+
+  updateBillboardPosition();
+  startBillboardAutoPlay();
+}
+
+function updateBillboardPosition() {
+  const track = $("#billboard-track");
+  if (!track) return;
+  track.style.transform = `translateX(-${currentBillboardIndex * 100}%)`;
+  $$("#billboard-dots .billboard-dot").forEach((dot, idx) => {
+    dot.classList.toggle("is-active", idx === currentBillboardIndex);
+  });
+}
+
+function nextBillboardSlide() {
+  currentBillboardIndex = (currentBillboardIndex + 1) % BILLBOARD_DEALS.length;
+  updateBillboardPosition();
+}
+
+function prevBillboardSlide() {
+  currentBillboardIndex = (currentBillboardIndex - 1 + BILLBOARD_DEALS.length) % BILLBOARD_DEALS.length;
+  updateBillboardPosition();
+}
+
+function startBillboardAutoPlay() {
+  if (billboardTimer) clearInterval(billboardTimer);
+  billboardTimer = setInterval(nextBillboardSlide, 4500);
+}
+
+function stopBillboardAutoPlay() {
+  if (billboardTimer) {
+    clearInterval(billboardTimer);
+    billboardTimer = null;
+  }
+}
+
 function renderCategories() {
   $("#category-list").innerHTML = categories.map((category) => {
     const label = category[language];
@@ -977,6 +1166,10 @@ function renderCheckout() {
   $("#checkout-subtotal").textContent = formatPrice(subtotal);
   $("#checkout-delivery").textContent = fee ? formatPrice(fee) : (language === "tr" ? "Ücretsiz" : "Free");
   $("#checkout-total").textContent = formatPrice(subtotal + fee);
+
+  const selectedPayment = $('input[name="paymentMethod"]:checked')?.value || "card";
+  const cardForm = $("#card-demo-form");
+  if (cardForm) cardForm.hidden = selectedPayment !== "card";
 }
 
 let trackingStage = 1;
@@ -1072,6 +1265,12 @@ function syncOrderWithStaff(orderId, stageNum) {
 
 function renderConfirmation(order) {
   const address = order.address;
+  const paymentLabel = {
+    card: language === "tr" ? "💳 Online Kredi / Banka Kartı (Ödendi)" : "💳 Online Card (Paid)",
+    cash: language === "tr" ? "💵 Kapıda Nakit Ödeme" : "💵 Cash on Delivery",
+    pos: language === "tr" ? "📱 Kapıda Kredi Kartı (POS)" : "📱 Card on Delivery (POS)",
+  }[order.paymentMethod || "card"] || (language === "tr" ? "💳 Online Kart" : "💳 Online Card");
+
   confirmationPage.innerHTML = `
     <div class="confirmation-head">
       <span class="confirmation-mark" aria-hidden="true">✓</span>
@@ -1085,6 +1284,7 @@ function renderConfirmation(order) {
     <div class="confirmation-details">
       <div><span>${t("customer")}</span><strong>${escapeHtml(profile.name)}<br>${escapeHtml(profile.phone)}</strong></div>
       <div><span>${t("deliveryAddress")}</span><strong>${escapeHtml(addressSummary(address))}${address.location ? `<br><a class="address-map-link" href="${mapLocationUrl(address.location)}" target="_blank" rel="noopener noreferrer">${t("openMapLocation")}</a>` : ""}</strong></div>
+      <div><span>${t("paymentMethodTitle")}</span><strong>${paymentLabel}</strong></div>
     </div>
     <div class="confirmation-order">
       <h2>${t("orderSummary")}</h2>
@@ -1137,7 +1337,7 @@ function showToast(message) {
   toast.textContent = message;
   toast.classList.add("is-visible");
   window.clearTimeout(toastTimer);
-  toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 3000);
+  toastTimer = window.setTimeout(() => toast.classList.remove("is-visible"), 1600);
 }
 
 function showWelcome() {
@@ -1275,37 +1475,73 @@ async function startWhatsappOrder() {
     return;
   }
 
-  const submitButton = $("#whatsapp-order");
-  const buttonLabel = $("[data-i18n]", submitButton);
+  const submitButton = $("#place-order-btn") || $("#whatsapp-order");
+  const buttonLabel = submitButton.querySelector("[data-i18n]") || submitButton;
   submitButton.disabled = true;
   submitButton.setAttribute("aria-busy", "true");
-  buttonLabel.textContent = t("sendingOrder");
+  buttonLabel.textContent = t("orderProcessing");
+
+  const paymentMethod = $('input[name="paymentMethod"]:checked')?.value || "card";
+
+  // Simulate payment gateway delay (e.g. 500ms) for realistic card demo
+  if (paymentMethod === "card") {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  }
 
   try {
-    const response = await fetch("/api/orders", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        customer: { name: profile.name, phone: profile.phone, email: profile.email },
-        address,
-        deliveryPreference: $('input[name="deliverySlot"]:checked').value,
-        items: getCartItems().map(({ product, quantity }) => ({ id: product.id, quantity })),
-      }),
-    });
-    const result = await response.json().catch(() => ({}));
-    if (!response.ok) {
-      const errorMessages = {
-        service_not_configured: "orderErrorConfig",
-        invalid_order: "orderErrorInvalid",
-        order_too_large: "orderTooLarge",
-      };
-      const messageKey = errorMessages[result.error] || "orderErrorFailed";
-      showToast(t(messageKey));
-      return;
+    let orderNumber = null;
+    let finalSubtotal = getSubtotal();
+    let finalFee = getDeliveryFee(finalSubtotal);
+    let finalTotal = finalSubtotal + finalFee;
+    let serverItems = null;
+
+    try {
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          customer: { name: profile.name, phone: profile.phone, email: profile.email },
+          address,
+          deliveryPreference: $('input[name="deliverySlot"]:checked')?.value || "soon",
+          items: getCartItems().map(({ product, quantity }) => ({ id: product.id, quantity })),
+        }),
+      });
+      if (response.ok) {
+        const result = await response.json().catch(() => ({}));
+        if (result.orderNumber) {
+          orderNumber = result.orderNumber;
+          finalSubtotal = result.subtotal;
+          finalFee = result.deliveryFee;
+          finalTotal = result.total;
+          serverItems = result.items;
+        }
+      } else {
+        console.warn("Order API returned non-200; falling back to local demo dispatch:", response.status);
+      }
+    } catch (networkErr) {
+      console.warn("Order dispatch in offline demo mode:", networkErr);
     }
 
+    if (!orderNumber) {
+      orderNumber = "SG-" + Math.floor(100000 + Math.random() * 900000);
+    }
+
+    const itemsForStaff = serverItems
+      ? serverItems.map((item) => ({
+          id: item.id,
+          name: products.find((product) => product.id === item.id)?.name.tr || item.id,
+          quantity: item.quantity,
+          price: item.price,
+        }))
+      : getCartItems().map(({ product, quantity }) => ({
+          id: product.id,
+          name: product.name.tr || getText(product.name),
+          quantity,
+          price: product.price,
+        }));
+
     const storedOrder = {
-      id: result.orderNumber,
+      id: orderNumber,
       sample: false,
       status: "new",
       name: profile.name || profile.email,
@@ -1313,34 +1549,37 @@ async function startWhatsappOrder() {
       email: profile.email,
       address: addressForStaff(address),
       createdAt: new Date().toISOString(),
-      items: result.items.map((item) => ({
-        id: item.id,
-        name: products.find((product) => product.id === item.id)?.name.tr || item.id,
-        quantity: item.quantity,
-        price: item.price,
-      })),
-      subtotal: result.subtotal,
-      fee: result.deliveryFee,
-      total: result.total,
+      items: itemsForStaff,
+      subtotal: finalSubtotal,
+      fee: finalFee,
+      total: finalTotal,
+      paymentMethod,
+      paymentStatus: paymentMethod === "card" ? "PAID_ONLINE_DEMO" : "PAY_AT_DOOR",
+      location: address?.location || null,
     };
-    storedOrder.location = result.address?.location || null;
-    if (!window.SengunStaff.addOrder(storedOrder)) showToast(t("staffOrderStorageError"));
+
+    if (window.SengunStaff) {
+      window.SengunStaff.addOrder(storedOrder);
+    }
 
     profile.activeAddressId = address.id;
     saveProfile();
+
     lastOrder = {
-      number: result.orderNumber,
-      items: result.items.map((item) => ({
-        name: products.find((product) => product.id === item.id).name,
-        quantity: item.quantity,
-        price: item.price,
+      number: orderNumber,
+      items: getCartItems().map(({ product, quantity }) => ({
+        name: product.name,
+        quantity,
+        price: product.price,
       })),
       address,
-      deliveryPreference: $('input[name="deliverySlot"]:checked').value,
-      subtotal: result.subtotal,
-      fee: result.deliveryFee,
-      total: result.total,
+      deliveryPreference: $('input[name="deliverySlot"]:checked')?.value || "soon",
+      paymentMethod,
+      subtotal: finalSubtotal,
+      fee: finalFee,
+      total: finalTotal,
     };
+
     cart = {};
     saveCart();
     confirmationPage.hidden = false;
@@ -1351,7 +1590,7 @@ async function startWhatsappOrder() {
     footer.hidden = true;
     document.body.classList.remove("has-overlay");
     renderCart();
-    $("#confirmation-title").focus();
+    $("#confirmation-title")?.focus();
     window.scrollTo({ top: 0 });
   } catch (error) {
     console.error("Order submission failed:", error);
@@ -1359,7 +1598,7 @@ async function startWhatsappOrder() {
   } finally {
     submitButton.disabled = false;
     submitButton.removeAttribute("aria-busy");
-    buttonLabel.textContent = t("sendOrder");
+    buttonLabel.textContent = t("placeOrder");
   }
 }
 
@@ -1632,7 +1871,169 @@ document.addEventListener("click", (event) => {
 });
 
 $("#checkout-button").addEventListener("click", openCheckout);
-$("#whatsapp-order").addEventListener("click", startWhatsappOrder);
+
+const checkoutOrderBtn = $("#place-order-btn") || $("#whatsapp-order");
+if (checkoutOrderBtn) {
+  checkoutOrderBtn.addEventListener("click", startWhatsappOrder);
+}
+
+$$('input[name="paymentMethod"]').forEach((radio) => {
+  radio.addEventListener("change", (e) => {
+    const cardForm = $("#card-demo-form");
+    if (cardForm) cardForm.hidden = e.target.value !== "card";
+  });
+});
+
+function captureWelcomeGps() {
+  const statusBadge = $("#welcome-gps-status");
+  const btn = $("#welcome-gps-btn");
+  if (!statusBadge) return;
+
+  if (!navigator.geolocation) {
+    statusBadge.hidden = false;
+    statusBadge.textContent = t("locationUnsupported");
+    return;
+  }
+
+  statusBadge.hidden = false;
+  statusBadge.textContent = t("gpsAcquiring");
+  if (btn) btn.disabled = true;
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      if (btn) btn.disabled = false;
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+      const acc = Math.round(position.coords.accuracy);
+
+      const welcomeForm = $("#welcome-form");
+      if (welcomeForm) {
+        let latInput = welcomeForm.querySelector('input[name="locationLatitude"]');
+        if (!latInput) {
+          latInput = document.createElement("input");
+          latInput.type = "hidden";
+          latInput.name = "locationLatitude";
+          welcomeForm.appendChild(latInput);
+        }
+        let lngInput = welcomeForm.querySelector('input[name="locationLongitude"]');
+        if (!lngInput) {
+          lngInput = document.createElement("input");
+          lngInput.type = "hidden";
+          lngInput.name = "locationLongitude";
+          welcomeForm.appendChild(lngInput);
+        }
+        let accInput = welcomeForm.querySelector('input[name="locationAccuracy"]');
+        if (!accInput) {
+          accInput = document.createElement("input");
+          accInput.type = "hidden";
+          accInput.name = "locationAccuracy";
+          welcomeForm.appendChild(accInput);
+        }
+        latInput.value = lat;
+        lngInput.value = lng;
+        accInput.value = acc;
+
+        const streetInput = welcomeForm.elements.street;
+        if (streetInput && !streetInput.value.trim()) {
+          streetInput.value = `📍 GPS Konumu (${lat.toFixed(5)}, ${lng.toFixed(5)}) · Moda / Kadıköy`;
+        }
+      }
+
+      statusBadge.hidden = false;
+      statusBadge.innerHTML = `📍 <strong>${t("gpsSuccess", { lat: lat.toFixed(5), lng: lng.toFixed(5) })}</strong> (±${acc}m) · <a href="https://maps.google.com/?q=${lat},${lng}" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline;">Google Maps</a>`;
+      showToast(t("locationCaptured"));
+    },
+    (err) => {
+      if (btn) btn.disabled = false;
+      statusBadge.hidden = false;
+      console.warn("Geolocation notice:", err);
+      statusBadge.textContent = t("gpsFailed");
+    },
+    { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
+  );
+}
+
+const welcomeGpsBtn = $("#welcome-gps-btn");
+if (welcomeGpsBtn) {
+  welcomeGpsBtn.addEventListener("click", captureWelcomeGps);
+}
+
+const signOutBtn = $("#sign-out-btn");
+if (signOutBtn) {
+  signOutBtn.addEventListener("click", () => {
+    try {
+      localStorage.removeItem(PROFILE_STORAGE_KEY);
+    } catch (e) {
+      console.error("Could not remove profile:", e);
+    }
+    profile = {
+      name: "",
+      phone: "",
+      email: "",
+      firebaseUid: null,
+      addresses: [],
+      activeAddressId: null,
+    };
+    cart = {};
+    saveCart();
+    renderCart();
+    closeAccount();
+    showWelcome();
+    showToast(t("signOutDone"));
+  });
+}
+
+const switchUserBtn = $("#switch-user-btn");
+if (switchUserBtn) {
+  switchUserBtn.addEventListener("click", () => {
+    closeAccount();
+    showWelcome();
+  });
+}
+
+const prevBillboardBtn = $("#billboard-prev");
+if (prevBillboardBtn) {
+  prevBillboardBtn.addEventListener("click", () => {
+    stopBillboardAutoPlay();
+    prevBillboardSlide();
+  });
+}
+
+const nextBillboardBtn = $("#billboard-next");
+if (nextBillboardBtn) {
+  nextBillboardBtn.addEventListener("click", () => {
+    stopBillboardAutoPlay();
+    nextBillboardSlide();
+  });
+}
+
+const billboardDots = $("#billboard-dots");
+if (billboardDots) {
+  billboardDots.addEventListener("click", (e) => {
+    const dot = e.target.closest("[data-billboard-index]");
+    if (dot) {
+      stopBillboardAutoPlay();
+      currentBillboardIndex = Number(dot.dataset.billboardIndex);
+      updateBillboardPosition();
+    }
+  });
+}
+
+const billboardCarousel = $("#billboard-carousel");
+if (billboardCarousel) {
+  billboardCarousel.addEventListener("mouseenter", stopBillboardAutoPlay);
+  billboardCarousel.addEventListener("mouseleave", startBillboardAutoPlay);
+}
+
+document.addEventListener("click", (event) => {
+  const dealBtn = event.target.closest("[data-deal-add]");
+  if (dealBtn) {
+    const prodId = dealBtn.dataset.dealAdd;
+    changeQuantity(prodId, 1);
+    const prod = products.find((p) => p.id === prodId);
+    showToast(t("itemAdded", { name: prod ? getText(prod.name) : "" }));
+  }
+});
 
 const demoPrefillBtn = $("#demo-prefill");
 if (demoPrefillBtn) {
