@@ -7,6 +7,9 @@
     <meta name="description" content="Şengün Süpermarket online market demosu." />
     <title>Şengün Süpermarket</title>
     <link rel="stylesheet" href="./styles.css" />
+    <script defer src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+    <script defer src="./firebase-config.js"></script>
     <script src="./catalog-data.js" defer></script>
     <script src="./staff-common.js" defer></script>
     <script src="./app.js" defer></script>
@@ -36,46 +39,61 @@
         </div>
 
         <div class="welcome-layout">
-          <div class="welcome-intro">
-            <span class="eyebrow" data-i18n="welcomeEyebrow">ŞENGÜN SÜPERMARKET</span>
-            <h1 id="welcome-title" data-i18n="welcomeTitle">Alışverişe<br />başlayalım.</h1>
-            <p data-i18n="welcomeIntro">Teslimat bilgilerini ekle, sepetini oluştur. Bilgilerin bu cihazda saklanır.</p>
-          </div>
-
           <form id="welcome-form" class="welcome-form">
-            <button class="google-demo-button" type="button" id="google-demo">
-              <span class="google-mark" aria-hidden="true">G</span>
-              <span data-i18n="googleDemoButton">Google ile devam et</span>
-              <small data-i18n="demoBadge">DEMO</small>
-            </button>
-            <p class="form-hint" data-i18n="googleDemoHint">Google/Firebase girişi bu MVP'de etkin değildir. Şimdilik bilgilerini aşağıya gir.</p>
-
-            <div class="form-divider"><span data-i18n="orEnterDetails">veya bilgilerini gir</span></div>
+            <div class="welcome-form__heading">
+              <span class="eyebrow" data-i18n="welcomeEyebrow">ŞENGÜN SÜPERMARKET</span>
+              <h1 id="welcome-title" data-i18n="welcomeTitle">Alışverişe başlayalım.</h1>
+              <p data-i18n="welcomeIntro">Devam etmek için bilgilerini gir.</p>
+            </div>
             <div class="form-grid">
-              <label class="form-field">
+              <label class="form-field form-field--full">
+                <span data-i18n="fullName">Ad soyad</span>
+                <input name="name" autocomplete="name" required maxlength="80" data-i18n-placeholder="namePlaceholder" placeholder="Adın ve soyadın" />
+              </label>
+              <label class="form-field form-field--full">
                 <span data-i18n="phoneNumber">Telefon numarası</span>
                 <input name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="24" data-i18n-placeholder="phonePlaceholder" placeholder="+90 5xx xxx xx xx" />
               </label>
-              <label class="form-field">
-                <span data-i18n="emailAddress">E-posta adresi</span>
-                <input name="email" type="email" autocomplete="email" required maxlength="254" data-i18n-placeholder="emailPlaceholder" placeholder="ornek@eposta.com" />
-              </label>
               <label class="form-field form-field--full">
-                <span data-i18n="homeAddress">Ev adresin</span>
-                <textarea name="street" autocomplete="street-address" rows="3" required maxlength="180" data-i18n-placeholder="homeAddressPlaceholder" placeholder="Açık adresini yaz"></textarea>
+                <span data-i18n="homeAddress">Kapı adresin</span>
+                <textarea name="street" autocomplete="street-address" rows="2" required maxlength="180" data-i18n-placeholder="homeAddressPlaceholder" placeholder="Sokak, bina ve daire numarası"></textarea>
               </label>
             </div>
-            <p class="privacy-note" data-i18n="localStorageNote">Bilgilerin ve konumun bu cihazda saklanır; yalnızca sipariş verdiğinde mağazaya iletilir.</p>
+            <p class="privacy-note" data-i18n="localStorageNote">Bilgilerin bu cihazda saklanır ve sipariş verirken mağazaya iletilir.</p>
             <button class="button button--primary button--large button--wide" type="submit">
-              <span data-i18n="saveAndShop">Bilgilerimi kaydet ve alışverişe başla</span>
+              <span data-i18n="saveAndShop">Devam et</span>
               <span aria-hidden="true">→</span>
             </button>
+            <button class="button button--outline button--wide stakeholder-prefill-btn" type="button" id="demo-prefill">
+              ⚡ <span data-i18n="demoFastEnter">Stakeholder Demosu ile Hızlı Başla</span>
+            </button>
+            <div class="form-divider"><span data-i18n="orUseGoogle">veya</span></div>
+            <button class="google-demo-button" type="button" id="google-demo">
+              <span class="google-mark" aria-hidden="true">G</span>
+              <span data-i18n="googleDemoButton">Google ile devam et</span>
+            </button>
+            <p class="form-hint" id="auth-status" role="status" aria-live="polite" hidden></p>
           </form>
         </div>
       </div>
     </section>
 
     <header class="site-header" id="site-header" hidden>
+      <div class="stakeholder-banner">
+        <div class="stakeholder-banner__inner">
+          <span class="stakeholder-tag">🎯 STAKEHOLDER DEMO HUB</span>
+          <span class="stakeholder-desc" data-i18n="stakeholderHubDesc">Tek Tıkla Sepet Yükle:</span>
+          <div class="stakeholder-bundles">
+            <button type="button" class="bundle-pill" data-bundle="breakfast">🥐 <span data-i18n="bundleBreakfast">Kahvaltı Sepeti</span></button>
+            <button type="button" class="bundle-pill" data-bundle="dinner">🍲 <span data-i18n="bundleDinner">Akşam Yemeği Sepeti</span></button>
+            <button type="button" class="bundle-pill" data-bundle="freeDelivery">🚀 <span data-i18n="bundleFreeDelivery">Ücretsiz Teslimat Paketi</span></button>
+          </div>
+          <div class="stakeholder-views">
+            <a href="./admin.html" class="stakeholder-view-link" target="_blank" rel="noopener">📊 <span data-i18n="adminRole">Admin</span></a>
+            <a href="./delivery.html" class="stakeholder-view-link" target="_blank" rel="noopener">🛵 <span data-i18n="riderRole">Kurye</span></a>
+          </div>
+        </div>
+      </div>
       <div class="header-top">
         <a class="brand" href="#" aria-label="Şengün Süpermarket" data-home-link>
           <span class="brand__monogram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-7.3 8-13a8 8 0 1 0-16 0c0 5.7 8 13 8 13Z" /><circle cx="12" cy="9" r="2.6" /></svg></span>
@@ -209,8 +227,8 @@
           <button class="icon-button" type="button" aria-label="Close" data-close-account>×</button>
         </div>
         <form id="profile-form" class="profile-form">
+          <label class="form-field"><span data-i18n="fullName">Ad soyad</span><input name="name" autocomplete="name" required maxlength="80" /></label>
           <label class="form-field"><span data-i18n="phoneNumber">Telefon numarası</span><input name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="24" /></label>
-          <label class="form-field"><span data-i18n="emailAddress">E-posta adresi</span><input name="email" type="email" autocomplete="email" required maxlength="254" /></label>
           <button class="button button--outline" type="submit" data-i18n="saveProfile">Bilgileri kaydet</button>
         </form>
         <div class="address-list-heading"><h3 data-i18n="savedAddresses">Kayıtlı adresler</h3><span id="address-count"></span></div>
@@ -267,10 +285,17 @@
         <fieldset class="delivery-fields">
           <legend data-i18n="deliveryTime">Teslimat zamanı tercihi</legend>
           <div class="delivery-options">
-            <label class="delivery-option"><input type="radio" name="deliverySlot" value="soon" checked /><span data-i18n="asap">Mağazayla teyitleş</span></label>
-            <label class="delivery-option"><input type="radio" name="deliverySlot" value="schedule" /><span data-i18n="contactForTime">Teslimat saatini konuşalım</span></label>
+            <label class="delivery-option"><input type="radio" name="deliverySlot" value="soon" checked /><span><strong data-i18n="asap">⚡ Hemen Teslimat (30-45 dk)</strong><small data-i18n="expressDesc">Express Kurye ile hızlı ulaşım</small></span></label>
+            <label class="delivery-option"><input type="radio" name="deliverySlot" value="schedule" /><span><strong data-i18n="contactForTime">🕒 Saat Tercihi Belirle</strong><small data-i18n="scheduledDesc">Mağazayla saat teyitleş</small></span></label>
           </div>
         </fieldset>
+        <div class="delivery-zone-badge">
+          <span class="delivery-zone-badge__icon" aria-hidden="true">📍</span>
+          <div class="delivery-zone-badge__text">
+            <strong data-i18n="zoneTitle">Kadıköy / Moda Teslimat Bölgesi</strong>
+            <small data-i18n="zoneSubtitle">Tahmini Ulaşım: 25-35 dk · Ücretsiz Kurye Sınırı: ₺500</small>
+          </div>
+        </div>
         <div class="checkout-summary">
           <div id="checkout-items"></div>
           <div class="price-line"><span data-i18n="subtotal">Ara toplam</span><strong id="checkout-subtotal">₺0,00</strong></div>

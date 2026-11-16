@@ -4,13 +4,33 @@ const ORDER_RECIPIENT = "905391168536";
 const DELIVERY_FEE_KURUS = 2990;
 const FREE_DELIVERY_THRESHOLD_KURUS = 50000;
 const PRODUCTS = {
-  "dana-kiyma": { name: "Dana Kıyma", price: 889.9, unit: "Fiyat mağazada teyit edilecek" },
-  "sultani-uzum": { name: "Sultani Üzüm", price: 99.9, unit: "Fiyat mağazada teyit edilecek" },
+  "dana-kiyma": { name: "Dana Kıyma", price: 889.9, unit: "1 kg" },
+  "sultani-uzum": { name: "Sultani Üzüm", price: 99.9, unit: "1 kg" },
   "duru-bulgur": { name: "Duru Pratik Bulgur Pilavı", price: 69.9, unit: "250 g" },
   "kovil-sabun": { name: "Kovil Sıvı Sabun Çeşitleri", price: 29.9, unit: "400 ml" },
   danablu: { name: "Castello Danablu", price: 139.9, unit: "100 g" },
-  seftali: { name: "Şeftali", price: 84.9, unit: "Fiyat mağazada teyit edilecek" },
-  kavun: { name: "Kavun", price: 34.9, unit: "Fiyat mağazada teyit edilecek" },
+  seftali: { name: "Şeftali", price: 84.9, unit: "1 kg" },
+  kavun: { name: "Kavun", price: 34.9, unit: "1 adet" },
+  "domates-salkim": { name: "Salkım Domates", price: 54.9, unit: "1 kg" },
+  "avokado-ithal": { name: "İthal Hass Avokado", price: 49.9, unit: "1 adet" },
+  "tavuk-bonfile": { name: "Tavuk Bonfile Göğüs", price: 189.9, unit: "1 kg" },
+  "kuzu-pirzola": { name: "Kuzu Kalem Pirzola", price: 489.9, unit: "500 g" },
+  "kasap-sucuk": { name: "Geleneksel Kasap Sucuk", price: 329.9, unit: "400 g" },
+  "ezine-peyniri": { name: "Ezine Klasik Beyaz Peynir", price: 219.9, unit: "500 g" },
+  "organik-koy-yumurtasi": { name: "Organik Gezen Tavuk Yumurtası", price: 79.9, unit: "10'lu Paket" },
+  "gunluk-taze-sut": { name: "Günlük Çiftlik Sütü %3.5 Yağlı", price: 44.5, unit: "1 L" },
+  "tereyagi-trabzon": { name: "Trabzon Yayık Tereyağı", price: 239.9, unit: "500 g" },
+  "eksi-maya-koy-ekmegi": { name: "Ekşi Mayalı Köy Ekmeği", price: 48.0, unit: "750 g" },
+  "tereyagli-simit": { name: "Çıtır Sokak Simidi", price: 15.0, unit: "1 adet" },
+  "boyoz-izmir": { name: "Fırın İzmir Boyozu", price: 45.0, unit: "3'lü Paket" },
+  "zeytinyagi-sizma": { name: "Soğuk Sıkım Naturel Sızma Zeytinyağı", price: 395.0, unit: "1 L" },
+  "cay-karadeniz": { name: "Rize Çayı Gurme Harman", price: 139.9, unit: "1 kg" },
+  "baldo-pirinc": { name: "Gönen Baldo Pirinç", price: 92.5, unit: "1 kg" },
+  "taze-portakal-suyu": { name: "%100 Taze Sıkma Portakal Suyu", price: 65.0, unit: "500 ml" },
+  "soda-dogal": { name: "Doğal Zengin Mineralli Maden Suyu", price: 42.0, unit: "6 x 200 ml" },
+  "turk-kahvesi": { name: "Geleneksel Çekim Türk Kahvesi", price: 62.0, unit: "250 g" },
+  "organik-bulasik-deterjani": { name: "Bitkisel Bulaşık Deterjanı", price: 64.9, unit: "750 ml" },
+  "cam-temizleyici": { name: "Sirkeli Doğal Yüzey & Cam Spreyi", price: 46.5, unit: "500 ml" },
 };
 
 function cleanText(value, maxLength) {
@@ -70,10 +90,10 @@ function buildOrder(body) {
   const customer = body?.customer;
   const address = body?.address;
   const items = body?.items;
-  const name = cleanText(customer?.name, 80) || "Customer";
+  const name = cleanText(customer?.name, 80);
   const phone = cleanText(customer?.phone, 24);
   const email = cleanText(customer?.email, 254);
-  if (!/^[+\d\s().-]{7,24}$/.test(phone) ||
+  if (!name || !/^[+\d\s().-]{7,24}$/.test(phone) ||
       (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) ||
       !validAddress(address) ||
       !Array.isArray(items) || items.length < 1 || items.length > Object.keys(PRODUCTS).length ||

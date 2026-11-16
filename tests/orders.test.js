@@ -88,6 +88,7 @@ test("reports missing WhatsApp configuration without making a request", async ()
 
 test("rejects malformed, unknown, and duplicate cart items before sending", async () => {
   const invalidOrders = [
+    { ...validOrder, customer: { ...validOrder.customer, name: "" } },
     { ...validOrder, customer: { ...validOrder.customer, phone: "call me" } },
     { ...validOrder, customer: { ...validOrder.customer, email: "not-an-email" } },
     { ...validOrder, address: { ...validOrder.address, street: "" } },
@@ -188,7 +189,7 @@ test("accepts a single freeform address and includes the customer's email", asyn
   const response = createResponse();
   const body = {
     ...validOrder,
-    customer: { phone: "+90 555 123 4567", email: "shopper@example.com" },
+    customer: { name: "Shopper", phone: "+90 555 123 4567", email: "shopper@example.com" },
     address: {
       label: "Home",
       city: "",
@@ -204,6 +205,7 @@ test("accepts a single freeform address and includes the customer's email", asyn
   assert.equal(response.statusCode, 201);
   assert.equal(response.body.email, "shopper@example.com");
   assert.match(receipt, /shopper@example\.com/);
+  assert.match(receipt, /Müşteri: Shopper/);
   assert.match(receipt, /12 Example Street, Apartment 3/);
 });
 

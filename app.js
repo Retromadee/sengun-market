@@ -7,18 +7,23 @@ const FREE_DELIVERY_THRESHOLD = 500;
 const translations = {
   tr: {
     welcomeEyebrow: "ŞENGÜN SÜPERMARKET",
-    welcomeTitle: "Alışverişe<br>başlayalım.",
-    welcomeIntro: "Başlamak için telefonunu, e-posta adresini ve ev adresini ekle.",
+    welcomeTitle: "Hoş geldin",
+    welcomeIntro: "Devam etmek için bilgilerini gir.",
     googleDemoButton: "Google ile devam et",
-    demoBadge: "DEMO",
-    googleDemoHint: "Google ile giriş bu demoda henüz etkin değil. İstersen telefon, e-posta ve adresinle devam et.",
-    orEnterDetails: "veya bilgilerini gir",
+    googleAuthUnavailable: "Google girişi yüklenemedi. Sayfayı yenileyip tekrar dene.",
+    googleAuthFailed: "Google girişi başarısız oldu. Lütfen tekrar dene.",
+    googleAuthCancelled: "Google girişi iptal edildi.",
+    googleAuthPopupBlocked: "Google girişi açılır penceresi engellendi. Tarayıcıda açılır pencerelere izin ver.",
+    googleAuthDomain: "Bu alan adı Firebase'de yetkili değil. Firebase Authentication ayarlarına ekle.",
+    googleAuthProvider: "Firebase Console'da Google sağlayıcısını etkinleştir.",
+    googleAuthNetwork: "Ağa bağlanılamadı. Bağlantını kontrol edip tekrar dene.",
+    googleAuthCompleteProfile: "Google ile giriş yapıldı. Devam etmek için telefonunu ve kapı adresini gir.",
+    googleAuthSignedIn: "Google hesabınla giriş yapıldı.",
+    orUseGoogle: "veya",
     fullName: "Ad soyad",
     phoneNumber: "Telefon numarası",
-    emailAddress: "E-posta adresi",
-    emailPlaceholder: "ornek@eposta.com",
-    homeAddress: "Ev adresin",
-    homeAddressPlaceholder: "Açık adresini yaz",
+    homeAddress: "Kapı adresin",
+    homeAddressPlaceholder: "Sokak, bina ve daire numarası",
     homeAddressLabel: "Ev",
     otherAddressLabel: "Adres {count}",
     firstDeliveryAddress: "İlk teslimat adresin",
@@ -36,7 +41,7 @@ const translations = {
     neighborhoodPlaceholder: "Mahalle",
     streetPlaceholder: "Cadde/sokak, bina no, daire no",
     addressNotePlaceholder: "Daireyi bulmaya yardımcı olacak bilgi",
-    localStorageNote: "Bilgilerin bu cihazda saklanır; yalnızca sipariş verdiğinde mağazaya iletilir.",
+    localStorageNote: "Bilgilerin bu cihazda kalır ve sipariş verdiğinde mağazaya iletilir.",
     useCurrentLocation: "Canlı konumumu kullan",
     gettingLocation: "Konum alınıyor…",
     locationCaptured: "Konum alındı. Bu pin sipariş verdiğinde mağazaya iletilir.",
@@ -105,7 +110,7 @@ const translations = {
     staffStorageError: "Demo değişikliği kaydedilemedi. Tarayıcı depolama alanını kontrol et.",
     staffOrderStorageError: "Sipariş WhatsApp'a gönderildi ancak bu tarayıcıdaki demo sipariş listesine kaydedilemedi.",
     demoCatalogCheckoutBlocked: "Bu yerel katalog değişikliği gerçek siparişte kullanılamaz. Sunucudaki katalog ayrıca güncellenmelidir.",
-    saveAndShop: "Bilgilerimi kaydet ve alışverişe başla",
+    saveAndShop: "Devam et",
     deliverTo: "Teslimat adresi",
     searchProducts: "Ürün ara",
     searchPlaceholder: "Ürün veya marka ara",
@@ -207,8 +212,7 @@ const translations = {
     selectAddress: "Teslimat adresi olarak seç",
     removeAddress: "Adresi sil",
     addAddressLimit: "Adres sınırına ulaştın (5/5).",
-    profileRequired: "Başlamak için telefonunu, e-posta adresini ve ev adresini kaydet.",
-    googleDemoMessage: "Google girişi, Firebase Authentication bağlandığında etkinleştirilecek. Bu demo sürümünde giriş yapılmaz; lütfen formu doldur.",
+    profileRequired: "Başlamak için adını, telefonunu ve kapı adresini kaydet.",
     noAddresses: "Henüz kayıtlı adres yok.",
     addressSummary: "{label} · {district}, {city}",
     orderErrorConfig: "Sipariş gönderimi henüz yapılandırılmadı. Lütfen daha sonra tekrar dene.",
@@ -217,21 +221,56 @@ const translations = {
     orderTooLarge: "Sipariş bilgileri gönderilemeyecek kadar uzun. Adres tarifini kısaltıp tekrar dene.",
     updatedAddressCount: "{count}/5 adres",
     close: "Kapat",
+    demoFastEnter: "Stakeholder Demosu ile Hızlı Başla",
+    stakeholderHubDesc: "Tek Tıkla Sepet Yükle:",
+    bundleBreakfast: "Kahvaltı Paketi",
+    bundleDinner: "Akşam Yemeği Sepeti",
+    bundleFreeDelivery: "Ücretsiz Teslimat Paketi",
+    bundleAdded: "'{bundle}' sepetine eklendi!",
+    expressDesc: "Express Kurye ile hızlı ulaşım",
+    scheduledDesc: "Mağazayla saat teyitleş",
+    zoneTitle: "Kadıköy / Moda Teslimat Bölgesi",
+    zoneSubtitle: "Tahmini Ulaşım: 25-35 dk · Ücretsiz Kurye Sınırı: ₺500",
+    liveTrackingBadge: "CANLI KURYE & SİPARİŞ TAKİBİ",
+    etaLabel: "Tahmini Teslimat:",
+    trackingSimHeading: "STAKEHOLDER DEMO SİMÜLATÖRÜ",
+    trackingAdvanceBtn: "Sonraki Aşamaya İlerle ▶",
+    trackingAutoBtn: "Otomatik İlerle (4 sn)",
+    trackingAutoStop: "Otomatik Durdur",
+    step1Title: "Sipariş Alındı",
+    step1Desc: "Sipariş mağaza sistemine ulaştı ve reyon ekibine iletildi.",
+    step2Title: "Hazırlanıyor",
+    step2Desc: "Ürünler reyonlardan özenle seçilip soğuk zincire uygun paketleniyor.",
+    step3Title: "Kuryeye Verildi",
+    step3Desc: "Paket mühürlendi ve kurye Murat Bey'e teslim edildi.",
+    step4Title: "Kurye Yolda",
+    step4Desc: "Kuryeniz adresinize doğru hareket halinde. Tahmini varış: 12 dk.",
+    step5Title: "Teslim Edildi",
+    step5Desc: "Siparişiniz kapınıza teslim edildi. Afiyet olsun!",
+    courierName: "Murat Karaca",
+    courierVehicle: "🛵 34 SG 1984 (Honda Activa)",
+    courierRating: "4.9 ★ (1.420 teslimat)",
+    callCourier: "Kuryeyi Ara",
   },
   en: {
     welcomeEyebrow: "ŞENGÜN SUPERMARKET",
-    welcomeTitle: "Let's get<br>started.",
-    welcomeIntro: "Add your phone number, email, and home address to get started.",
+    welcomeTitle: "Welcome",
+    welcomeIntro: "Enter your details to continue.",
     googleDemoButton: "Continue with Google",
-    demoBadge: "DEMO",
-    googleDemoHint: "Google sign-in is not enabled in this demo yet. You can continue with your phone, email, and address.",
-    orEnterDetails: "or enter your details",
+    googleAuthUnavailable: "Google sign-in could not load. Refresh the page and try again.",
+    googleAuthFailed: "Google sign-in failed. Please try again.",
+    googleAuthCancelled: "Google sign-in was cancelled.",
+    googleAuthPopupBlocked: "The Google sign-in popup was blocked. Allow popups in your browser.",
+    googleAuthDomain: "This domain is not authorized in Firebase. Add it in Firebase Authentication settings.",
+    googleAuthProvider: "Enable the Google provider in Firebase Console.",
+    googleAuthNetwork: "Could not connect to the network. Check your connection and try again.",
+    googleAuthCompleteProfile: "Signed in with Google. Enter your phone number and door address to continue.",
+    googleAuthSignedIn: "You are signed in with Google.",
+    orUseGoogle: "or",
     fullName: "Full name",
     phoneNumber: "Phone number",
-    emailAddress: "Email address",
-    emailPlaceholder: "you@example.com",
-    homeAddress: "Home address",
-    homeAddressPlaceholder: "Enter your full address",
+    homeAddress: "Door address",
+    homeAddressPlaceholder: "Street, building and apartment number",
     homeAddressLabel: "Home",
     otherAddressLabel: "Address {count}",
     firstDeliveryAddress: "Your first delivery address",
@@ -249,7 +288,7 @@ const translations = {
     neighborhoodPlaceholder: "Neighborhood",
     streetPlaceholder: "Street, building number, apartment",
     addressNotePlaceholder: "Details to help find your door",
-    localStorageNote: "Your details stay on this device and are shared with the store only when you place an order.",
+    localStorageNote: "Your details stay on this device and are shared with the store when you place an order.",
     useCurrentLocation: "Use my live location",
     gettingLocation: "Getting your location…",
     locationCaptured: "Location captured. This pin will be sent to the store with your order.",
@@ -318,7 +357,7 @@ const translations = {
     staffStorageError: "Could not save the demo change. Check browser storage.",
     staffOrderStorageError: "The order was sent to WhatsApp but could not be saved to this browser's demo order list.",
     demoCatalogCheckoutBlocked: "This local catalog change cannot be used for a real order. The server catalog must be updated separately.",
-    saveAndShop: "Save details and start shopping",
+    saveAndShop: "Continue",
     deliverTo: "Deliver to",
     searchProducts: "Search products",
     searchPlaceholder: "Search products or brands",
@@ -420,8 +459,7 @@ const translations = {
     selectAddress: "Set as delivery address",
     removeAddress: "Remove address",
     addAddressLimit: "Address limit reached (5/5).",
-    profileRequired: "Save your phone, email, and home address to get started.",
-    googleDemoMessage: "Google sign-in will be enabled when Firebase Authentication is connected. This demo does not sign you in; please fill in the form.",
+    profileRequired: "Save your name, phone number, and door address to get started.",
     noAddresses: "No saved addresses yet.",
     addressSummary: "{label} · {district}, {city}",
     orderErrorConfig: "Order sending is not configured yet. Please try again later.",
@@ -430,6 +468,36 @@ const translations = {
     orderTooLarge: "The order details are too long to send. Shorten the delivery instructions and try again.",
     updatedAddressCount: "{count}/5 addresses",
     close: "Close",
+    demoFastEnter: "Quick Start Stakeholder Demo",
+    stakeholderHubDesc: "1-Click Demo Cart:",
+    bundleBreakfast: "Breakfast Bundle",
+    bundleDinner: "Dinner Bundle",
+    bundleFreeDelivery: "Free Delivery Bundle",
+    bundleAdded: "'{bundle}' added to your cart!",
+    expressDesc: "Quick dispatch via Express Courier",
+    scheduledDesc: "Confirm time window with store",
+    zoneTitle: "Kadikoy / Moda Delivery Zone",
+    zoneSubtitle: "Est. Transit: 25-35 min · Free Delivery: ₺500+",
+    liveTrackingBadge: "LIVE ORDER & RIDER TRACKING",
+    etaLabel: "Estimated Delivery:",
+    trackingSimHeading: "STAKEHOLDER DEMO SIMULATOR",
+    trackingAdvanceBtn: "Advance Next Stage ▶",
+    trackingAutoBtn: "Auto-Play Demo (4s)",
+    trackingAutoStop: "Stop Auto-Play",
+    step1Title: "Order Received",
+    step1Desc: "Order received by the store and dispatched to the prep station.",
+    step2Title: "Order Packing",
+    step2Desc: "Fresh items are carefully picked and packaged with cold-chain care.",
+    step3Title: "Handed to Rider",
+    step3Desc: "Package sealed and handed to courier Murat.",
+    step4Title: "Out for Delivery",
+    step4Desc: "Courier is en route to your address. Est. arrival: 12 mins.",
+    step5Title: "Delivered",
+    step5Desc: "Order successfully delivered to your doorstep. Enjoy!",
+    courierName: "Murat Karaca",
+    courierVehicle: "🛵 34 SG 1984 (Honda Activa)",
+    courierRating: "4.9 ★ (1,420 deliveries)",
+    callCourier: "Call Rider",
   },
 };
 
@@ -459,6 +527,8 @@ let previousFocus = null;
 let accountReturnToCheckout = false;
 let lastOrder = null;
 let toastTimer;
+let firebaseAuth = null;
+let authStatusKey = "";
 
 function t(key, values = {}) {
   let text = translations[language][key] || translations.en[key] || key;
@@ -490,6 +560,9 @@ function applyTranslations() {
   $$("[data-i18n-title]").forEach((element) => {
     element.title = t(element.dataset.i18nTitle);
   });
+  const authStatus = $("#auth-status");
+  authStatus.textContent = authStatusKey ? t(authStatusKey) : "";
+  authStatus.hidden = !authStatusKey;
   $$("[data-language]").forEach((button) => {
     button.setAttribute("aria-pressed", String(button.dataset.language === language));
   });
@@ -531,7 +604,7 @@ function loadProfile() {
   try {
     const stored = JSON.parse(localStorage.getItem(PROFILE_STORAGE_KEY) || "null");
     if (!stored || typeof stored.phone !== "string" || !Array.isArray(stored.addresses)) {
-      return { name: "", phone: "", email: "", addresses: [], activeAddressId: "" };
+      return { name: "", phone: "", email: "", firebaseUid: "", addresses: [], activeAddressId: "" };
     }
     const addresses = stored.addresses.slice(0, 5).filter((address) =>
       address && typeof address.id === "string" && typeof address.label === "string" &&
@@ -552,12 +625,13 @@ function loadProfile() {
       name: typeof stored.name === "string" ? stored.name.slice(0, 80) : "",
       phone: stored.phone.slice(0, 24),
       email: typeof stored.email === "string" ? stored.email.slice(0, 254) : "",
+      firebaseUid: typeof stored.firebaseUid === "string" ? stored.firebaseUid.slice(0, 128) : "",
       addresses,
       activeAddressId,
     };
   } catch (error) {
     console.error("Saved profile could not be read:", error);
-    return { name: "", phone: "", email: "", addresses: [], activeAddressId: "" };
+    return { name: "", phone: "", email: "", firebaseUid: "", addresses: [], activeAddressId: "" };
   }
 }
 
@@ -786,10 +860,20 @@ function renderProducts() {
           <span class="product-card__unit">${escapeHtml(unit)}</span>
           <div class="product-card__bottom">
             <span class="product-card__price">${formatPrice(product.price)} <small>${unit === t("unitNotListed") ? t("displayPrice") : t("perUnit", { unit: escapeHtml(unit.split(" · ")[0]) })}</small></span>
-            <button class="add-button${quantity ? " is-added" : ""}" type="button" data-add="${escapeHtml(product.id)}"
-              aria-label="${escapeHtml(name)} — ${quantity ? t("addAnother") : t("addToCart")}">
-              ${quantity ? `${quantity} ✓` : "+"}
-            </button>
+            ${quantity > 0 ? `
+              <div class="card-stepper" role="group" aria-label="${escapeHtml(name)} ${language === "tr" ? "adedi" : "quantity"}">
+                <button class="card-stepper__btn" type="button" data-quantity="${escapeHtml(product.id)}" data-change="-1"
+                  aria-label="${language === "tr" ? "Azalt" : "Decrease"} ${escapeHtml(name)}">−</button>
+                <span class="card-stepper__val">${quantity}</span>
+                <button class="card-stepper__btn" type="button" data-quantity="${escapeHtml(product.id)}" data-change="1"
+                  aria-label="${language === "tr" ? "Artır" : "Increase"} ${escapeHtml(name)}">+</button>
+              </div>
+            ` : `
+              <button class="add-button" type="button" data-add="${escapeHtml(product.id)}"
+                aria-label="${escapeHtml(name)} — ${t("addToCart")}">
+                +
+              </button>
+            `}
           </div>
         </div>
       </article>
@@ -845,8 +929,8 @@ function renderCart() {
 
 function renderAccount() {
   const profileForm = $("#profile-form");
+  profileForm.elements.name.value = profile.name;
   profileForm.elements.phone.value = profile.phone;
-  profileForm.elements.email.value = profile.email;
   $("#address-count").textContent = t("updatedAddressCount", { count: profile.addresses.length });
   $("#saved-addresses").innerHTML = profile.addresses.length
     ? profile.addresses.map((address) => `
@@ -895,6 +979,97 @@ function renderCheckout() {
   $("#checkout-total").textContent = formatPrice(subtotal + fee);
 }
 
+let trackingStage = 1;
+let trackingAutoInterval = null;
+
+function renderTrackingSim(order) {
+  const stage = trackingStage;
+  const stages = [
+    { num: 1, title: t("step1Title"), desc: t("step1Desc"), eta: language === "tr" ? "28 dk" : "28 min", icon: "📋" },
+    { num: 2, title: t("step2Title"), desc: t("step2Desc"), eta: language === "tr" ? "22 dk" : "22 min", icon: "🧺" },
+    { num: 3, title: t("step3Title"), desc: t("step3Desc"), eta: language === "tr" ? "15 dk" : "15 min", icon: "📦" },
+    { num: 4, title: t("step4Title"), desc: t("step4Desc"), eta: language === "tr" ? "7 dk" : "7 min", icon: "🛵" },
+    { num: 5, title: t("step5Title"), desc: t("step5Desc"), eta: language === "tr" ? "Kapınızda" : "At Door", icon: "🎉" },
+  ];
+  const cur = stages[stage - 1] || stages[0];
+
+  return `
+    <div class="tracking-sim-card" id="tracking-sim-card">
+      <div class="tracking-sim-header">
+        <div class="tracking-badge">${t("liveTrackingBadge")}</div>
+        <div class="tracking-eta-box">
+          <span>${t("etaLabel")}</span>
+          <strong>${cur.eta}</strong>
+        </div>
+      </div>
+
+      <div class="status-timeline" role="list" aria-label="${t("trackingTitle")}">
+        ${stages.map((s) => {
+          const isDone = s.num < stage;
+          const isCurrent = s.num === stage;
+          const cls = isDone ? "is-done" : isCurrent ? "is-current" : "";
+          return `
+            <div class="status-step ${cls}" role="listitem">
+              <i>${isDone ? "✓" : s.num}</i>
+              <span>${escapeHtml(s.title)}</span>
+            </div>
+          `;
+        }).join("")}
+      </div>
+
+      <div class="tracking-status-desc">
+        <span class="icon">${cur.icon}</span>
+        <div>
+          <strong>${escapeHtml(cur.title)}:</strong>
+          <span>${escapeHtml(cur.desc)}</span>
+        </div>
+      </div>
+
+      <div class="courier-card">
+        <div class="courier-card__info">
+          <div class="courier-card__avatar">🛵</div>
+          <div class="courier-card__name">
+            <strong>${t("courierName")} <span class="courier-card__badge">${t("courierRating")}</span></strong>
+            <small>${t("courierVehicle")} · ${stage >= 4 ? (language === "tr" ? "Adresinize 450m mesafede · Canlı Konum" : "450m from your door · Live GPS") : (language === "tr" ? "Mağazada koli teslim alınıyor" : "At market station")}</small>
+          </div>
+        </div>
+        <a class="courier-card__action" href="tel:+905550001042">📞 ${t("callCourier")}</a>
+      </div>
+
+      <div class="tracking-sim-controls">
+        <span class="tracking-sim-label">🎯 ${t("trackingSimHeading")}</span>
+        <div style="display: flex; gap: 8px;">
+          <button class="button button--primary" type="button" id="advance-tracking-btn">
+            ${t("trackingAdvanceBtn")}
+          </button>
+          <button class="button button--outline" type="button" id="auto-tracking-btn">
+            ${trackingAutoInterval ? t("trackingAutoStop") : t("trackingAutoBtn")}
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function syncOrderWithStaff(orderId, stageNum) {
+  if (!window.SengunStaff || !orderId) return;
+  const staffStatusMap = {
+    1: "accepted",
+    2: "preparing",
+    3: "ready_for_delivery",
+    4: "out_for_delivery",
+    5: "delivered",
+  };
+  const targetStatus = staffStatusMap[stageNum];
+  if (!targetStatus) return;
+  const orders = window.SengunStaff.loadOrders();
+  const existing = orders.find((o) => o.id === orderId);
+  if (existing) {
+    existing.status = targetStatus;
+    window.SengunStaff.saveOrders(orders);
+  }
+}
+
 function renderConfirmation(order) {
   const address = order.address;
   confirmationPage.innerHTML = `
@@ -904,8 +1079,11 @@ function renderConfirmation(order) {
       <h1 id="confirmation-title" tabindex="-1">${t("orderSent")}</h1>
       <p>${t("orderSentIntro")}</p>
     </div>
+
+    ${renderTrackingSim(order)}
+
     <div class="confirmation-details">
-      <div><span>${t("customer")}</span><strong>${escapeHtml(profile.phone)}<br>${escapeHtml(profile.email)}</strong></div>
+      <div><span>${t("customer")}</span><strong>${escapeHtml(profile.name)}<br>${escapeHtml(profile.phone)}</strong></div>
       <div><span>${t("deliveryAddress")}</span><strong>${escapeHtml(addressSummary(address))}${address.location ? `<br><a class="address-map-link" href="${mapLocationUrl(address.location)}" target="_blank" rel="noopener noreferrer">${t("openMapLocation")}</a>` : ""}</strong></div>
     </div>
     <div class="confirmation-order">
@@ -914,15 +1092,37 @@ function renderConfirmation(order) {
       <div class="confirmation-order__row"><span>${t("feeLabel")}</span><strong>${order.fee ? formatPrice(order.fee) : (language === "tr" ? "Ücretsiz" : "Free")}</strong></div>
       <div class="confirmation-order__total"><span>${t("totalLabel")}</span><span>${formatPrice(order.total)}</span></div>
     </div>
-    <div class="status-timeline" aria-label="${t("orderSummary")}">
-      <div class="status-step is-current"><i>1</i><span>${t("requestPrepared")}</span></div>
-      <div class="status-step"><i>2</i><span>${t("waitingStore")}</span></div>
-      <div class="status-step"><i>3</i><span>${t("deliveryToConfirm")}</span></div>
-    </div>
     <div class="confirmation-actions">
       <button class="button button--outline" type="button" data-return-home>${t("returnToShop")}</button>
     </div>
   `;
+
+  // Attach Tracking Simulation Event Listeners
+  const advanceBtn = $("#advance-tracking-btn");
+  if (advanceBtn) {
+    advanceBtn.addEventListener("click", () => {
+      trackingStage = trackingStage < 5 ? trackingStage + 1 : 1;
+      syncOrderWithStaff(order.number, trackingStage);
+      renderConfirmation(order);
+    });
+  }
+
+  const autoBtn = $("#auto-tracking-btn");
+  if (autoBtn) {
+    autoBtn.addEventListener("click", () => {
+      if (trackingAutoInterval) {
+        clearInterval(trackingAutoInterval);
+        trackingAutoInterval = null;
+      } else {
+        trackingAutoInterval = setInterval(() => {
+          trackingStage = trackingStage < 5 ? trackingStage + 1 : 1;
+          syncOrderWithStaff(order.number, trackingStage);
+          renderConfirmation(order);
+        }, 4000);
+      }
+      renderConfirmation(order);
+    });
+  }
 }
 
 function addressForStaff(address) {
@@ -946,11 +1146,11 @@ function showWelcome() {
   main.hidden = true;
   footer.hidden = true;
   const form = $("#welcome-form");
+  form.elements.name.value = profile.name;
   form.elements.phone.value = profile.phone;
-  form.elements.email.value = profile.email;
   const savedAddress = getAddress();
   if (savedAddress) form.elements.street.value = addressSummary(savedAddress);
-  form.elements.phone.focus();
+  form.elements.name.focus();
 }
 
 function enterShop() {
@@ -1164,6 +1364,11 @@ async function startWhatsappOrder() {
 }
 
 function returnHome() {
+  if (trackingAutoInterval) {
+    clearInterval(trackingAutoInterval);
+    trackingAutoInterval = null;
+  }
+  trackingStage = 1;
   confirmationPage.hidden = true;
   confirmationPage.innerHTML = "";
   lastOrder = null;
@@ -1180,21 +1385,113 @@ function handleWelcomeSubmit(event) {
   const address = makeAddress(formData);
   if (!address.street) return;
   profile = {
-    name: profile.name,
+    name: String(formData.get("name")).trim(),
     phone: String(formData.get("phone")).trim(),
-    email: String(formData.get("email")).trim(),
+    email: profile.email,
+    firebaseUid: profile.firebaseUid,
     addresses: [address],
     activeAddressId: address.id,
   };
   if (!saveProfile()) {
-    profile = { name: "", phone: "", email: "", addresses: [], activeAddressId: "" };
+    profile = { name: "", phone: "", email: "", firebaseUid: "", addresses: [], activeAddressId: "" };
     return;
   }
   enterShop();
 }
 
+function setAuthStatus(key) {
+  authStatusKey = key;
+  const status = $("#auth-status");
+  status.textContent = key ? t(key) : "";
+  status.hidden = !key;
+}
+
+function initializeFirebaseAuth() {
+  if (!window.firebase?.auth || !window.SENGUN_FIREBASE_CONFIG) {
+    console.error("Firebase Authentication could not initialize: SDK or configuration is unavailable.");
+    return;
+  }
+  try {
+    const firebaseApp = window.firebase.apps.length
+      ? window.firebase.app()
+      : window.firebase.initializeApp(window.SENGUN_FIREBASE_CONFIG);
+    firebaseAuth = window.firebase.auth(firebaseApp);
+    firebaseAuth.onAuthStateChanged((user) => {
+      if (!user) return;
+      const form = $("#welcome-form");
+      const nameInput = form.elements.name;
+      const name = profile.name || user.displayName || "";
+      if (!profile.name && nameInput && !nameInput.value) nameInput.value = name.slice(0, 80);
+      profile = {
+        ...profile,
+        name: name.slice(0, 80),
+        email: typeof user.email === "string" ? user.email.slice(0, 254) : profile.email,
+        firebaseUid: user.uid.slice(0, 128),
+      };
+      saveProfile();
+      if (!header.hidden) return;
+      setAuthStatus(profile.phone && profile.addresses.length ? "googleAuthSignedIn" : "googleAuthCompleteProfile");
+    }, (error) => {
+      console.error("Firebase Authentication state could not be read:", error);
+      setAuthStatus("googleAuthFailed");
+    });
+  } catch (error) {
+    console.error("Firebase Authentication could not initialize:", error);
+  }
+}
+
+function firebaseErrorStatus(error) {
+  switch (error.code) {
+    case "auth/popup-closed-by-user":
+    case "auth/cancelled-popup-request":
+      return "googleAuthCancelled";
+    case "auth/popup-blocked":
+      return "googleAuthPopupBlocked";
+    case "auth/unauthorized-domain":
+      return "googleAuthDomain";
+    case "auth/operation-not-allowed":
+      return "googleAuthProvider";
+    case "auth/network-request-failed":
+      return "googleAuthNetwork";
+    default:
+      return "googleAuthFailed";
+  }
+}
+
+async function handleGoogleSignIn(event) {
+  const button = event.currentTarget;
+  if (!firebaseAuth) {
+    setAuthStatus("googleAuthUnavailable");
+    return;
+  }
+  button.disabled = true;
+  setAuthStatus("");
+  try {
+    const provider = new window.firebase.auth.GoogleAuthProvider();
+    const result = await firebaseAuth.signInWithPopup(provider);
+    const user = result.user;
+    if (!user) throw new Error("Firebase sign-in completed without a user.");
+    const name = profile.name || user.displayName || "";
+    $("#welcome-form").elements.name.value = name.slice(0, 80);
+    profile = {
+      ...profile,
+      name: name.slice(0, 80),
+      email: typeof user.email === "string" ? user.email.slice(0, 254) : profile.email,
+      firebaseUid: user.uid.slice(0, 128),
+    };
+    if (!saveProfile()) return;
+    setAuthStatus(profile.phone && profile.addresses.length ? "googleAuthSignedIn" : "googleAuthCompleteProfile");
+  } catch (error) {
+    console.error("Google sign-in failed:", error);
+    setAuthStatus(firebaseErrorStatus(error));
+  } finally {
+    button.disabled = false;
+  }
+}
+
 $("#welcome-form").addEventListener("submit", handleWelcomeSubmit);
-$("#google-demo").addEventListener("click", () => showToast(t("googleDemoMessage")));
+$("#google-demo").addEventListener("click", handleGoogleSignIn);
+initializeFirebaseAuth();
 
 $$("[data-language]").forEach((button) => {
   button.addEventListener("click", () => {
@@ -1219,8 +1516,8 @@ $("#profile-form").addEventListener("submit", (event) => {
   const previous = profile;
   profile = {
     ...profile,
+    name: String(formData.get("name")).trim(),
     phone: String(formData.get("phone")).trim(),
-    email: String(formData.get("email")).trim(),
   };
   if (!saveProfile()) {
     profile = previous;
@@ -1288,6 +1585,11 @@ $("#category-list").addEventListener("click", (event) => {
 });
 
 productGrid.addEventListener("click", (event) => {
+  const quantityBtn = event.target.closest("[data-quantity]");
+  if (quantityBtn) {
+    changeQuantity(quantityBtn.dataset.quantity, Number(quantityBtn.dataset.change));
+    return;
+  }
   const button = event.target.closest("[data-add]");
   if (!button) return;
   changeQuantity(button.dataset.add, 1);
@@ -1332,6 +1634,57 @@ document.addEventListener("click", (event) => {
 $("#checkout-button").addEventListener("click", openCheckout);
 $("#whatsapp-order").addEventListener("click", startWhatsappOrder);
 
+const demoPrefillBtn = $("#demo-prefill");
+if (demoPrefillBtn) {
+  demoPrefillBtn.addEventListener("click", () => {
+    const form = $("#welcome-form");
+    form.elements.name.value = language === "tr" ? "Ahmet Yılmaz (Demo)" : "Ahmet Yilmaz (Demo)";
+    form.elements.phone.value = "+90 532 555 1923";
+    form.elements.street.value = language === "tr"
+      ? "Caferağa Mah. Moda Cad. No: 42 Daire: 5, Kadıköy, İstanbul"
+      : "Caferaga Neighborhood, Moda St. No: 42 Apt: 5, Kadikoy, Istanbul";
+    form.requestSubmit();
+  });
+}
+
+const demoBundles = {
+  breakfast: {
+    "tereyagli-simit": 3,
+    "ezine-peyniri": 1,
+    "gunluk-taze-sut": 2,
+    "organik-koy-yumurtasi": 1,
+    "cay-karadeniz": 1,
+  },
+  dinner: {
+    "dana-kiyma": 1,
+    "duru-bulgur": 2,
+    "domates-salkim": 2,
+    "zeytinyagi-sizma": 1,
+    "eksi-maya-koy-ekmegi": 1,
+  },
+  freeDelivery: {
+    "dana-kiyma": 1,
+    "kuzu-pirzola": 1,
+    "ezine-peyniri": 1,
+  },
+};
+
+$$("[data-bundle]").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const bundleKey = btn.dataset.bundle;
+    const items = demoBundles[bundleKey];
+    if (!items) return;
+    for (const [id, qty] of Object.entries(items)) {
+      cart[id] = (cart[id] || 0) + qty;
+    }
+    saveCart();
+    renderCart();
+    const bundleName = t(`bundle${bundleKey.charAt(0).toUpperCase() + bundleKey.slice(1)}`);
+    showToast(t("bundleAdded", { bundle: bundleName }));
+    openCart();
+  });
+});
+
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   if (!accountOverlay.hidden) closeAccount();
@@ -1340,5 +1693,5 @@ document.addEventListener("keydown", (event) => {
 });
 
 applyTranslations();
-if (profile.phone && profile.email && profile.addresses.length) enterShop();
+if (profile.name && profile.phone && profile.addresses.length) enterShop();
 else showWelcome();
